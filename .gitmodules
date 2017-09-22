@@ -1,0 +1,3 @@
+[submodule "game/scripts/vscripts/cgcore"]
+	path = game/scripts/vscripts/cgcore
+	url = https://github.com/lolleko/cgcore

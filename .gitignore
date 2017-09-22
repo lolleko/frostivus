@@ -1,41 +1,103 @@
-# Compiled Lua sources
-luac.out
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
+# Other files and folders
+.settings/
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
 
-# Precompiled Headers
-*.gch
-*.pch
+# =========================
+# Operating System Files
+# =========================
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
+# OSX
+# =========================
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+# Thumbnails
+._*
 
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+# =========================
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# Valve Binaries
+# =========================
+*.vpk
+*.vmap_c
+*.vmat_c
+*.vmesh_c
+*.vagrp_c
+*.vanim_c
+*.vtex_c
+*.vmdl_c
+*.vpcf_c
+*.vxml_c
+*.vjs_c
+*.vcss_c
+*.vsnd_c
+*.vsndevts_c
+*.bin
+*.tmp
+
+# Random junk
+rich_presence_persistent_data.txt
+particle_profile.csv
+server_log.txt
+panorama_debugger.cfg
+
+*.soc
+
+game/dota_addons/nemesis/screenshots/
+
+# SFM
+game/dota_addons/nemesis/elements/
+
+# ModdKit kvs
+# =========================
+game/dota_addons/shelter/scripts/npc/abilities/*
+game/dota_addons/shelter/scripts/npc/units/*
+game/dota_addons/shelter/scripts/npc/items/*
+game/dota_addons/shelter/scripts/npc/heroes/*
+content/dota_addons/shelter/tooltips_english.txt
+*.pdf
