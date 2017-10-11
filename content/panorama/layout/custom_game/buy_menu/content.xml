@@ -1,0 +1,11 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/buy_menu/content.css" />
+	</styles>
+	<scripts>
+    <include src="file://{resources}/scripts/custom_game/panel_factory.js" />
+		<include src="file://{resources}/scripts/custom_game/buy_menu/content.js" />
+	</scripts>
+	<Panel class="MenuContentRoot" hittest="false">
+	</Panel>
+</root>

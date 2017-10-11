@@ -1,0 +1,9 @@
+<root>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/player.js" />
+		<include src="file://{resources}/scripts/custom_game/player_building.js" />
+	</scripts>
+	<Panel>
+		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus_hud.xml" />
+	</Panel>
+</root>

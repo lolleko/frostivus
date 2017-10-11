@@ -1,0 +1,26 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/buy_menu/entry.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/buy_menu/entry.js" />
+	</scripts>
+	<Panel class="MenuEntryRoot" hittest="false">
+		<Button id="ButtonWrap">
+			<Panel id="GeneralInfo">
+		    <DOTAAbilityImage id="AbilityImage" />
+				<Panel id="InfoPanel">
+					<Label class="GenrealInfoLabel" id="Name" text="name" />
+					<Label class="GenrealInfoLabel" id="Description" text="description" />
+				</Panel>
+			</Panel>
+			<Panel id="StatInfo">
+				<Label class="StatInfoLabel" id="LumberCost" text="lumber_cost" />
+				<Label class="StatInfoLabel" id="GoldCost" text="gold_cost" />
+				<Label class="StatInfoLabel" id="HitPoints" text="hit_points" />
+				<Label class="StatInfoLabel" id="Armor" text="armor" />
+				<Label class="StatInfoLabel" id="Range" text="range" />
+			</Panel>
+		</Button>
+	</Panel>
+</root>

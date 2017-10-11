@@ -1,0 +1,29 @@
+.MenuContentRoot {
+  width: 960px;
+  height: 100%;
+  background-color: #333333AA;
+  flow-children: right;
+  transform: translatex( 960px );
+  transition-property: transform;
+  transition-duration: 0.3s;
+  overflow: clip clip;
+}
+
+.visible
+{
+    transform: translatex( 0px );
+}
+
+#CategoryRow {
+  height: 100%;
+  width: 100%;
+}
+
+.AbilityColumn {
+  flow-children: down;
+  height: 100%;
+}
+
+#MenuContentRoot {
+  flow-children: right;
+}

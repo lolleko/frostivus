@@ -1,0 +1,27 @@
+.ToolbarSideRoot {
+  width: 100%;
+  height: 100%;
+}
+
+#ToolbarControls {
+  horizontal-align: right;
+  vertical-align: bottom;
+  flow-children: up;
+  width: 64px;
+  z-index: 10;
+}
+
+#ToolbarContent {
+  width:960px;
+  height: 100%;
+  horizontal-align: right;
+}
+
+.ToolbarButton {
+  height: 64px;
+  width: 100%;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
+  box-shadow: #0000008f -6px -6px 12px 12px;
+  background-image: url("s2r://panorama/images/hud/reborn/icon_armor_psd.vtex");
+  background-size: 100% 100%;
+}

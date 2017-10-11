@@ -1,0 +1,23 @@
+FrostivusInvestments
+{
+  // Building special vars:
+  //
+  // lumber_cost: optional integer
+  // gold_cost: optional integer
+  // unit_name: string
+  // building_limit: integer
+  // required_researches: optional  string (comma separated list)
+  // required_buildings: optional  string (comma separated list)
+  //
+  // DEFENSE
+  "BuildingDefenseWall"
+  {
+    "Category" "Buildings"
+    "Building" "1"
+    "BuildingSizeX" "2"
+    "BuildingSizeY" "2"
+    "BuildingRandomAngles" "1"
+    "UnitName" "npc_frostivus_wall_tier1"
+    "LumberCost" "200"
+  }
+}
