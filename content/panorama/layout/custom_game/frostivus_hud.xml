@@ -10,5 +10,8 @@
 		<Button id="BuildMenuBtn">
 			<Label text="BUILD" />
 		</Button>
+		<Panel id="BuildTutorial">
+			<Label id="BuildTutorialLabel" text="MOUSE1: Build | MOUSE2: Cancel | MOUSE3: Rotate | HOLD SHIFT: Build multiple" />
+		</Panel>
 	</Panel>
 </root>

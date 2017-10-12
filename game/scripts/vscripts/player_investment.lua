@@ -46,7 +46,13 @@ function CDOTA_PlayerResource:ProcessConstructionRequest(eventSourceIndex, data)
   if self:HasInvestmentRequirements(plyID, investmentName) then
     local origin = Vector(data.origin["0"], data.origin["1"], data.origin["2"])
     local investment = investmentsKV[investmentName]
-    local sizeX, sizeY = investment.BuildingSizeX, investment.BuildingSizeY
+    local sizeX, sizeY
+    -- RotatePreview
+    if (data.rotation / 90) % 2 == 1 then
+      sizeX, sizeY = investment.BuildingSizeY, investment.BuildingSizeX
+    else
+      sizeX, sizeY = investment.BuildingSizeX, investment.BuildingSizeY
+    end
     local randomAngles = investment.BuildingRandomAngles
     -- check once again if area blocked
     local areaBlocked = GridNav:IsAreaBlocked(origin, sizeX, sizeY)
@@ -71,11 +77,14 @@ function CDOTA_PlayerResource:ProcessConstructionRequest(eventSourceIndex, data)
       local step = animDistance / (time * fps)
       local startOrigin = Vector(origin.x, origin.y, origin.z - animDistance)
       CreateUnitByNameAsync(investment.UnitName, startOrigin, false, self:GetSelectedHeroEntity(plyID), self:GetSelectedHeroEntity(plyID), self:GetTeam(plyID), function(building)
-        if randomAngles then building:SetAngles(0, RandomInt(0, 360), 0) end
+        if randomAngles then
+          building:SetAngles(0, RandomInt(0, 360), 0)
+        else
+          building:SetAngles(0, data.rotation, 0)
+        end
+
         local constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, building)
         ParticleManager:SetParticleControl(constructionParticle, 0, building:GetOrigin())
-        ParticleManager:SetParticleControl(constructionParticle, 1, building:GetOrigin() + building:GetBoundingMins())
-        ParticleManager:SetParticleControl(constructionParticle, 2, building:GetOrigin() + building:GetBoundingMaxs())
         building:SetHealth(1)
         building:SetOrigin(startOrigin)
         building:SetContextThink("contructionThink", function()
@@ -104,6 +113,12 @@ function CDOTA_PlayerResource:OnBuildingCheckArea(eventSourceIndex, data)
   local origin = Vector(data.origin["0"], data.origin["1"], data.origin["2"])
   local sizeX, sizeY = data.sizeX, data.sizeY
   local areaBlocked = GridNav:IsAreaBlocked(origin, sizeX, sizeY)
+  local previewModel = self:GetPreviewModel(data.PlayerID)
+  -- sadly we have to rotate serverside
+  -- since i failed to map rotation to the particle clientside
+  if IsValidEntity(previewModel) then
+    previewModel:SetAngles(0, data.rotation, 0)
+  end
   CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(data.PlayerID), "buildingUpdatePreview", {blocked = areaBlocked})
 end
 CustomGameEventManager:RegisterListener("buildingCheckArea", function(...) PlayerResource:OnBuildingCheckArea(...) end)

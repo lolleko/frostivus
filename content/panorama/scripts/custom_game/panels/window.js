@@ -1,30 +1,29 @@
 (function () {
-
   $('#TitleBarDrag').SetPanelEvent(
-    "onmouseactivate",
-    function(){
+    'onmouseactivate',
+    function () {
       var cursorPos = GameUI.GetCursorPosition()
       var windowPos = $.GetContextPanel().GetPositionWithinWindow()
       $.GetContextPanel().dragOffset = [cursorPos[0] - windowPos.x, cursorPos[1] - windowPos.y]
       $.GetContextPanel().lastCursorPos = GameUI.GetCursorPosition()
-      $.Schedule(1/30, dragWindowThink)
-  })
+      $.Schedule(1 / 30, dragWindowThink)
+    })
 
   $('#TitleBarClose').SetPanelEvent(
-    "onmouseactivate",
-    function(){
+    'onmouseactivate',
+    function () {
       $.GetContextPanel().Toggle()
-  })
+    })
 
   $.GetContextPanel().SetTitle = function (title) {
     $('#TitleBarLabel').text = title
   }
 
   $.GetContextPanel().Toggle = function () {
-    if ($.GetContextPanel().style.visibility == 'collapse') {
-      $.GetContextPanel().style.visibility = 'visible';
+    if ($.GetContextPanel().style.visibility === 'collapse') {
+      $.GetContextPanel().style.visibility = 'visible'
     } else {
-      $.GetContextPanel().style.visibility = 'collapse';
+      $.GetContextPanel().style.visibility = 'collapse'
     }
   }
 
@@ -33,20 +32,20 @@
     return panel
   }
 
-  function dragWindowThink() {
+  function dragWindowThink () {
     var lastCursorPos = $.GetContextPanel().lastCursorPos
     var currentCursorPos = GameUI.GetCursorPosition()
-    var dragOffset = $.GetContextPanel().dragOffset
+    // var dragOffset = $.GetContextPanel().dragOffset
     if (!GameUI.IsMouseDown(0)) {
       if (lastCursorPos[0] !== currentCursorPos[0] || lastCursorPos[1] !== currentCursorPos[1]) {
-        var currentWindowPos = $.GetContextPanel().GetPositionWithinWindow()
+        // var currentWindowPos = $.GetContextPanel().GetPositionWithinWindow()
         var newX = currentCursorPos[0] / $.GetContextPanel().actualuiscale_x
         var newY = currentCursorPos[1] / $.GetContextPanel().actualuiscale_x
-        $.GetContextPanel().style.marginLeft = newX + "px"
-        $.GetContextPanel().style.marginTop = newY + "px"
+        $.GetContextPanel().style.marginLeft = newX + 'px'
+        $.GetContextPanel().style.marginTop = newY + 'px'
       }
       $.GetContextPanel().lastCursorPos = GameUI.GetCursorPosition()
-      $.Schedule(1/30, dragWindowThink)
+      $.Schedule(1 / 30, dragWindowThink)
     }
   }
 
@@ -62,5 +61,5 @@
         $.Msg("clicked title")
       }
     }
-  });*/
+  }); */
 }())

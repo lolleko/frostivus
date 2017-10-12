@@ -5,10 +5,10 @@
     toolbarButton.AddClass('ToolbarButton')
 
     toolbarButton.SetPanelEvent(
-      "onactivate",
-      function(){
+      'onactivate',
+      function () {
         var hide = content.BHasClass('visible')
-        $('#ToolbarContent').Children().forEach(function(item){
+        $('#ToolbarContent').Children().forEach(function (item) {
           item.RemoveClass('visible')
         })
         if (hide) {

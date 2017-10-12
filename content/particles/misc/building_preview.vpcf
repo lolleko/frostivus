@@ -17,6 +17,15 @@
 			m_vInputMax = [ 255.0, 255.0, 255.0 ]
 			m_vOutputMax = [ 1.0, 1.0, 1.0 ]
 		},
+		{
+			_class = "C_OP_RemapCPOrientationToRotations"
+			m_nCP = 3
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_RemapCPOrientationToRotations"
+			m_nCP = 1
+		},
 	]
 	m_Renderers = 
 	[
@@ -28,7 +37,6 @@
 					m_model = resource:"models/buildings/walls/wall_tier1.vmdl"
 				},
 			]
-			m_bIgnoreNormal = true
 			m_nModelCP = 1
 		},
 	]
@@ -67,4 +75,5 @@
 			]
 		},
 	]
+	m_ConstantNormal = [ 0.0, 0.0, 0.0 ]
 }

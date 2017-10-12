@@ -27,6 +27,61 @@
 		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "900"
 		"VisionNighttimeRange" "600"
-		"vscripts" "entity_scripts/frostivus_wall.lua"
+
+		"IsWall" "1"
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_lumber_camp_tier1"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/props_structures/sniper_hut.vmdl"
+		"ModelScale" "1"
+		"Level" "1"
+		"Ability1" ""
+		"Ability2" ""
+		"Ability3" ""
+		"Ability4" ""
+		"ArmorPhysical" "5"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BountyGoldMin" "0.0"
+		"BountyGoldMax" "0.0"
+		"BoundsHullName" "DOTA_HULL_SIZE_SMALL"
+		"RingRadius" "100"
+		"CollisionSize" "100"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"MovementTurnRate" "0"
+		"StatusHealth" "1500"
+		"StatusHealthRegen" "0"
+		"StatusMana" "100"
+		"StatusManaRegen" "0"
+		"VisionDaytimeRange" "900"
+		"VisionNighttimeRange" "600"
+
+		"IsSpawner" "1"
+		"SpawnerInitialGoal" "lumber_path0"
+		"SpawnerScaleUnits" "0"
+		"SpawnerAllowControl" "1"
+		"SpawnerUnits"
+		{
+			"0"
+			{
+				"UnitName" "npc_frostivus_lumber_drone"
+				"Interval" "10"
+				"MaxAlive" "10"
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_lumber_drone"
+	{
+		"BaseClass" "npc_dota_creep_lane"
+		"Model" "models/props_gameplay/donkey.vmdl"
+		"ModelScale" "1"
+		"HasInventory" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"RingRadius" "70"
 	}
 }

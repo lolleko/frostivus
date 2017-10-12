@@ -1,0 +1,17 @@
+{
+  "standard": {
+    "globals": [
+      "$",
+      "Players",
+      "GameEvents",
+      "CreateLayout",
+      "GameUI",
+      "DotaDefaultUIElement_t",
+      "Particles",
+      "Game",
+      "ParticleAttachment_t",
+      "Entities",
+      "CLICK_BEHAVIORS"
+    ]
+  }
+}

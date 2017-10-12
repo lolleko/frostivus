@@ -1,9 +1,9 @@
 (function () {
-  $.GetContextPanel().LoadInvestment = function(investmentName, investment) {
+  $.GetContextPanel().LoadInvestment = function (investmentName, investment) {
     $('#Name').text = investmentName
     $('#ButtonWrap').SetPanelEvent(
-      "onactivate",
-      function(){
+      'onactivate',
+      function () {
         GameEvents.SendCustomGameEventToServer('investmentRequest', {'investmentName': investmentName})
       })
   }

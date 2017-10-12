@@ -20,4 +20,14 @@ FrostivusInvestments
     "UnitName" "npc_frostivus_wall_tier1"
     "LumberCost" "200"
   }
+  // RESOURCE
+  "BuildingLumberCamp"
+  {
+    "Category" "Buildings"
+    "Building" "1"
+    "BuildingSizeX" "8"
+    "BuildingSizeY" "12"
+    "UnitName" "npc_frostivus_lumber_camp_tier1"
+    "GoldCost" "200"
+  }
 }

@@ -10,7 +10,13 @@
   background-color: #FFF;
 }
 
-#BuildingWindow {
-  width: 50%;
-  height: 50%;
+#BuildTutorial {
+  vertical-align: bottom;
+  horizontal-align: center;
+  margin-bottom: 400px;
+}
+
+#BuildTutorialLabel {
+  font-size: 24px;
+  color: white;
 }
