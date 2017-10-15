@@ -3,11 +3,15 @@
   height: 100%;
 }
 
-#BuildMenuBtn {
-  width: 100px;
-  height: 100px;
-  margin-top: 40px;
-  background-color: #FFF;
+#ResourceRoot {
+  width: 200px;
+  height: 100%;
+  margin-top: 160px;
+  flow-children: down;
+}
+
+.ResourceOverview {
+  flow-children: right;
 }
 
 #BuildTutorial {

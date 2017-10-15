@@ -9,6 +9,12 @@ function Spawn(entityKV)
   AddSpawnProperty(thisEntity, "SpawnerInitialGoal", "entity", nil, entityKV)
   AddSpawnProperty(thisEntity, "SpawnerAllowControl", "bool", false, entityKV)
 
+  AddSpawnProperty(thisEntity, "ResourceLumberCapacity", "number", 0, entityKV)
+  AddSpawnProperty(thisEntity, "ResourceGoldCapacity", "number", 0, entityKV)
+
+  AddSpawnProperty(thisEntity, "ResourceAcceptGold", "bool", false, entityKV)
+  AddSpawnProperty(thisEntity, "ResourceAcceptLumber", "bool", false, entityKV)
+
   if thisEntity.IsWall then
     -- create wall reated things
     thisEntity.connectors = {}
@@ -95,12 +101,15 @@ function Spawn(entityKV)
           end
           if not unitData.MaxAlive or #unitData.SpawnedUnits < unitData.MaxAlive then
               -- do spawning
-              CreateUnitByNameAsync(unitData.UnitName, self:GetOrigin(), true, self, self, self:GetTeam(), function(unit)
+              CreateUnitByNameAsync(unitData.UnitName, self:GetOrigin(), true, self:GetOwner(), self:GetOwner(), self:GetTeam(), function(unit)
+                unit.OriginalSpawnPoint = self
                 if self.SpawnerInitialGoal then
                   unit:SetInitialGoalEntity(self.SpawnerInitialGoal)
                 end
                 if self.SpawnerAllowControl then
-                  unit:SetControllableByPlayer(self:GetPlayerOwnerID(), false)
+                  unit:SetContextThink("SetControllableByPlayer", function()
+                    unit:SetControllableByPlayer(self:GetPlayerOwnerID(), true)
+                  end, 0)
                 end
                 table.insert(unitData.SpawnedUnits, unit)
               end)
@@ -110,5 +119,11 @@ function Spawn(entityKV)
       end
       return 1
     end
+  end
+
+  function thisEntity:OnConstructionCompleted()
+    local ownerID = self:GetPlayerOwnerID()
+    PlayerResource:SetLumberCapacity(ownerID, PlayerResource:GetLumberCapacity(ownerID) + self.ResourceLumberCapacity)
+    PlayerResource:SetGoldCapacity(ownerID, PlayerResource:GetGoldCapacity(ownerID) + self.ResourceGoldCapacity)
   end
 end

@@ -14,6 +14,7 @@ require "base_entity_ext"
 require "precache"
 
 -- GLOBAL modifiers
+LinkLuaModifier("modifier_frostivus_resource_gather", "abilities/resources/modifier_frostivus_resource_gather.lua", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_frostivus_resource_carry", "abilities/resources/modifier_frostivus_resource_carry.lua", LUA_MODIFIER_MOTION_NONE)
 
 GameMode.CGName = "frostivus"

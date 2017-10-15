@@ -1,13 +1,15 @@
 (function () {
   var previewParticle
   var previewActive = false
+  var rangeParticle
+  var range = 0
   var sizeX
   var sizeY
   var squareParticles = []
   var investmentName
   var worldPos
   var blocked = false
-  var rotation = 0
+  var rotation = 360
   function OnStartPreview (data) {
     if (previewParticle || previewActive) {
       StopPreview()
@@ -20,8 +22,13 @@
     previewParticle = Particles.CreateParticle('particles/misc/building_preview.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
     Particles.SetParticleControlEnt(previewParticle, 1, entindex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, 'follow_origin', Entities.GetAbsOrigin(entindex), true)
     Particles.SetParticleControl(previewParticle, 2, [150, 255, 150])
-    Particles.SetParticleControl(previewParticle, 3, [0, 0, 0])
-      // cahce squareParticles
+    Particles.SetParticleControl(previewParticle, 3, [data.scale, 0, 0])
+
+    rangeParticle = Particles.CreateParticle('particles/misc/building_range.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+    Particles.SetParticleControl(rangeParticle, 0, data.center)
+    range = data.range
+    // Particles.SetParticleControl(rangeParticle, 1, [data.range, 0, 0]) // hardcoded in aprticle
+    // cahce squareParticles
     for (var i = 0; i < sizeX * sizeY; i++) {
       var squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
       Particles.SetParticleControl(squareParticle, 1, [150, 255, 150])
@@ -39,7 +46,13 @@
     Particles.DestroyParticleEffect(previewParticle, true)
     Particles.ReleaseParticleIndex(previewParticle)
     previewParticle = null
-    rotation = 0
+
+    Particles.DestroyParticleEffect(rangeParticle, true)
+    Particles.ReleaseParticleIndex(rangeParticle)
+    rangeParticle = null
+
+    range = 0
+    rotation = 360
     squareParticles.forEach(function (square) {
       Particles.DestroyParticleEffect(square, true)
       Particles.ReleaseParticleIndex(square)
@@ -49,14 +62,13 @@
   }
 
   function RotatePreview () {
-    rotation = rotation + 90
-    if (rotation === 360) {
-      rotation = 0
+    rotation = rotation - 90
+    if (rotation === 0) {
+      rotation = 360
     }
     var tempSize = sizeX
     sizeX = sizeY
     sizeY = tempSize
-    // Particles.SetParticleControl(previewParticle, 3, [0, rotation * (Math.PI / 180), 0])
   }
 
   function UpdatePreview () {
@@ -87,7 +99,7 @@
         }
         gridPointer[0] = gridPointer[0] + 32
       }
-      GameEvents.SendCustomGameEventToServer('buildingCheckArea', { 'origin': worldPos, 'sizeX': sizeX, 'sizeY': sizeY, 'rotation': rotation })
+      GameEvents.SendCustomGameEventToServer('buildingCheckArea', {'origin': worldPos, 'sizeX': sizeX, 'sizeY': sizeY, 'rotation': rotation, 'range': range})
         // GameEvents.SendCustomGameEventToServer('structure_preview_update', { 'pos': worldPos })
       Particles.SetParticleControl(previewParticle, 0, worldPos)
     }

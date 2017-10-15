@@ -13,4 +13,10 @@
   var buildings = CreateLayout($.GetContextPanel(), 'BuildingMenu', 'file://{resources}/layout/custom_game/buy_menu/content.xml')
   buildings.LoadCategory('Buildings')
   toolbar.Insert('Buildings', buildings)
+
+  LinkLabelToPlayerVariable($('#LumberCurrent'), 'Lumber')
+  LinkLabelToPlayerVariable($('#LumberCapacity'), 'LumberCapacity')
+
+  LinkLabelToPlayerVariable($('#GoldCurrent'), 'Gold')
+  LinkLabelToPlayerVariable($('#GoldCapacity'), 'GoldCapacity')
 }())
