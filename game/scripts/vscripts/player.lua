@@ -25,6 +25,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
   end
   -- check once again if area blocked
   local areaBlocked = GridNav:IsAreaBlocked(origin, sizeX, sizeY)
+  print(areaBlocked)
   if not areaBlocked then
     -- block area
     local gridPointer = Vector(origin.x - (sizeX / 2) * 64, origin.y + (sizeY / 2) * 64, origin.z)

@@ -31,6 +31,14 @@ FrostivusInvestments
     "Building" "1"
     "UnitName" "npc_frostivus_lumber_storage_tier1"
     "GoldCost" "200"
-    "GoldCost" "100"
+    "LumberCost" "100"
+  }
+  "BuildingGoldStorage"
+  {
+    "Category" "Buildings"
+    "Building" "1"
+    "UnitName" "npc_frostivus_gold_storage_tier1"
+    "GoldCost" "200"
+    "LumberCost" "400"
   }
 }

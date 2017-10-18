@@ -1,4 +1,4 @@
---pssoible sizes for buildings
+--possible sizes for buildings
 -- 2x2, 4x4, 8x8 ...
 -- 2x4, 2x8, 4x8 ...
 -- pos is the "enter" of the building
@@ -20,7 +20,7 @@ function GridNav:IsAreaBlocked(pos, sizeX, sizeY)
       end
       local ents = Entities:FindAllInSphere(gridPointer, 64)
       for _, v in pairs(ents) do
-        if v:IsAlive() and string.match(v:GetClassname(), "npc_") and v:GetClassname() ~= "npc_dota_companion" then
+        if v:IsAlive() and (v:IsNPC() and (v:IsHero() or v:IsCreep() or v:IsCreature())) then
           return true
         end
       end
@@ -29,4 +29,8 @@ function GridNav:IsAreaBlocked(pos, sizeX, sizeY)
     gridPointer.x = gridPointer.x + 32
   end
   return false
+end
+
+function GridNav:IsPositionInSquare(center, radius, position, sizeX, sizeY)
+  return math.abs(center.x - position.x) + sizeX * 32 <= radius and math.abs(center.y - position.y) + sizeY * 32 <= radius
 end

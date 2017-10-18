@@ -6,6 +6,7 @@
   var sizeX
   var sizeY
   var squareParticles = []
+  var blockedSquaresParticles = []
   var investmentName
   var worldPos
   var blocked = false
@@ -24,17 +25,27 @@
     Particles.SetParticleControl(previewParticle, 2, [150, 255, 150])
     Particles.SetParticleControl(previewParticle, 3, [data.scale, 0, 0])
 
-    rangeParticle = Particles.CreateParticle('particles/misc/building_range.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+    rangeParticle = Particles.CreateParticle('particles/misc/building_range_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
     Particles.SetParticleControl(rangeParticle, 0, data.center)
+    Particles.SetParticleControl(rangeParticle, 1, [data.range, 0, 0])
     range = data.range
     // Particles.SetParticleControl(rangeParticle, 1, [data.range, 0, 0]) // hardcoded in aprticle
     // cahce squareParticles
+    var squareParticle
     for (var i = 0; i < sizeX * sizeY; i++) {
-      var squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+      squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
       Particles.SetParticleControl(squareParticle, 1, [150, 255, 150])
 
       squareParticles.push(squareParticle)
     }
+    for (var index in data.blockedSquares) {
+      var squarePos = data.blockedSquares[index]
+      squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+      Particles.SetParticleControl(squareParticle, 0, squarePos)
+      Particles.SetParticleControl(squareParticle, 1, [255, 150, 150])
+      blockedSquaresParticles.push(squareParticle)
+    }
+
     UpdatePreview()
     $.GetContextPanel().GetParent().FindChildTraverse('BuildTutorial').style.visibility = 'visible'
   }
@@ -58,6 +69,11 @@
       Particles.ReleaseParticleIndex(square)
     })
     squareParticles = []
+    blockedSquaresParticles.forEach(function (square) {
+      Particles.DestroyParticleEffect(square, true)
+      Particles.ReleaseParticleIndex(square)
+    })
+    blockedSquaresParticles = []
     $.GetContextPanel().GetParent().FindChildTraverse('BuildTutorial').style.visibility = 'collapse'
   }
 
@@ -83,7 +99,7 @@
     if (worldPos !== null) {
       worldPos = [64 * Math.floor(0.5 + worldPos[0] / 64), 64 * Math.floor(0.5 + worldPos[1] / 64), worldPos[2] - ((worldPos[2] + 1) % 128)]
       if (worldPos[0] > 10000000 || worldPos[1] > 10000000 || worldPos[2] > 10000000) return
-      var gridPointer = [worldPos[0] - (sizeX / 2) * 64, worldPos[1] + (sizeY / 2) * 64, worldPos[2] + 1.5]
+      var gridPointer = [worldPos[0] - (sizeX / 2) * 64, worldPos[1] + (sizeY / 2) * 64, worldPos[2] + 1]
       var initialY = gridPointer[1]
       var particleID = 0
       for (var x = 0; x < sizeX; x++) {

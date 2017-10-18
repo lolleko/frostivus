@@ -24,6 +24,18 @@ function CDOTA_PlayerResource:ProcessInvestmentRequest(eventSourceIndex, data)
     local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = modelName, scale = unit.ModelScale})
     prop:AddEffects(EF_NODRAW)
     self:SetPreviewModel(plyID, prop)
+    local range = GameMode.BuildingRange
+    local gridPointer = Vector(-range, range, 0)
+    local groundHeight = GetGroundHeight(Vector(0,0,0), prop)
+    local blockedSquares = {}
+    for x=-1280,1280,64  do
+      for y=1280,-1280,-64  do
+        local squarePos = Vector(x - 32, y -32, groundHeight)
+        if GridNav:IsBlocked(squarePos) then
+          table.insert(blockedSquares, squarePos)
+        end
+      end
+    end
     CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(plyID), "buildingStartPreview", {
       investmentName = investmentName,
       previewModel = prop:GetEntityIndex(),
@@ -31,8 +43,10 @@ function CDOTA_PlayerResource:ProcessInvestmentRequest(eventSourceIndex, data)
       sizeY = unit.BuildingSizeY,
       scale = unit.ModelScale,
       center = self:FindBuildingByName(plyID, "npc_frostivus_spirit_tree"):GetOrigin(),
-      range = 1600 -- hardcoded in particle
+      range = range,
+      blockedSquares = blockedSquares
     })
+
   end
 end
 CustomGameEventManager:RegisterListener("investmentRequest", function(...) PlayerResource:ProcessInvestmentRequest(...) end)
@@ -68,7 +82,8 @@ function CDOTA_PlayerResource:OnBuildingCheckArea(eventSourceIndex, data)
   local plyID = data.PlayerID
   local origin = Vector(data.origin["0"], data.origin["1"], data.origin["2"])
   local sizeX, sizeY = data.sizeX, data.sizeY
-  local areaBlocked = not self:FindBuildingByName(plyID, "npc_frostivus_spirit_tree"):IsPositionInRange(origin, data.range - 1) or GridNav:IsAreaBlocked(origin, sizeX, sizeY)
+
+  local areaBlocked = not GridNav:IsPositionInSquare(self:FindBuildingByName(plyID, "npc_frostivus_spirit_tree"):GetOrigin(), data.range, origin, sizeX, sizeY) or GridNav:IsAreaBlocked(origin, sizeX, sizeY)
   local previewModel = self:GetPreviewModel(plyID)
   -- sadly we have to rotate serverside
   -- since i failed to map rotation to the particle clientside
