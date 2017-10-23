@@ -15,19 +15,19 @@ CDOTA_PlayerResource:AddPlayerData("BuildingList", NETWORKVAR_TRANSMIT_STATE_NON
 function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callback)
   -- RotatePreview
   local origin = spawnTable.origin
+  local building = BuildingKV:GetBuilding(unitName)
   local owner = spawnTable.owner or self:GetSelectedHeroEntity(plyID)
   local rotation = spawnTable.rotation or 0
-  local sizeX, sizeY
+  local randomAngles = spawnTable.RandomAngles or building.RandomAngles
+  local sizeX, sizeY = BuildingKV:GetSize(unitName)
   if (rotation / 90) % 2 == 1 then
-    sizeX, sizeY = spawnTable.sizeY, spawnTable.sizeX
-  else
-    sizeX, sizeY = spawnTable.sizeX, spawnTable.sizeY
+    sizeX, sizeY = sizeY, sizeX
   end
   -- check once again if area blocked
   local areaBlocked = GridNav:IsAreaBlocked(origin, sizeX, sizeY)
-  print(areaBlocked)
-  if not areaBlocked then
+  if not areaBlocked or spawnTable.Force then
     -- block area
+    local blockers = {}
     local gridPointer = Vector(origin.x - (sizeX / 2) * 64, origin.y + (sizeY / 2) * 64, origin.z)
     local initialY = gridPointer.y
     for x=1, sizeX / 2  do
@@ -35,49 +35,71 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
       gridPointer.x = gridPointer.x + 64
       for y=1, sizeY / 2 do
         gridPointer.y = gridPointer.y - 64
-        SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = gridPointer})
+        local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = gridPointer})
+        table.insert(blockers, obstruction)
         gridPointer.y = gridPointer.y - 64
       end
       gridPointer.x = gridPointer.x + 64
     end
     -- spawnbuilding
-    local time = spawnTable.AnimationTime or 4
+    local time = spawnTable.AnimationTime or building.AnimationTime or 4
     local animDistance = 400
+    if building.IsLookout then
+      animDistance = animDistance + 220
+      origin.z = origin.z + 220
+    end
     local fps = 30
     local step = animDistance / (time * fps)
     local startOrigin = Vector(origin.x, origin.y, origin.z - animDistance)
-    CreateUnitByNameAsync(unitName, startOrigin, false, owner, owner, self:GetTeam(plyID), function(building)
-      table.insert(self:GetBuildingList(plyID), building)
-      if randomAngles then
-        building:SetAngles(0, RandomInt(0, 360), 0)
-      else
-        building:SetAngles(0, rotation, 0)
+
+    print(origin)
+
+    CreateUnitByNameAsync(unitName, startOrigin, false, owner, owner, self:GetTeam(plyID), function(unit)
+      unit:SetNeverMoveToClearSpace(true)
+      table.insert(self:GetBuildingList(plyID), unit)
+      local lookoutSentry
+      if building.IsLookout then
+        lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin + Vector(0, 0, 180), scale = 0.85})
+        lookoutSentry:SetParent(unit, nil)
       end
-      building:SetContextThink("SetControllableByPlayer", function()
-        building:SetControllableByPlayer(plyID, true)
+
+      if randomAngles then
+        unit:SetAngles(0, rotation + RandomInt(0, 360), 0)
+      else
+        unit:SetAngles(0, rotation, 0)
+      end
+      unit:SetContextThink("SetControllableByPlayer", function()
+        unit:SetControllableByPlayer(plyID, true)
       end, 0)
 
-      local constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, building)
-      ParticleManager:SetParticleControl(constructionParticle, 0, building:GetOrigin())
-      building:SetHealth(1)
-      building:SetOrigin(startOrigin)
-      building:SetContextThink("contructionThink", function()
-        if math.abs(origin.z - building:GetOrigin().z) <= step then
-          building:SetOrigin(origin)
+      local constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
+      ParticleManager:SetParticleControl(constructionParticle, 0, unit:GetOrigin())
+      unit:SetHealth(1)
+      unit:SetOrigin(startOrigin)
+      unit:SetContextThink("contructionThink", function()
+        if math.abs(origin.z - unit:GetOrigin().z) <= step then
+          unit:SetOrigin(origin)
           ParticleManager:DestroyParticle(constructionParticle, false)
           ParticleManager:ReleaseParticleIndex(constructionParticle)
-          building:OnConstructionCompleted()
+          if building.IsLookout then
+            lookoutSentry:SetParent(nil, nil)
+            unit:AddNewModifier(unit, nil, "modifier_frostivus_lookout", {lookoutSentry = lookoutSentry:GetEntityIndex()})
+          end
+          unit:OnConstructionCompleted()
           return
         end
-        if building:GetOrigin() ~= origin then
-          building:Heal(building:GetMaxHealth() / (time * fps), building)
+        if unit:GetOrigin() ~= origin then
+          unit:Heal(unit:GetMaxHealth() / (time * fps), unit)
           startOrigin.z = startOrigin.z + step
-          building:SetOrigin(startOrigin)
+          unit:SetOrigin(startOrigin)
           return 1/fps
         end
       end, 0)
+      for _, psos in pairs(blockers) do
+        psos:SetParent(unit, nil)
+      end
       if callback then
-        callback(building)
+        callback(unit)
       end
     end)
   end

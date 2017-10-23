@@ -18,18 +18,17 @@ function CDOTA_PlayerResource:ProcessInvestmentRequest(eventSourceIndex, data)
   local plyID = data.PlayerID
   local investmentName = data.investmentName
   local investment = investmentsKV[investmentName]
-  local unit = unitKV[investment["UnitName"]]
+  local building = BuildingKV:GetBuilding(investment.UnitName)
   if investment.Building then
-    local modelName = unit.Model
-    local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = modelName, scale = unit.ModelScale})
+    local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.Model, scale = building.ModelScale})
     prop:AddEffects(EF_NODRAW)
     self:SetPreviewModel(plyID, prop)
     local range = GameMode.BuildingRange
     local gridPointer = Vector(-range, range, 0)
     local groundHeight = GetGroundHeight(Vector(0,0,0), prop)
     local blockedSquares = {}
-    for x=-1280,1280,64  do
-      for y=1280,-1280,-64  do
+    for x=-range,range,64  do
+      for y=range,-range,-64  do
         local squarePos = Vector(x - 32, y -32, groundHeight)
         if GridNav:IsBlocked(squarePos) then
           table.insert(blockedSquares, squarePos)
@@ -39,9 +38,9 @@ function CDOTA_PlayerResource:ProcessInvestmentRequest(eventSourceIndex, data)
     CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(plyID), "buildingStartPreview", {
       investmentName = investmentName,
       previewModel = prop:GetEntityIndex(),
-      sizeX = unit.BuildingSizeX,
-      sizeY = unit.BuildingSizeY,
-      scale = unit.ModelScale,
+      sizeX = building.SizeX,
+      sizeY = building.SizeY,
+      scale = building.ModelScale,
       center = self:FindBuildingByName(plyID, "npc_frostivus_spirit_tree"):GetOrigin(),
       range = range,
       blockedSquares = blockedSquares
@@ -68,10 +67,11 @@ function CDOTA_PlayerResource:ProcessConstructionRequest(eventSourceIndex, data)
   -- dota check and create building
   if self:HasInvestmentRequirements(plyID, investmentName) then
     local origin = Vector(data.origin["0"], data.origin["1"], data.origin["2"])
+    origin = GetGroundPosition(origin, nil)
     local investment = investmentsKV[investmentName]
-    local unit = unitKV[investment["UnitName"]]
-    local sizeX, sizeY = unit.BuildingSizeX, unit.BuildingSizeY
-    local randomAngles = unit.BuildingRandomAngles
+    local building = BuildingKV:GetBuilding(investment["UnitName"])
+    local sizeX, sizeY = building.SizeX, building.SizeY
+    local randomAngles = building.RandomAngles
     self:SpawnBuilding(plyID, investment.UnitName, {origin = origin, sizeX = sizeX, sizeY = sizeY, rotation = data.rotation, randomAngles = randomAngles})
   end
 

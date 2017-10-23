@@ -1,21 +1,27 @@
 -- TODO calculate these with dynamic build range
 GameMode.BuildingRange = 1280
-local range = GameMode.BuildingRange
-local baseSpacing = 128
-local rangeSpaced = range + baseSpacing
-local groundHeight = 512
-local spiritTreeSpawns = {
-  {Vector(0, 0, groundHeight)},
-  {Vector(0, rangeSpaced, groundHeight), Vector(0, -rangeSpaced, groundHeight)},
-  {Vector(-rangeSpaced, -rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(0, rangeSpaced, groundHeight)},
-  {Vector(-rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(-rangeSpaced, -rangeSpaced, groundHeight)},
-}
+
+
+function GameMode:GetSpiritTreeSpawnTable()
+  local range = GameMode.BuildingRange
+  local baseSpacing = 128
+  local rangeSpaced = range + baseSpacing
+  local groundHeight = GetGroundHeight(Vector(0, 0, 10000), nil)
+  local spiritTreeSpawns = {
+    {Vector(0, 0, groundHeight)},
+    {Vector(0, rangeSpaced, groundHeight), Vector(0, -rangeSpaced, groundHeight)},
+    {Vector(-rangeSpaced, -rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(0, rangeSpaced, groundHeight)},
+    {Vector(-rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(-rangeSpaced, -rangeSpaced, groundHeight)},
+  }
+  return spiritTreeSpawns
+end
 
 function GameMode:OnPlayerPickHero(data)
-  local playerCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_CUSTOM_1)
-  local spawn = spiritTreeSpawns[playerCount][data.player]
+  local playerCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+  local spawn = self:GetSpiritTreeSpawnTable()[playerCount][data.player]
   local hero = EntIndexToHScript(data.heroindex)
   PlayerResource:SpawnBuilding(hero:GetPlayerOwnerID(), "npc_frostivus_spirit_tree", {origin = spawn, sizeX = 2, sizeY = 2, owner = hero})
+  AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
 end
 
 function GameMode:OnHeroSelection(data)

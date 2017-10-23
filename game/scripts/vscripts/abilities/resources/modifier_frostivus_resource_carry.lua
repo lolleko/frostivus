@@ -22,18 +22,21 @@ function modifier_frostivus_resource_carry:OnCreated(data)
 
 
     end
-    local origin = parent:GetOrigin()
-    for _, offset in pairs(offsets) do
-      local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = model, scale = modelScale, origin = origin})
-      local ang = parent:GetAnglesAsVector()
-      if RandomInt(0, 1) == 0 then
-        ang.y = ang.y + 180
+    if offsets then
+      local origin = parent:GetOrigin()
+      for _, offset in pairs(offsets) do
+        local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = model, scale = modelScale, origin = origin})
+        local ang = parent:GetAnglesAsVector()
+        if RandomInt(0, 1) == 0 then
+          ang.y = ang.y + 180
+        end
+        --prop:FollowEntity(parent, false)
+        prop:SetOrigin(origin + offset)
+        prop:SetAngles(ang.x, ang.y, ang.z)
+        prop:SetParent(parent, "saddleBag2_end_A_L")
       end
-      prop:FollowEntity(parent, false)
-      prop:SetOrigin(origin + offset)
-      prop:SetAngles(ang.x, ang.y, ang.z)
     end
-    parent:AddNewModifier(parent, nil, "modifier_frostivus_resource_gather", {duration = 5})
+    parent:AddNewModifier(parent, nil, "modifier_frostivus_resource_gather", {duration = 5, IsLumber = self.IsLumber, IsGold = self.IsGold})
     parent:SetMustReachEachGoalEntity(false)
     parent:SetInitialGoalEntity(nil)
     self:StartIntervalThink(2.5)
@@ -56,10 +59,10 @@ function modifier_frostivus_resource_carry:OnIntervalThink()
         false
     )
     for k, unit in pairs(units) do
-      if (unit.ResourceAcceptGold and self.IsGold) then
+      if (unit.AcceptGold and self.IsGold) then
         PlayerResource:ModifyGold(plyID, self.stackCount * self.stackSize , true, 0)
         parent:RemoveSelf()
-      elseif(unit.ResourceAcceptLumber and self.IsLumber) then
+      elseif(unit.AcceptLumber and self.IsLumber) then
         PlayerResource:ModifyLumber(plyID, self.stackCount * self.stackSize)
         parent:RemoveSelf()
       end

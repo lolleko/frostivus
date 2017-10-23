@@ -1,7 +1,28 @@
 "DOTAAbilities"
 {
 	"Version"		"1"
-
-
-
+	"frostivus_building_destroy"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_building_destroy.lua"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityTextureName" "frostivus_building_destroy"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCooldown" "1"
+		"AbilityCastPoint" "1"
+	}
+	"frostivus_building_upgrade"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_building_upgrade.lua"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityTextureName" "frostivus_building_upgrade"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCooldown" "1"
+		"AbilityCastPoint" "1"
+	}
 }

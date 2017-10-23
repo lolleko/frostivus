@@ -1,7 +1,8 @@
 modifier_frostivus_resource_gather = class({})
 
 function modifier_frostivus_resource_gather:OnCreated(data)
-  -- body...
+	self.IsLumber = data.IsLumber
+	self.IsGold = data.IsGold
 end
 
 function modifier_frostivus_resource_gather:CheckState()
@@ -18,10 +19,15 @@ end
 function modifier_frostivus_resource_gather:OnDestroy()
   if IsServer() then
     local parent = self:GetParent()
-		local lumberStorage = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_lumber_storage")
-		if not lumberStorage then
-			lumberStorage = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_spirit_tree")
+		local goal
+		if self.IsLumber then
+			goal = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_lumber_storage")
+		elseif self.IsGold then
+			goal = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_gold_storage")
 		end
-    parent:MoveToPosition(lumberStorage:GetOrigin())
+		if not goal then
+			goal = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_spirit_tree")
+		end
+		parent:MoveToPosition(goal:GetOrigin())
   end
 end
