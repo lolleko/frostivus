@@ -9,6 +9,7 @@ require "building_grid"
 require "building_kv"
 
 --overrides
+require "entities_ext"
 require "base_npc_ext"
 require "base_entity_ext"
 

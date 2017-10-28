@@ -14,14 +14,14 @@ FrostivusInvestments
   {
     "Category" "Buildings"
     "Building" "1"
-    "UnitName" "npc_frostivus_wall_tier1"
-    "LumberCost" "200"
+    "UnitName" "npc_frostivus_defense_wall_tier1"
+    "LumberCost" "50"
   }
   "BuildingLookout"
   {
     "Category" "Buildings"
     "Building" "1"
-    "UnitName" "npc_frostivus_lookout_tier1"
+    "UnitName" "npc_frostivus_defense_lookout_tier1"
     "GoldCost" "200"
     "LumberCost" "400"
   }
@@ -46,7 +46,8 @@ FrostivusInvestments
     "Category" "Buildings"
     "Building" "1"
     "UnitName" "npc_frostivus_gold_camp_tier1"
-    "GoldCost" "200"
+    "GoldCost" "400"
+    "LumberCost" "200"
   }
   "BuildingGoldStorage"
   {

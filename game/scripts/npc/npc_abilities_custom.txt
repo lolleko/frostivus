@@ -25,4 +25,37 @@
 		"AbilityCooldown" "1"
 		"AbilityCastPoint" "1"
 	}
+	"frostivus_spirit_tree_regen"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_spirit_tree_regen.lua"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityTextureName" "frostivus_spirit_tree_regen"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"health_regeneration" "6"
+			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"mana_regeneration" "1"
+			}
+			"03"
+			{
+				"var_type" "FIELD_INTEGER"
+				"bonus_armor" "3"
+			}
+			"04"
+			{
+				"var_type" "FIELD_INTEGER"
+				"radius" "800"
+			}
+		}
+	}
 }

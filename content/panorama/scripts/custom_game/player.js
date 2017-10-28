@@ -22,3 +22,20 @@ function OnPlayerNetworkVarUpdate (e) {
 }
 
 GameEvents.Subscribe('player_networkvar_update', OnPlayerNetworkVarUpdate)
+
+Players.SendCastError = function (message, reason) {
+  var eventData
+  if (typeof message === 'object') {
+    eventData = message
+  } else {
+    eventData = { reason: reason, message: message }
+  }
+  if (!eventData.reason) {
+    eventData.reason = 80
+  }
+  GameEvents.SendEventClientSide('dota_hud_error_message', eventData)
+}
+
+GameEvents.Subscribe('cg_custom_cast_error', function (e) {
+  Players.SendCastError(e)
+})

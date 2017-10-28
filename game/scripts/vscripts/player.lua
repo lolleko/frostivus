@@ -4,7 +4,15 @@ CDOTA_PlayerResource:AddPlayerData("InvestmentsKV", NETWORKVAR_TRANSMIT_STATE_PL
 CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
 
 function CDOTA_PlayerResource:ModifyLumber(plyID, lumberChange)
-  self:SetLumber(plyID, self:GetLumber(plyID) + lumberChange)
+  self:SetLumber(plyID, math.clamp(self:GetLumber(plyID) + lumberChange, 0 ,self:GetLumberCapacity(plyID)))
+end
+
+function CDOTA_PlayerResource:ModifyGold(plyID, goldChange, bReliable)
+  local hero = self:GetSelectedHeroEntity(plyID)
+  if hero:GetGold() + goldChange > self:GetGoldCapacity(plyID) then
+    goldChange = self:GetGoldCapacity(plyID) - hero:GetGold()
+  end
+  self:GetSelectedHeroEntity(plyID):ModifyGold(goldChange, bReliable, DOTA_ModifyGold_Unspecified)
 end
 
 CDOTA_PlayerResource:AddPlayerData("LumberCapacity", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
@@ -57,6 +65,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
     CreateUnitByNameAsync(unitName, startOrigin, false, owner, owner, self:GetTeam(plyID), function(unit)
       unit:SetNeverMoveToClearSpace(true)
       table.insert(self:GetBuildingList(plyID), unit)
+      table.insert(Entities:GetBuildingListRaw(), unit)
       local lookoutSentry
       if building.IsLookout then
         lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin + Vector(0, 0, 180), scale = 0.85})

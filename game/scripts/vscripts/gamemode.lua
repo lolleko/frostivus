@@ -18,15 +18,16 @@ function GameMode:Init()
 	GameRules:GetGameModeEntity():SetUnseenFogOfWarEnabled( true )
 
 	GameRules:SetHeroSelectionTime( 30.0 )
-	GameRules:SetTimeOfDay( 0.25 )
+	--GameRules:SetTimeOfDay( 0.25 )
 	GameRules:SetStrategyTime( 0.0 )
 	GameRules:SetShowcaseTime( 0.0 )
 	GameRules:SetPreGameTime( 0.0 )
 	GameRules:SetPostGameTime( 45.0 )
-	GameRules:SetTreeRegrowTime( 5.0 )
+	GameRules:SetTreeRegrowTime( 10.0 )
 	GameRules:SetStartingGold( 0 )
 	GameRules:SetGoldTickTime( 999999.0 )
 	GameRules:SetGoldPerTick( 0 )
+	GameRules:SetStartingGold( 0 )
 	GameRules:GetGameModeEntity():SetRemoveIllusionsOnDeath( true )
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled( false )
 	GameRules:GetGameModeEntity():SetStashPurchasingDisabled( true )
@@ -38,9 +39,30 @@ function GameMode:Init()
 	GameRules:GetGameModeEntity():SetDeathOverlayDisabled( true )
 	GameRules:GetGameModeEntity():SetHudCombatEventsDisabled( true )
 	GameRules:GetGameModeEntity():SetWeatherEffectsDisabled( true )
+	GameRules:GetGameModeEntity():SetLoseGoldOnDeath( false )
+	--GameRules:GetGameModeEntity():SetCustomTerrainWeatherEffect("particles/rain_fx/econ_snow.vpcf")
 	GameRules:GetGameModeEntity():SetCameraSmoothCountOverride( 2 )
 	GameRules:GetGameModeEntity():SetSelectionGoldPenaltyEnabled( false )
 	GameRules:SetCustomGameAllowHeroPickMusic( false )
 	GameRules:SetCustomGameAllowBattleMusic( false )
 	GameRules:SetCustomGameAllowMusicAtGameStart( true )
+end
+
+function GameMode:GetDifficultyScalar()
+	if not self.NextDifficultyCalculation or self.NextDifficultyCalculation <= GameRules:GetGameTime() then
+		local scale = 1
+		for _, bld in pairs(Entities:GetAllBuildings()) do
+			local level = bld:GetLevel()
+			if bld:IsWall() then
+				level = level / 10
+			end
+			scale = scale + level
+		end
+		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+			sacale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
+		end
+		self.DifficultyScale = sacale
+		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
+	end
+	return self.DifficultyScale or 1
 end

@@ -6,15 +6,21 @@ function Spawn(entityKV)
   AddSpawnProperty(thisEntity, "LumberCapacity", "number", 0, thisEntity.Building)
   AddSpawnProperty(thisEntity, "GoldCapacity", "number", 0, thisEntity.Building)
 
-  AddSpawnProperty(thisEntity, "IsWall", "bool", false, thisEntity.Building)
-  AddSpawnProperty(thisEntity, "IsLookout", "bool", false, thisEntity.Building)
-  AddSpawnProperty(thisEntity, "IsSpawner", "bool", false, thisEntity.Building)
+  AddSpawnProperty(thisEntity, "IsWall", "bool", false, thisEntity.Building, "bIsWall")
+  AddSpawnProperty(thisEntity, "IsLookout", "bool", false, thisEntity.Building, "bIsLookout")
+  AddSpawnProperty(thisEntity, "IsSpawner", "bool", false, thisEntity.Building, "bIsSpawner")
 
-  AddSpawnProperty(thisEntity, "AcceptGold", "bool", false, thisEntity.Building)
-  AddSpawnProperty(thisEntity, "AcceptLumber", "bool", false, thisEntity.Building)
+  AddSpawnProperty(thisEntity, "AcceptGold", "bool", false, thisEntity.Building, "bAcceptGold")
+  AddSpawnProperty(thisEntity, "AcceptLumber", "bool", false, thisEntity.Building, "bAcceptLumber")
 
-  thisEntity:AddAbility("frostivus_building_upgrade")
-  thisEntity:AddAbility("frostivus_building_destroy")
+  if not (thisEntity:GetUnitName() == "npc_frostivus_spirit_tree") then
+    thisEntity:AddAbility("frostivus_building_upgrade")
+    thisEntity:AddAbility("frostivus_building_destroy")
+  end
+
+  function thisEntity:IsBuilding()
+    return true
+  end
 
   if thisEntity.Building.DynamicModels then
     for _, dynMdl in pairs(thisEntity.Building.DynamicModels) do
@@ -26,29 +32,44 @@ function Spawn(entityKV)
     end
   end
 
-  if thisEntity.IsWall then
+  function thisEntity:IsWall()
+    return thisEntity.bIsWall
+  end
+
+  function thisEntity:AcceptGold()
+    return thisEntity.bAcceptGold
+  end
+
+  function thisEntity:AcceptLumber()
+    return thisEntity.bAcceptLumber
+  end
+
+  -- expose this function
+  function thisEntity:OnConstructionCompleted()
+    local ownerID = self:GetPlayerOwnerID()
+    PlayerResource:SetLumberCapacity(ownerID, PlayerResource:GetLumberCapacity(ownerID) + self.LumberCapacity)
+    PlayerResource:SetGoldCapacity(ownerID, PlayerResource:GetGoldCapacity(ownerID) + self.GoldCapacity)
+    local template = Entities:FindByName(nil, "tree_shop_template")
+    local newshop = SpawnEntityFromTableSynchronous("trigger_shop", {origin = thisEntity:GetAbsOrigin(), shoptype = 1, model=template:GetModelName()})
+  end
+
+  if thisEntity.bIsWall then
     -- create wall reated things
     thisEntity.connectors = {}
   	thisEntity:SetContextThink( "WallRenderThink", WallRenderThink, 0)
-
   end
-  if thisEntity.IsSpawner then
+  if thisEntity.bIsSpawner then
     thisEntity.SpawnerUnits = {}
     for _, unitData in pairs(thisEntity.Building.Spawner.Units) do
       local unitDataExt = table.merge({}, unitData)
-      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + unitDataExt.Interval
+      -- randomize first interval a bit
+      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + RandomInt(0, unitDataExt.Interval)
       unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
       unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
       unitDataExt.SpawnedUnits = {}
       table.insert(thisEntity.SpawnerUnits, unitDataExt)
     end
     thisEntity:SetContextThink("SpawnerThink", SpawnerThink, 0)
-  end
-  -- expose this function
-  function thisEntity:OnConstructionCompleted()
-    local ownerID = self:GetPlayerOwnerID()
-    PlayerResource:SetLumberCapacity(ownerID, PlayerResource:GetLumberCapacity(ownerID) + self.LumberCapacity)
-    PlayerResource:SetGoldCapacity(ownerID, PlayerResource:GetGoldCapacity(ownerID) + self.GoldCapacity)
   end
 end
 
@@ -57,7 +78,7 @@ function WallRenderThink()
   local adjacentCreatures = Entities:FindAllByClassnameWithin( "npc_dota_creature", thisEntity:GetOrigin(), 644 )
   local adjacentWalls = {}
   for _, creature in pairs( adjacentCreatures ) do
-    if string.match( creature:GetUnitName(), "npc_frostivus_wall" ) and ( creature ~= thisEntity ) then
+    if string.match( creature:GetUnitName(), "npc_frostivus_defense_wall" ) and ( creature ~= thisEntity ) then
       table.insert( adjacentWalls, creature )
     end
   end
@@ -124,12 +145,20 @@ function SpawnerThink()
       end
       if not unitData.MaxAlive or #unitData.SpawnedUnits < unitData.MaxAlive then
           -- do spawning
-          CreateUnitByNameAsync(unitData.UnitName, thisEntity:GetOrigin(), true, thisEntity:GetOwner(), thisEntity:GetOwner(), thisEntity:GetTeam(), function(unit)
+          local spawnPoint = thisEntity:GetOrigin()
+          if unitData.Spawnpoint then
+              spawnPoint = unitData.Spawnpoint:GetOrigin()
+          end
+          CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), thisEntity:GetTeam(), function(unit)
             if unitData.InitialGoal then
               if unitData.MoveToGoal then
                 unit:SetContextThink("initalOrderDelayed", function()
                   unit:MoveToPosition(unitData.InitialGoal:GetOrigin())
-                end, 0.2)
+                end, 0.5)
+              elseif unitData.MoveToGoalAggressive then
+                unit:SetContextThink("initalOrderDelayed", function()
+                  unit:MoveToPositionAggressive(unitData.InitialGoal:GetOrigin())
+                end, 0.5)
               else
                 unit:SetInitialGoalEntity(unitData.InitialGoal)
               end

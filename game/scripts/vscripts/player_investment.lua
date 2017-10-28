@@ -4,22 +4,28 @@ CDOTA_PlayerResource:AddPlayerData("PreviewModel", NETWORKVAR_TRANSMIT_STATE_NON
 
 function CDOTA_PlayerResource:HasInvestmentRequirements(plyID, investmentName)
   -- for debuggin retru ntru for now
- --[[  local investment = investmentsKV[investmentName]
-  if investment.LumberCost and not self:GetLumber(plyID) <= investment.LumberCost then
-    return false
-  end
-  if investment.GoldCost and not self:GetGold(plyID) <= investment.GoldCost then
-    return false
-  end--]]
   return true
+ -- local investment = investmentsKV[investmentName]
+ --  if investment.LumberCost and self:GetLumber(plyID) <= investment.LumberCost then
+ --    self:SendCastError(plyID, "frostivus_hud_error_not_enough_lumber")
+ --    return false
+ --  end
+ --  if investment.GoldCost and self:GetGold(plyID) <= investment.GoldCost then
+ --    self:SendCastError(plyID, "frostivus_hud_error_not_enough_gold")
+ --    return false
+ --  end
+ --  return true
 end
 
 function CDOTA_PlayerResource:ProcessInvestmentRequest(eventSourceIndex, data)
   local plyID = data.PlayerID
   local investmentName = data.investmentName
+  if not self:HasInvestmentRequirements(plyID, investmentName) then
+    return
+  end
   local investment = investmentsKV[investmentName]
-  local building = BuildingKV:GetBuilding(investment.UnitName)
   if investment.Building then
+    local building = BuildingKV:GetBuilding(investment.UnitName)
     local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.Model, scale = building.ModelScale})
     prop:AddEffects(EF_NODRAW)
     self:SetPreviewModel(plyID, prop)

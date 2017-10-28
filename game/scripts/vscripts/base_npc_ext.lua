@@ -11,3 +11,11 @@ function CDOTA_BaseNPC:Unmarshall(data)
   self:SetAngles(data.angles.x, data.angles.y, data.angles.z)
   self:SetHealth(data.health)
 end
+
+function CDOTA_BaseNPC:IsWall()
+  return false
+end
+
+function CDOTA_BaseNPC:IsDefenseBuilding()
+  return false
+end
