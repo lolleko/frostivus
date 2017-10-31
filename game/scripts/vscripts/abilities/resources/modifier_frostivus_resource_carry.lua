@@ -6,7 +6,7 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     local model
     local modelScale = 1
     self.stackCount = 5
-    self.stackSize = 1
+    self.stackSize = 2
     local offsets
     self.IsLumber = data.IsLumber
     self.IsGold = data.IsGold

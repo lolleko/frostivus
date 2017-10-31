@@ -11,7 +11,9 @@
       "Game",
       "ParticleAttachment_t",
       "Entities",
-      "CLICK_BEHAVIORS"
+      "CLICK_BEHAVIORS",
+      "CustomGameEventManager",
+      "LinkLabelToPlayerVariable"
     ]
   }
 }

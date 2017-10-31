@@ -5,21 +5,10 @@
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/panel_factory.js" />
 		<include src="file://{resources}/scripts/custom_game/frostivus_hud.js" />
+		<include src="file://{resources}/scripts/custom_game/quest/manager.js" />
 	</scripts>
 	<Panel class="FrostivusHUD" hittest="false">
-		<Panel id="ResourceRoot">
-			<Panel class="ResourceOverview" id="LumberOverview">
-				<Label text="Lumber" />
-				<Label id="LumberCurrent" text="0" />
-				<Label text="/" />
-				<Label id="LumberCapacity" text="0" />
-			</Panel>
-			<Panel class="ResourceOverview" id="GoldOverview">
-				<Label text="Gold" />
-				<Label id="GoldCurrent" text="0" />
-				<Label text="/" />
-				<Label id="GoldCapacity" text="0" />
-			</Panel>
+		<Panel id="QuestListRoot">
 		</Panel>
 		<Panel id="BuildTutorial">
 			<Label id="BuildTutorialLabel" text="MOUSE1: Build | MOUSE2: Cancel | MOUSE3: Rotate | HOLD SHIFT: Build multiple" />

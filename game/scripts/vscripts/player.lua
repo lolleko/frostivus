@@ -1,5 +1,10 @@
 --CDOTA_PlayerResource:AddPlayerData("UnitKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, LoadKeyValues("scripts/npc/npc_units_custom.txt"))
-CDOTA_PlayerResource:AddPlayerData("InvestmentsKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, LoadKeyValues("scripts/npc/frostivus_investments.txt"))
+local buildingShopData = {}
+for k,v in pairs(LoadKeyValues("scripts/npc/frostivus_building_shop.txt")) do
+  buildingShopData[k] = BuildingKV:GetBuilding(k)
+  buildingShopData[k].Category = v.Category
+end
+CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, buildingShopData)
 
 CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
 
@@ -139,4 +144,4 @@ function CDOTA_PlayerResource:FindAllBuildingsWithName(plyID, unitName)
 end
 
 
-require "player_investment"
+require "player_building"

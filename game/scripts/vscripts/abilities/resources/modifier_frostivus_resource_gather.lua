@@ -26,7 +26,7 @@ function modifier_frostivus_resource_gather:OnDestroy()
 			goal = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_gold_storage")
 		end
 		if not goal then
-			goal = PlayerResource:FindBuildingByName(parent:GetPlayerOwnerID(), "npc_frostivus_spirit_tree")
+			goal = GM:GetSpiritTree(parent:GetPlayerOwnerID())
 		end
 		parent:MoveToPosition(goal:GetOrigin())
   end

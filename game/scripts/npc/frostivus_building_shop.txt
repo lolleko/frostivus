@@ -1,0 +1,33 @@
+FrostivusInvestments
+{
+  // Building special vars:
+  //
+  // Category: string
+  //
+  // DEFENSE
+  "npc_frostivus_defense_wall_tier1"
+  {
+    "Category" "Defense"
+  }
+  "npc_frostivus_defense_lookout_tier1"
+  {
+    "Category" "Defense"
+  }
+  // RESOURCE
+  "npc_frostivus_lumber_camp_tier1"
+  {
+    "Category" "Resources"
+  }
+  "npc_frostivus_lumber_storage_tier1"
+  {
+    "Category" "Resources"
+  }
+  "npc_frostivus_gold_camp_tier1"
+  {
+    "Category" "Resources"
+  }
+  "npc_frostivus_gold_storage_tier1"
+  {
+    "Category" "Resources"
+  }
+}

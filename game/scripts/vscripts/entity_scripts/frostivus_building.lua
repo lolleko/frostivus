@@ -13,7 +13,14 @@ function Spawn(entityKV)
   AddSpawnProperty(thisEntity, "AcceptGold", "bool", false, thisEntity.Building, "bAcceptGold")
   AddSpawnProperty(thisEntity, "AcceptLumber", "bool", false, thisEntity.Building, "bAcceptLumber")
 
-  if not (thisEntity:GetUnitName() == "npc_frostivus_spirit_tree") then
+  local ownerID = thisEntity:GetPlayerOwnerID()
+
+  if ownerID ~= -1 then
+    PlayerResource:SetLumberCapacity(ownerID, PlayerResource:GetLumberCapacity(ownerID) + thisEntity.LumberCapacity)
+    PlayerResource:SetGoldCapacity(ownerID, PlayerResource:GetGoldCapacity(ownerID) + thisEntity.GoldCapacity)
+  end
+
+  if not string.match(thisEntity:GetUnitName(), "npc_frostivus_spirit_tree") then
     thisEntity:AddAbility("frostivus_building_upgrade")
     thisEntity:AddAbility("frostivus_building_destroy")
   end
@@ -26,7 +33,14 @@ function Spawn(entityKV)
     for _, dynMdl in pairs(thisEntity.Building.DynamicModels) do
       local scale = dynMdl.ModelScale or 1
       local origin = thisEntity:GetOrigin() + tovector(dynMdl.Offset)
-      local propDyn = SpawnEntityFromTableSynchronous("prop_dynamic", {model = dynMdl.Model, origin = origin, angles = tovector(dynMdl.Angles), DefaultAnim = dynMdl.Sequence})
+      local color
+      if dynMdl.color then
+        -- TODO somehow retrieve playercolor
+        --if dynMdl.color == "!PlayerColor" then
+          --color = PlayerResource:GetCustomPlayerColor(ownerID)
+        --end
+      end
+      local propDyn = SpawnEntityFromTableSynchronous("prop_dynamic", {model = dynMdl.Model, origin = origin, angles = tovector(dynMdl.Angles), DefaultAnim = dynMdl.Sequence, rendercolor = color})
       propDyn:SetModelScale(scale)
       propDyn:SetParent(thisEntity, nil)
     end
@@ -46,9 +60,6 @@ function Spawn(entityKV)
 
   -- expose this function
   function thisEntity:OnConstructionCompleted()
-    local ownerID = self:GetPlayerOwnerID()
-    PlayerResource:SetLumberCapacity(ownerID, PlayerResource:GetLumberCapacity(ownerID) + self.LumberCapacity)
-    PlayerResource:SetGoldCapacity(ownerID, PlayerResource:GetGoldCapacity(ownerID) + self.GoldCapacity)
     local template = Entities:FindByName(nil, "tree_shop_template")
     local newshop = SpawnEntityFromTableSynchronous("trigger_shop", {origin = thisEntity:GetAbsOrigin(), shoptype = 1, model=template:GetModelName()})
   end
@@ -63,7 +74,8 @@ function Spawn(entityKV)
     for _, unitData in pairs(thisEntity.Building.Spawner.Units) do
       local unitDataExt = table.merge({}, unitData)
       -- randomize first interval a bit
-      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + RandomInt(0, unitDataExt.Interval)
+      local initalDelay = unitDataExt.InitialDelay or 0
+      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay + RandomInt(0, unitDataExt.Interval / 4)
       unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
       unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
       unitDataExt.SpawnedUnits = {}
@@ -167,6 +179,16 @@ function SpawnerThink()
               unit:SetContextThink("SetControllableByPlayer", function()
                 unit:SetControllableByPlayer(thisEntity:GetPlayerOwnerID(), true)
               end, 0)
+            end
+            if unitData.ScaleUnits then
+              local scalar = GM:GetDifficultyScalar()
+              print(scalar)
+              unit:SetMaxHealth(unit:GetMaxHealth() + math.floor(unit:GetMaxHealth() * scalar/800))
+              unit:SetHealth(unit:GetMaxHealth())
+              unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/900))
+              unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() + (unit:GetBaseMagicalResistanceValue() * scalar/1000))
+              unit:SetBaseDamageMin(unit:GetBaseDamageMin() + math.floor(unit:GetBaseDamageMin() * scalar/700))
+              unit:SetBaseDamageMax(unit:GetBaseDamageMax() + math.floor(unit:GetBaseDamageMax() * scalar/700))
             end
             table.insert(unitData.SpawnedUnits, unit)
           end)

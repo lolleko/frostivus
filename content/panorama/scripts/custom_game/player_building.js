@@ -7,7 +7,7 @@
   var sizeY
   var squareParticles = []
   var blockedSquaresParticles = []
-  var investmentName
+  var buildingName
   var worldPos
   var blocked = false
   var rotation = 360
@@ -19,7 +19,7 @@
     var entindex = data.previewModel
     sizeX = data.sizeX
     sizeY = data.sizeY
-    investmentName = data.investmentName
+    buildingName = data.buildingName
     previewParticle = Particles.CreateParticle('particles/misc/building_preview.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
     Particles.SetParticleControlEnt(previewParticle, 1, entindex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, 'follow_origin', Entities.GetAbsOrigin(entindex), true)
     Particles.SetParticleControl(previewParticle, 2, [150, 255, 150])
@@ -161,7 +161,7 @@
           $.Msg('blocked')
         } else {
           var queue = GameUI.IsShiftDown()
-          GameEvents.SendCustomGameEventToServer('buildingRequestConstruction', {'origin': worldPos, 'investmentName': investmentName, 'queue': queue, 'rotation': rotation})
+          GameEvents.SendCustomGameEventToServer('buildingRequestConstruction', {'origin': worldPos, 'buildingName': buildingName, 'queue': queue, 'rotation': rotation})
           if (!queue) {
             StopPreview()
           }

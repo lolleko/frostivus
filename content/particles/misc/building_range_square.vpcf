@@ -53,8 +53,8 @@
 		{
 			_class = "C_OP_RemapCPtoScalar"
 			m_nCPInput = 1
-			m_flInputMax = 1600.0
-			m_flOutputMax = 1600.0
+			m_flInputMax = 5000.0
+			m_flOutputMax = 5000.0
 		},
 		{
 			_class = "C_OP_BasicMovement"

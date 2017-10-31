@@ -5,19 +5,26 @@
 
 #ResourceRoot {
   width: 200px;
-  height: 100%;
-  margin-top: 160px;
-  flow-children: down;
+  horizontal-align: center;
+  flow-children: right;
 }
 
 .ResourceOverview {
   flow-children: right;
 }
 
+#QuestListRoot {
+  horizontal-align: left;
+  margin-top: 160px;
+  flow-children: down;
+  border-left: 4px solid #DEDEDE;
+  margin-left: 4px;
+}
+
 #BuildTutorial {
   vertical-align: bottom;
   horizontal-align: center;
-  margin-bottom: 400px;
+  margin-bottom: 350px;
 }
 
 #BuildTutorialLabel {

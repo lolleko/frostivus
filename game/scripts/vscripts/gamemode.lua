@@ -53,16 +53,38 @@ function GameMode:GetDifficultyScalar()
 		local scale = 1
 		for _, bld in pairs(Entities:GetAllBuildings()) do
 			local level = bld:GetLevel()
-			if bld:IsWall() then
-				level = level / 10
-			end
-			scale = scale + level
+			scale = scale + level * 2
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
-			sacale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
+			scale = scale + 60
+			scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
 		end
-		self.DifficultyScale = sacale
+		self.DifficultyScale = scale
 		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
 	end
 	return self.DifficultyScale or 1
+end
+
+function GameMode:SetCoopSpiritTree(tree)
+	if tree then
+		self.coopSpiritTree = tree
+	end
+end
+
+function GameMode:GetSpiritTree()
+	if self:IsPVP() then
+		return PlayerResource:FindBuildingByName(plyID, "npc_frostivus_spirit_tree_pvp")
+	end
+	return self.coopSpiritTree
+end
+
+function GameMode:GetBuildingCenter(plyID)
+	return self:GetSpiritTree():GetOrigin()
+end
+
+function GameMode:GetBuildingRange(plyID)
+	if self:IsPVP() then
+		return 1280
+	end
+	return 2240
 end

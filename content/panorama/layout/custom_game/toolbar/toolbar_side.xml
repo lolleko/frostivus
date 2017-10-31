@@ -1,0 +1,15 @@
+<root>
+	<scripts>
+    <include src="file://{resources}/scripts/custom_game/panel_factory.js" />
+		<include src="file://{resources}/scripts/custom_game/toolbar/toolbar_side.js" />
+	</scripts>
+  <styles>
+    <include src="file://{resources}/styles/custom_game/toolbar/toolbar_side.css" />
+  </styles>
+	<Panel class="ToolbarSideRoot" hittest="false">
+    <Panel id="ToolbarControls">
+    </Panel>
+    <Panel id="ToolbarContent" hittest="false">
+    </Panel>
+	</Panel>
+</root>

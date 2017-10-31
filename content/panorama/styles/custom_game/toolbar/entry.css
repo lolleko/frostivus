@@ -1,0 +1,37 @@
+.MenuEntryRoot {
+  width: 160px;
+  height: 190px;
+  padding-left: 10px;
+}
+
+#ButtonWrap {
+  flow-children: down;
+}
+
+#StatInfo {
+  flow-children: right;
+}
+
+.StatInfoIcon {
+  background-size: 100% 100%;
+  vertical-align: center;
+  width: 24px;
+  height: 24px;
+}
+
+Label {
+  color: #FEFEFE;
+  font-size: 20px;
+}
+
+#Name {
+  font-size: 32px;
+}
+
+#LumberIcon {
+  background-image: url("file://{images}/custom_game/icons/lumber_icon.psd");
+}
+
+#GoldIcon {
+  background-image: url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex");
+}

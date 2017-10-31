@@ -25,6 +25,13 @@ function BuildingKV:GetUpgrade(name)
   end
 end
 
+function BuildingKV:GetRequirements(name)
+  local bld = self:GetBuilding(name)
+  if bld then
+    return bld.Requirements
+  end
+end
+
 function BuildingKV:GetUpgradeName(name)
   local bld = self:GetBuilding(name)
   if bld and bld.Upgrade then

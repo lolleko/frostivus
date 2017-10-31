@@ -1,0 +1,23 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/toolbar/entry.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/toolbar/entry.js" />
+		<include src="file://{resources}/scripts/custom_game/panel_factory.js" />
+	</scripts>
+	<Panel class="MenuEntryRoot" hittest="false">
+		<Button id="ButtonWrap">
+			<Label id="Name" text="name" />
+			<Panel id="GeneralInfo">
+		    <DOTAAbilityImage id="AbilityImage" />
+			</Panel>
+			<Panel id="StatInfo">
+				<Panel class="StatInfoIcon" id="LumberIcon"/>
+				<Label class="StatInfoLabel" id="LumberCost" text="lumber_cost" />
+				<Panel class="StatInfoIcon" id="GoldIcon"/>
+				<Label class="StatInfoLabel" id="GoldCost" text="gold_cost" />
+			</Panel>
+		</Button>
+	</Panel>
+</root>

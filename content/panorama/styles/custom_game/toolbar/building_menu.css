@@ -1,0 +1,27 @@
+.MenuContentRoot {
+  width: 100%;
+  height: 100%;
+  flow-children: down;
+  background-color: #333333AA;
+  transform: translatex( 960px );
+  transition-property: transform;
+  transition-duration: 0.3s;
+  overflow: clip clip;
+  padding: 16px;
+}
+
+.Category {
+  width: 100%;
+  flow-children: down;
+}
+
+.CategoryRow {
+  width: 100%;
+  flow-children: right;
+  margin-top: 16px;
+}
+
+.visible
+{
+  transform: translatex( 0px );
+}

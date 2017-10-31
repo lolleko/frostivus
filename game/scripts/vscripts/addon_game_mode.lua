@@ -1,12 +1,16 @@
 require "cgcore.util"
 
+require "building_kv"
+
+
 require "gamemode"
 
 require "player"
 
-require "building_grid"
+require "quest"
+require "quests"
 
-require "building_kv"
+require "building_grid"
 
 --overrides
 require "entities_ext"
@@ -24,12 +28,25 @@ LinkLuaModifier("modifier_frostivus_lookout", "abilities/buildings/modifier_fros
 
 GameMode.CGName = "frostivus"
 
+if string.match(GetMapName(), "coop") then
+	GameMode.bIsCoop = true
+	GameMode.bIsPVP = false
+else
+	GameMode.bIsCoop = false
+	GameMode.bIsPVP = true
+end
+
+function GameMode:IsPVP()
+	return self.bIsPVP
+end
+
 GameMode.CGDefaultData = {
 	units = {}
 }
 
 function Precache( context )
 	GameRules.GameMode = GameMode()
+	_G.GM = GameRules.GameMode
 
 	GameRules.GameMode:Precache( context )
 end
