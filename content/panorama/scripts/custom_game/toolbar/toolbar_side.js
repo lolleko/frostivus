@@ -7,6 +7,7 @@
     toolbarButton.SetPanelEvent(
       'onactivate',
       function () {
+        toolbarButton.RemoveClass('Highlight')
         var hide = content.BHasClass('visible')
         $('#ToolbarContent').Children().forEach(function (item) {
           item.RemoveClass('visible')

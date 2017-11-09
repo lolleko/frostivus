@@ -6,23 +6,28 @@
 #ToolbarControls {
   horizontal-align: right;
   vertical-align: bottom;
-  flow-children: up;
-  width: 64px;
+  flow-children: right;
   z-index: 10;
-  margin-bottom: 100px;
+  margin-bottom: 4px;
+  margin-right: 400px;
 }
 
 #ToolbarContent {
-  width:960px;
+  width: 520px;
   height: 100%;
   horizontal-align: right;
 }
 
 .ToolbarButton {
-  height: 64px;
-  width: 100%;
+  height: 96px;
+  width: 96px;
   background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
-  box-shadow: #0000008f -6px -6px 12px 12px;
-  background-image: url("s2r://panorama/images/hud/reborn/icon_armor_psd.vtex");
+  background-image: url("s2r://panorama/images/topbar/armory_icon_off_png.vtex");
   background-size: 100% 100%;
+  border-radius: 2px;
+}
+
+.Highlight {
+  box-shadow: #ffd7008f -6px -6px 36px 12px;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #ffd700dd ), to( #2B3445dd ) );
 }

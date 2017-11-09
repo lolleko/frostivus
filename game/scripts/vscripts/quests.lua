@@ -27,7 +27,7 @@ function QuestBase:Complete()
         if resourceName == "xp" then
           PlayerResource:GetSelectedHeroEntity(self.plyID):AddExperience(amount, 0, false, false)
         elseif resourceName == "gold" then
-          PlayerResource:ModifyGold(self.plyID, amount, true)
+          PlayerResource:ModifyGold(self.plyID, amount)
         elseif resourceName == "lumber" then
           PlayerResource:ModifyLumber(self.plyID, amount)
         end
@@ -81,6 +81,23 @@ end
 
 local questList = {}
 
+SurviveGame = class(
+  {
+    name = "frostivus_quest_survive_game",
+    description = "frostivus_quest_survive_game_description",
+    values = {
+      frostivus_quest_goal_spirit_tree_protect = 0,
+      frostivus_quest_goal_kill_final_boss = 0
+    },
+    valueGoals = {
+      frostivus_quest_goal_spirit_tree_protect = 1,
+      frostivus_quest_goal_kill_final_boss = 1
+    },
+  },
+  nil,
+  QuestBase
+)
+
 StartKillEnemies = class(
   {
     name = "frostivus_quest_starter_kill_enemies",
@@ -94,10 +111,9 @@ StartKillEnemies = class(
     rewards = {
       resource = {
         gold = 100,
-        xp = 10
+        xp = 25
       }
     },
-    timeLimit = 300
   },
   nil,
   QuestBase
@@ -132,10 +148,9 @@ StartLumberCamp = class(
       resource = {
         gold = 50,
         lumber = 50,
-        xp = 10,
+        xp = 25,
       }
     },
-    timeLimit = 300
   },
   nil,
   QuestBase
@@ -169,11 +184,10 @@ StartBuildSentry = class(
     },
     rewards = {
       resource = {
-        xp = 10,
+        xp = 25,
         lumber = 180,
       }
     },
-    timeLimit = 300
   },
   nil,
   QuestBase
@@ -207,10 +221,9 @@ StartBuildWalls = class(
     },
     rewards = {
       resource = {
-        xp = 10
+        xp = 50
       }
     },
-    timeLimit = 300
   },
   nil,
   QuestBase
@@ -223,6 +236,7 @@ function StartBuildWalls:OnStart()
   		if spawnedUnit:GetPlayerOwnerID() == self.plyID and  spawnedUnit:GetUnitName() == "npc_frostivus_defense_wall_tier1" then
         self:ModifyValue("frostivus_quest_goal_walls_constructed", 1)
   		end
+
   	end
   end, nil)
 end

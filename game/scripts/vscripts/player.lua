@@ -3,6 +3,7 @@ local buildingShopData = {}
 for k,v in pairs(LoadKeyValues("scripts/npc/frostivus_building_shop.txt")) do
   buildingShopData[k] = BuildingKV:GetBuilding(k)
   buildingShopData[k].Category = v.Category
+  buildingShopData[k].BuildingID = v.BuildingID
 end
 CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, buildingShopData)
 
@@ -17,7 +18,7 @@ function CDOTA_PlayerResource:ModifyGold(plyID, goldChange, bReliable)
   if hero:GetGold() + goldChange > self:GetGoldCapacity(plyID) then
     goldChange = self:GetGoldCapacity(plyID) - hero:GetGold()
   end
-  self:GetSelectedHeroEntity(plyID):ModifyGold(goldChange, bReliable, DOTA_ModifyGold_Unspecified)
+  self:GetSelectedHeroEntity(plyID):ModifyGold(goldChange, true, DOTA_ModifyGold_Unspecified)
 end
 
 CDOTA_PlayerResource:AddPlayerData("LumberCapacity", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)

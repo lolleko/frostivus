@@ -1,4 +1,5 @@
 Players.PlayerData = {}
+Players.NetworkVarCallbacks = {}
 
 function OnPlayerNetworkVarUpdate (e) {
   var playerID = e.PlayerID
@@ -6,8 +7,15 @@ function OnPlayerNetworkVarUpdate (e) {
   if (!Players.PlayerData[playerID]) {
     Players.PlayerData[playerID] = {}
   }
-    // [PanoramaScript] !! (s2r://panorama/scripts/custom_game/player.vjs_c, line:12, col:40) - TypeError: Cannot read property 'NemesisScore' of undefined
+
   Players.PlayerData[playerID][name] = e.value
+
+  if (Players.NetworkVarCallbacks[name]) {
+    Players.NetworkVarCallbacks[name].forEach(function (callback) {
+      callback(e.value)
+    })
+  }
+
   if (!Players['Get' + name]) {
     Players['Get' + name] = function (plyID) {
       plyID = (typeof plyID !== 'undefined') ? plyID : Players.GetLocalPlayer()
@@ -22,6 +30,13 @@ function OnPlayerNetworkVarUpdate (e) {
 }
 
 GameEvents.Subscribe('player_networkvar_update', OnPlayerNetworkVarUpdate)
+
+Players.RegisterNetworkVarListener = function (name, callback) {
+  if (!Players.NetworkVarCallbacks[name]) {
+    Players.NetworkVarCallbacks[name] = []
+  }
+  Players.NetworkVarCallbacks[name].push(callback)
+}
 
 Players.SendCastError = function (message, reason) {
   var eventData

@@ -15,9 +15,13 @@ function frostivus_building_destroy:Refund()
   local casterName = caster:GetUnitName()
   -- get cost
   local costs = self:GetTotalCost(casterName, 0, 0)
+  local baseCost = BuildingKV:GetRequirements(casterName)
+  costs.gold = costs.gold + baseCost.GoldCost
+  costs.lumber = costs.lumber + baseCost.LumberCost
+  DeepPrintTable(costs)
   local percentage = caster:GetHealthPercent() / 100
   PlayerResource:ModifyLumber(plyID, costs.lumber * percentage)
-  PlayerResource:ModifyGold(plyID, costs.gold * percentage, false, 0)
+  PlayerResource:ModifyGold(plyID, costs.gold * percentage)
 end
 
 -- this will confuse me so much in 2 days

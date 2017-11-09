@@ -6,7 +6,7 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     local model
     local modelScale = 1
     self.stackCount = 5
-    self.stackSize = 2
+    self.stackSize = 6
     local offsets
     self.IsLumber = data.IsLumber
     self.IsGold = data.IsGold
@@ -17,6 +17,8 @@ function modifier_frostivus_resource_carry:OnCreated(data)
         Vector(0, 0, 81) + parent:GetForwardVector() * 5,
         Vector(0, 0, 81) + parent:GetForwardVector() * -5,
         Vector(0, 0, 81) + parent:GetForwardVector() * -15,
+        Vector(0, 0, 88) + parent:GetForwardVector() * 0,
+        Vector(0, 0, 88) + parent:GetForwardVector() * -10,
       }
     elseif data.IsGold then
 
@@ -60,7 +62,7 @@ function modifier_frostivus_resource_carry:OnIntervalThink()
     )
     for k, unit in pairs(units) do
       if unit.bAcceptGold and self.IsGold then
-        PlayerResource:ModifyGold(plyID, self.stackCount * self.stackSize , true)
+        PlayerResource:ModifyGold(plyID, self.stackCount * self.stackSize)
         parent:RemoveSelf()
       elseif unit.bAcceptLumber and self.IsLumber then
         PlayerResource:ModifyLumber(plyID, self.stackCount * self.stackSize)

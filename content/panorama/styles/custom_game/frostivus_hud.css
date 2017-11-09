@@ -25,9 +25,215 @@
   vertical-align: bottom;
   horizontal-align: center;
   margin-bottom: 350px;
+  visibility: collapse;
 }
 
 #BuildTutorialLabel {
   font-size: 24px;
   color: white;
+}
+
+
+//default stuff
+#DungeonHUD
+{
+	width: 800px;
+	width: 100%;
+	//height: 100%;
+	horizontal-align: left;
+	vertical-align: bottom;
+}
+
+.HIDE_ACTION_PANEL #center_with_stats, .HIDE_ACTION_PANEL #buffs, .HIDE_ACTION_PANEL #debuffs, .HIDE_ACTION_PANEL #StatBranchDrawer, .HIDE_ACTION_PANEL #StatDrawerTopRight {
+  visibility: visible;
+}
+
+#buffs {
+  margin-bottom: 84px;
+  margin: 0px;
+}
+
+#debuffs {
+  margin: 0px;
+}
+
+#BuffsLine {
+  horizontal-align: center;
+  vertical-align: bottom;
+  margin-bottom: 88px;
+  min-width: 360px;
+  max-width: 704px;
+  height: 74px;
+  transition-property: transform, opacity;
+  transition-duration: 0.24s;
+  transition-timing-function: ease-in-out;
+  transform: translateY(0px);
+  z-index: -4;
+}
+
+.HasAbilityToSpend #BuffsLine {
+  transform: translateY(-10px);
+}
+
+.SpectatorDVRControlsVisible #BuffsLine {
+  height: 122px;
+}
+
+#PortraitContainer {
+  margin-left: 0px;
+  opacity-mask: none;
+  width: 112px;
+  margin-bottom: 144px;
+  height: 112px;
+}
+
+#portraitHUDOverlay, #portraitHUD {
+  width: 112px;
+  height: 112px;
+  transform: translateY( 0px) translateX( 0px);
+  //opacity-mask: url("s2r://panorama/images/masks/killcammask_left_psd.vtex") 1;
+  //opacity-mask: url("s2r://panorama/images/masks/softedge_box_sharper_png.vtex") 1;
+}
+
+.AbilityInsetShadowLeft, .AbilityInsetShadowRight, #left_flare, #right_flare, #PortraitBacker {
+  visibility: collapse;
+}
+
+#center_bg {
+  height: 80px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  margin: 0px 0px;
+  background-image: url("s2r://panorama/images/hud/reborn/ability_bg_psd.vtex");
+}
+
+#unitname {
+  margin: 0px;
+  height: 20px;
+  width: 100px;
+  margin-bottom: 156px;
+}
+
+#unitname Label {
+  wash-color: red;
+}
+
+#xp {
+  transform: translateX(-26px);
+  margin-bottom: 10px;
+}
+
+#AbilitiesAndStatBranch {
+  margin: 0px;
+  margin-right: 218px;
+}
+
+#inventory {
+  width: 212px;
+  margin: 0px;
+  height: 90px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.Reborn #HealthContainer {
+  height: 16px;
+}
+
+#health_mana {
+  //background-color: black;
+  width: 180px;
+  margin-bottom: 16px;
+  horizontal-align: left;
+  vertical-align: bottom;
+  margin-right: 6px;
+  margin-left: 8px;
+  margin-left: 48px;
+}
+
+#MinimapContainer {
+  width: 256px;
+  height: 256px;
+  horizontal-align: left;
+  vertical-align: bottom;
+  border: 4px solid #000000AA;
+}
+
+#MinimapFrostivus {
+  width: 100%;
+  height: 100%;
+}
+
+#PortraitContainerDungeon {
+  horizontal-align: left;
+  vertical-align: bottom;
+  margin-left: 256px;
+}
+
+#stats_container {
+  margin-left: 0px;
+  padding-left: 16px;
+  //background-color: gradient( linear, 100% 0%, 0% 0%, from( #00000000), color-stop( .4, #00000000), to( #000000CC));
+  background-color: #000000AA;
+  width: 112px;
+}
+
+.Reborn DOTAHUDStrAgiInt {
+  horizontal-align: left;
+}
+
+#StatBranch {
+  margin-bottom: 10px;
+}
+
+.Reborn DOTAHotkey#StatBranchHotkey {
+  margin: 0px;
+  transform: none;
+  vertical-align: top;
+  z-index: 10000;
+}
+
+#level_stats_frame {
+  margin: 0px;
+  margin-left: 231px;
+  margin-bottom: -68px;
+}
+
+#StatBranchDrawer {
+  margin-left: 32px;
+  margin-bottom: 68px;
+}
+
+.FiveAbilities #StatBranchDrawer {
+  margin-right: 240px;
+}
+
+.SixAbilities #StatBranchDrawer {
+  margin-right: 200px;
+}
+
+.HUDFlipped #StatBranchDrawer {
+  transform: scaleX(-1);
+  margin-right: 0px;
+  margin-left: 240px;
+}
+
+.HUDFlipped .FiveAbilities #StatBranchDrawer {
+  margin-left: 240px;
+}
+
+.HUDFlipped .SixAbilities #StatBranchDrawer {
+  margin-left: 245px;
+}
+
+#stats_tooltip_region, #stragiint {
+  horizontal-align: left;
+}
+
+#stats {
+  width: fit-children;
+}
+
+#stats_container_bg {
+  visibility: collapse;
 }

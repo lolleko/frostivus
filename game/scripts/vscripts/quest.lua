@@ -1,4 +1,4 @@
-CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_NONE, {})
+CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_PLAYER, {})
 
 function CDOTA_PlayerResource:AddQuest(plyID, quest)
   local name = quest.name

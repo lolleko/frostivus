@@ -33,13 +33,14 @@ function GameMode:OnPlayerPickHero(data)
     hero:ModifyGold(-200, false, 0)
   end
   --AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
+  PlayerResource:AddQuest(hero:GetPlayerOwnerID(), SurviveGame())
   PlayerResource:AddQuest(hero:GetPlayerOwnerID(), StartKillEnemies())
 end
 
 function GameMode:OnHeroSelection(data)
   for _,plyID in pairs(PlayerResource:GetAll()) do
-    PlayerResource:SetHasRandomed(plyID)
-    PlayerResource:GetPlayer(plyID):MakeRandomHeroSelection()
+    --PlayerResource:SetHasRandomed(plyID)
+    --PlayerResource:GetPlayer(plyID):MakeRandomHeroSelection()
   end
 end
 
@@ -47,18 +48,20 @@ function GameMode:OnEntityKilled(data)
   local killedUnit = EntIndexToHScript(data.entindex_killed)
   if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetTeamNumber() == DOTA_TEAM_GOODGUYS) then
     local ownerID = killedUnit:GetPlayerOwnerID()
-    if killedUnit.LumberCapacity then
-      local cap = PlayerResource:GetLumberCapacity(ownerID)
-      PlayerResource:SetLumberCapacity(ownerID, cap - killedUnit.LumberCapacity)
-      if PlayerResource:GetLumber(ownerID) > cap then
-        PlayerResource:SetLumber(cap)
+    if ownerID ~= -1 then
+      if killedUnit.LumberCapacity then
+        local cap = PlayerResource:GetLumberCapacity(ownerID)
+        PlayerResource:SetLumberCapacity(ownerID, cap - killedUnit.LumberCapacity)
+        if PlayerResource:GetLumber(ownerID) > cap then
+          PlayerResource:SetLumber(cap)
+        end
       end
-    end
-    if killedUnit.GoldCapacity then
-      local cap = PlayerResource:GetGoldCapacity(ownerID)
-      PlayerResource:SetGoldCapacity(ownerID, cap - killedUnit.GoldCapacity)
-      if PlayerResource:GetGold(ownerID) > cap then
-        PlayerResource:SetGold(ownerID, cap, true)
+      if killedUnit.GoldCapacity then
+        local cap = PlayerResource:GetGoldCapacity(ownerID)
+        PlayerResource:SetGoldCapacity(ownerID, cap - killedUnit.GoldCapacity)
+        if PlayerResource:GetGold(ownerID) > cap then
+          PlayerResource:SetGold(ownerID, cap, true)
+        end
       end
     end
   end
@@ -67,11 +70,8 @@ end
 
 -- Make sure we dont go over the limit through kill bounties
 function GameMode:GoldFilter(data)
-  local plyID = data.player_id_const
-  local hero = PlayerResource:GetSelectedHeroEntity(plyID)
-  if hero:GetGold() + data.gold > PlayerResource:GetGoldCapacity(plyID) then
-    data.gold = PlayerResource:GetGoldCapacity(plyID) - hero:GetGold()
+  for _, plyID in pairs(PlayerResource:GetAllInTeam(PlayerResource:GetTeam(data.player_id_const))) do
+    PlayerResource:ModifyGold(plyID, data.gold)
   end
-
-	return true
+	return false
 end

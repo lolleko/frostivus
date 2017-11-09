@@ -2,12 +2,21 @@
   width: 100%;
   height: 100%;
   flow-children: down;
-  background-color: #333333AA;
-  transform: translatex( 960px );
+  background-image: url("s2r://panorama/images/hud/reborn/bg_mainshop_psd.vtex");
+  background-size: cover;
+  background-repeat: no-repeat;
+  transform: translatex( 520px );
   transition-property: transform;
   transition-duration: 0.3s;
+  margin-bottom: 200px;
+  margin-top: 64px;
   overflow: clip clip;
   padding: 16px;
+}
+
+.CategoryLabel {
+  font-size: 30px;
+  color: #FEFEFE;
 }
 
 .Category {
@@ -17,7 +26,7 @@
 
 .CategoryRow {
   width: 100%;
-  flow-children: right;
+  flow-children: right-wrap;
   margin-top: 16px;
 }
 

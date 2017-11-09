@@ -17,7 +17,7 @@
 		"MovementSpeed" "0"
 		"MovementTurnRate" "0"
 		"StatusHealth" "1000"
-		"StatusHealthRegen" "1"
+		"StatusHealthRegen" "1.5"
 		"VisionDaytimeRange" "900"
 		"VisionNighttimeRange" "600"
 
@@ -48,9 +48,9 @@
 		"ArmorPhysical" "2"
 		"MagicalResistance" "0"
 		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin" "30.0"
+		"AttackDamageMin" "36.0"
 		"AttackDamageMax" "60.0"
-		"AttackRate" "1.35"
+		"AttackRate" "1.65"
 		"AttackAnimationPoint" "0.5"
 		"AttackAcquisitionRange" "800"
 		"AttackRange" "800"
@@ -60,10 +60,8 @@
 		"RingRadius" "70"
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed" "0"
-		"StatusHealth" "420"
+		"StatusHealth" "250"
 		"StatusHealthRegen" "0.25"
-		"StatusMana" "0"
-		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "1400"
 		"VisionNighttimeRange" "800"
 
@@ -103,8 +101,6 @@
 		"MovementTurnRate" "0"
 		"StatusHealth" "4000"
 		"StatusHealthRegen" "8"
-		"StatusMana" "100"
-		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "1600"
 		"VisionNighttimeRange" "800"
 
@@ -113,7 +109,7 @@
 			"SizeX" "4"
 			"SizeY" "4"
 			"LumberCapacity" "500"
-			"GoldCapacity" "1000"
+			"GoldCapacity" "500"
 			"AcceptGold" "1"
 			"AcceptLumber" "1"
 		}
@@ -138,8 +134,6 @@
 		"MovementTurnRate" "0"
 		"StatusHealth" "2000"
 		"StatusHealthRegen" "8"
-		"StatusMana" "100"
-		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "1600"
 		"VisionNighttimeRange" "800"
 
@@ -172,8 +166,6 @@
 		"MovementTurnRate" "0"
 		"StatusHealth" "4000"
 		"StatusHealthRegen" "5"
-		"StatusMana" "100"
-		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "900"
 		"VisionNighttimeRange" "600"
 
@@ -212,8 +204,6 @@
 		"MovementTurnRate" "0"
 		"StatusHealth" "4000"
 		"StatusHealthRegen" "5"
-		"StatusMana" "100"
-		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "900"
 		"VisionNighttimeRange" "600"
 
@@ -276,8 +266,6 @@
 		"MovementTurnRate" "0"
 		"StatusHealth" "1500"
 		"StatusHealthRegen" "0"
-		"StatusMana" "100"
-		"StatusManaRegen" "0"
 		"VisionDaytimeRange" "900"
 		"VisionNighttimeRange" "600"
 
@@ -324,7 +312,7 @@
 					"0"
 					{
 						"UnitName" "npc_frostivus_lumber_drone"
-						"Interval" "10"
+						"Interval" "20"
 						"MaxAlive" "10"
 						"InitialGoal" "lumber_source"
 						"MoveToGoal" "1"
@@ -377,7 +365,7 @@
 			"SizeY" "10"
 			"Requirements"
 			{
-				"LumberCost" "300"
+				"LumberCost" "200"
 				"GoldCost" "100"
 			}
 			"Upgrade"
@@ -412,7 +400,7 @@
 					"0"
 					{
 						"UnitName" "npc_frostivus_gold_drone"
-						"Interval" "10"
+						"Interval" "20"
 						"MaxAlive" "10"
 						"InitialGoal" "gold_source"
 						"MoveToGoal" "1"
@@ -478,7 +466,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "30"
-						"InitialDelay" "30"
+						"InitialDelay" "60"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -488,7 +476,7 @@
 					"3"
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
-						"Interval" "60"
+						"Interval" "30"
 						"InitialDelay" "30"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
@@ -498,13 +486,13 @@
 					}
 					"4"
 					{
-						"UnitName" "npc_frostivus_dire_ranged_creep"
+						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "60"
-						"InitialDelay" "120"
+						"InitialDelay" "30"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
-						"Spawnpoint" "dire_melee_creep1"
+						"Spawnpoint" "dire_melee_creep4"
 						"ScaleUnits" "1"
 					}
 					"5"
@@ -515,7 +503,18 @@
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
-						"Spawnpoint" "dire_melee_creep2"
+						"Spawnpoint" "dire_melee_creep1"
+						"ScaleUnits" "1"
+					}
+					"6"
+					{
+						"UnitName" "npc_frostivus_dire_ranged_creep"
+						"Interval" "60"
+						"InitialDelay" "120"
+						"MaxAlive" "3"
+						"InitialGoal" "world_center"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_melee_creep3"
 						"ScaleUnits" "1"
 					}
 				}
@@ -565,8 +564,8 @@
 		"AttackDamageMax" "80.0"
 		"AttackRate" "1.75"
 		"AttackAnimationPoint" "0.5"
-		"AttackAcquisitionRange" "700"
-		"AttackRange" "700"
+		"AttackAcquisitionRange" "600"
+		"AttackRange" "650"
 		"ProjectileModel" "particles/base_attacks/ranged_badguy.vpcf"
 		"ProjectileSpeed" "1250"
 		"BountyXP" "8"
@@ -598,8 +597,8 @@
 					"0"
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
-						"Interval" "120"
-						"InitialDelay" "60"
+						"Interval" "140"
+						"InitialDelay" "70"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -609,8 +608,8 @@
 					"1"
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
-						"Interval" "60"
-						"InitialDelay" "60"
+						"Interval" "70"
+						"InitialDelay" "70"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -620,8 +619,8 @@
 					"2"
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
-						"Interval" "60"
-						"InitialDelay" "60"
+						"Interval" "70"
+						"InitialDelay" "140"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -631,12 +630,23 @@
 					"3"
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
-						"Interval" "120"
-						"InitialDelay" "60"
+						"Interval" "70"
+						"InitialDelay" "70"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
 						"Spawnpoint" "frost_melee_creep3"
+						"ScaleUnits" "1"
+					}
+					"4"
+					{
+						"UnitName" "npc_frostivus_frost_melee_creep"
+						"Interval" "140"
+						"InitialDelay" "70"
+						"MaxAlive" "3"
+						"InitialGoal" "world_center"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_melee_creep4"
 						"ScaleUnits" "1"
 					}
 				}
@@ -654,8 +664,8 @@
 		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
 		"RingRadius" "70"
-		"AttackDamageMin" "40.0"
-		"AttackDamageMax" "50.0"
+		"AttackDamageMin" "30.0"
+		"AttackDamageMax" "40.0"
 		"AttackRate" "2.0"
 		"AttackAnimationPoint" "1.0"
 		"AttackAcquisitionRange" "300"
@@ -667,5 +677,30 @@
 		"BountyGoldMax" "3"
 		"BountyXP" "4"
 		"vscripts" "entity_scripts/basic_ai.lua"
+	}
+	// boss units
+	"npc_frostivus_boss_roshan"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/roshan/roshan.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"RingRadius" "70"
+		"AttackDamageMin" "100.0"
+		"AttackDamageMax" "120.0"
+		"AttackRate" "2.0"
+		"AttackAnimationPoint" "1.0"
+		"AttackAcquisitionRange" "300"
+		"StatusHealth" "4000"
+		"StatusHealthRegen" "2"
+		"AttackRange" "250"
+		"ArmorPhysical" "2"
+
+		"Ability1" "frostivus_roshan_fire_breath"
+		"Ability2" "frostivus_roshan_slam"
+		"Ability3" "frostivus_roshan_immortality"
+		"vscripts" "entity_scripts/units/boss_roshan.lua"
 	}
 }

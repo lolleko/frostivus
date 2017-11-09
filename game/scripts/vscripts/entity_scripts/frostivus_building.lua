@@ -75,7 +75,7 @@ function Spawn(entityKV)
       local unitDataExt = table.merge({}, unitData)
       -- randomize first interval a bit
       local initalDelay = unitDataExt.InitialDelay or 0
-      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay + RandomInt(0, unitDataExt.Interval / 4)
+      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay + RandomInt(0, unitDataExt.Interval / 8)
       unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
       unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
       unitDataExt.SpawnedUnits = {}
@@ -182,7 +182,6 @@ function SpawnerThink()
             end
             if unitData.ScaleUnits then
               local scalar = GM:GetDifficultyScalar()
-              print(scalar)
               unit:SetMaxHealth(unit:GetMaxHealth() + math.floor(unit:GetMaxHealth() * scalar/800))
               unit:SetHealth(unit:GetMaxHealth())
               unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/900))

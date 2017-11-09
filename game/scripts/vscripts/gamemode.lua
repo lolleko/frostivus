@@ -56,8 +56,10 @@ function GameMode:GetDifficultyScalar()
 			scale = scale + level * 2
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
-			scale = scale + 60
-			scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
+			if PlayerResource:HasSelectedHero(plyID) then
+				scale = scale + 60
+				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
+			end
 		end
 		self.DifficultyScale = scale
 		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
@@ -87,4 +89,19 @@ function GameMode:GetBuildingRange(plyID)
 		return 1280
 	end
 	return 2240
+end
+
+function GameMode:GetStage()
+  return self.stage or 0
+end
+
+CDOTA_PlayerResource:AddPlayerData("GameStage", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
+
+function GameMode:SetStage(stage)
+  self.stage  = stage
+	-- we use playerdata to sync the stage to the client
+	-- this will ensure the stage stil exists after a reconect
+	for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+		PlayerResource:SetGameStage(plyID, stage)
+	end
 end

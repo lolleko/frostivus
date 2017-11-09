@@ -8,26 +8,32 @@ FrostivusInvestments
   "npc_frostivus_defense_wall_tier1"
   {
     "Category" "Defense"
+    "BuildingID" "0"
   }
   "npc_frostivus_defense_lookout_tier1"
   {
     "Category" "Defense"
+    "BuildingID" "1"
   }
   // RESOURCE
   "npc_frostivus_lumber_camp_tier1"
   {
     "Category" "Resources"
+    "BuildingID" "100"
   }
   "npc_frostivus_lumber_storage_tier1"
   {
     "Category" "Resources"
+    "BuildingID" "101"
   }
   "npc_frostivus_gold_camp_tier1"
   {
     "Category" "Resources"
+    "BuildingID" "102"
   }
   "npc_frostivus_gold_storage_tier1"
   {
     "Category" "Resources"
+    "BuildingID" "103"
   }
 }

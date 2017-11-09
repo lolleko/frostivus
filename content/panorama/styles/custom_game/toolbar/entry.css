@@ -1,20 +1,38 @@
 .MenuEntryRoot {
-  width: 160px;
-  height: 190px;
-  padding-left: 10px;
+  margin-left: 8px;
 }
 
 #ButtonWrap {
   flow-children: down;
+  width: 140px;
+  height: 200px;
+}
+
+.Locked {
+  wash-color: #AA3355;
 }
 
 #StatInfo {
   flow-children: right;
+  width: 100%;
 }
 
-.StatInfoIcon {
+.ResourcePanel {
+  flow-children: right;
+}
+
+#BuildingImage {
+  width: 140px;
+  height: 140px;
+  border: 4px solid #333333;
+  horizontal-align: center;
+  background-size: 100% 100%;
+}
+
+.ResourceIcon {
   background-size: 100% 100%;
   vertical-align: center;
+  margin-right: 2px;
   width: 24px;
   height: 24px;
 }
@@ -25,7 +43,7 @@ Label {
 }
 
 #Name {
-  font-size: 32px;
+  font-size: 28px;
 }
 
 #LumberIcon {
@@ -34,4 +52,8 @@ Label {
 
 #GoldIcon {
   background-image: url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex");
+}
+
+#GoldPanel {
+  horizontal-align: right;
 }
