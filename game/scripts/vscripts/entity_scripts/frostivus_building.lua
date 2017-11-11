@@ -34,13 +34,17 @@ function Spawn(entityKV)
       local scale = dynMdl.ModelScale or 1
       local origin = thisEntity:GetOrigin() + tovector(dynMdl.Offset)
       local color
-      if dynMdl.color then
+      if dynMdl.Color then
         -- TODO somehow retrieve playercolor
-        --if dynMdl.color == "!PlayerColor" then
-          --color = PlayerResource:GetCustomPlayerColor(ownerID)
-        --end
+        if dynMdl.Color == "!PlayerColor" then
+          color = PlayerResource:GetPlayerColor(ownerID)
+        end
       end
-      local propDyn = SpawnEntityFromTableSynchronous("prop_dynamic", {model = dynMdl.Model, origin = origin, angles = tovector(dynMdl.Angles), DefaultAnim = dynMdl.Sequence, rendercolor = color})
+      local propDyn = SpawnEntityFromTableSynchronous("prop_dynamic", {model = dynMdl.Model, origin = origin, angles = tovector(dynMdl.Angles), DefaultAnim = dynMdl.Sequence})
+      if color then
+        propDyn:SetRenderColor(color.x, color.y, color.z)
+      end
+      print(color)
       propDyn:SetModelScale(scale)
       propDyn:SetParent(thisEntity, nil)
     end
@@ -60,8 +64,7 @@ function Spawn(entityKV)
 
   -- expose this function
   function thisEntity:OnConstructionCompleted()
-    local template = Entities:FindByName(nil, "tree_shop_template")
-    local newshop = SpawnEntityFromTableSynchronous("trigger_shop", {origin = thisEntity:GetAbsOrigin(), shoptype = 1, model=template:GetModelName()})
+
   end
 
   if thisEntity.bIsWall then

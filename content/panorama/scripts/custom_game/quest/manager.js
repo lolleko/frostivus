@@ -24,6 +24,8 @@
   GameEvents.Subscribe('frostivus_quest_completed', function (e) {
     var questPanel = questPanels[e.questName]
     questPanel.Complete()
+    var notification = CreateLayout($.GetContextPanel(), e.name + 'Completed', 'file://{resources}/layout/custom_game/quest/notification.xml')
+    notification.LoadQuest(e)
   })
 
   GameEvents.Subscribe('frostivus_quest_failed', function (e) {

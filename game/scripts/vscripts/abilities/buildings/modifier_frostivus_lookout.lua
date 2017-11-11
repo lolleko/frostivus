@@ -6,8 +6,12 @@ function modifier_frostivus_lookout:OnCreated(e)
 	end
 end
 
+function modifier_frostivus_lookout:IsHidden()
+	return true
+end
+
 function modifier_frostivus_lookout:OnDestroy()
 	if IsServer() then
-    SafeRemoveEntityDelayed(self.LookoutSentry, 3)
+    SafeRemoveEntityDelayed(self.LookoutSentry, 4)
 	end
 end

@@ -33,7 +33,6 @@ function GameMode:OnPlayerPickHero(data)
     hero:ModifyGold(-200, false, 0)
   end
   --AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
-  PlayerResource:AddQuest(hero:GetPlayerOwnerID(), SurviveGame())
   PlayerResource:AddQuest(hero:GetPlayerOwnerID(), StartKillEnemies())
 end
 

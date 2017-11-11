@@ -66,16 +66,18 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
     local step = animDistance / (time * fps)
     local startOrigin = Vector(origin.x, origin.y, origin.z - animDistance)
 
-    print(origin)
+    local lookoutSentry
+    if building.IsLookout then
+      lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin, scale = 0.8})
+    end
 
     CreateUnitByNameAsync(unitName, startOrigin, false, owner, owner, self:GetTeam(plyID), function(unit)
       unit:SetNeverMoveToClearSpace(true)
       table.insert(self:GetBuildingList(plyID), unit)
       table.insert(Entities:GetBuildingListRaw(), unit)
-      local lookoutSentry
       if building.IsLookout then
-        lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin + Vector(0, 0, 180), scale = 0.85})
-        lookoutSentry:SetParent(unit, nil)
+        ApplyStun(unit, time)
+        unit:AddNewModifier(unit, nil, "modifier_frostivus_lookout", {lookoutSentry = lookoutSentry:GetEntityIndex()})
       end
 
       if randomAngles then
@@ -94,12 +96,11 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
       unit:SetContextThink("contructionThink", function()
         if math.abs(origin.z - unit:GetOrigin().z) <= step then
           unit:SetOrigin(origin)
+          if lookoutSentry then
+            lookoutSentry:SetOrigin(origin - Vector(0, 0, 220))
+          end
           ParticleManager:DestroyParticle(constructionParticle, false)
           ParticleManager:ReleaseParticleIndex(constructionParticle)
-          if building.IsLookout then
-            lookoutSentry:SetParent(nil, nil)
-            unit:AddNewModifier(unit, nil, "modifier_frostivus_lookout", {lookoutSentry = lookoutSentry:GetEntityIndex()})
-          end
           unit:OnConstructionCompleted()
           return
         end
@@ -107,11 +108,18 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
           unit:Heal(unit:GetMaxHealth() / (time * fps), unit)
           startOrigin.z = startOrigin.z + step
           unit:SetOrigin(startOrigin)
+          if lookoutSentry then
+            lookoutSentry:SetOrigin(startOrigin - Vector(0, 0, 220))
+          end
           return 1/fps
         end
       end, 0)
       for _, psos in pairs(blockers) do
-        psos:SetParent(unit, nil)
+        if lookoutSentry then
+          psos:SetParent(lookoutSentry, nil)
+        else
+          psos:SetParent(unit, nil)
+        end
       end
       if callback then
         callback(unit)
@@ -142,6 +150,24 @@ function CDOTA_PlayerResource:FindAllBuildingsWithName(plyID, unitName)
     end
   end
   return units
+end
+
+function CDOTA_PlayerResource:GetPlayerColor(plyID)
+  if plyID == 0 then
+    return Vector(57, 107, 212)
+  end
+  if plyID == 1 then
+    return Vector(109, 226, 176)
+  end
+  if plyID == 2 then
+    return Vector(161, 12, 159)
+  end
+  if plyID == 3 then
+    return Vector(219, 217, 46)
+  end
+  if plyID == 4 then
+    return Vector(215, 106, 19)
+  end
 end
 
 

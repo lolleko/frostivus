@@ -52,8 +52,10 @@ function GameMode:GetDifficultyScalar()
 	if not self.NextDifficultyCalculation or self.NextDifficultyCalculation <= GameRules:GetGameTime() then
 		local scale = 1
 		for _, bld in pairs(Entities:GetAllBuildings()) do
-			local level = bld:GetLevel()
-			scale = scale + level * 2
+			if IsValidEntity(bld) then
+				local level = bld:GetLevel()
+				scale = scale + level * 5
+			end
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
 			if PlayerResource:HasSelectedHero(plyID) then

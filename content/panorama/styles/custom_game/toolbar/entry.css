@@ -4,8 +4,8 @@
 
 #ButtonWrap {
   flow-children: down;
-  width: 140px;
-  height: 200px;
+  width: 110px;
+  height: 170px;
 }
 
 .Locked {
@@ -22,8 +22,8 @@
 }
 
 #BuildingImage {
-  width: 140px;
-  height: 140px;
+  width: 110px;
+  height: 110px;
   border: 4px solid #333333;
   horizontal-align: center;
   background-size: 100% 100%;
@@ -39,18 +39,22 @@
 
 Label {
   color: #FEFEFE;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 #Name {
-  font-size: 28px;
+  font-size: 14px;
 }
 
 #LumberIcon {
+  height: 20px;
+  width: 20px;
   background-image: url("file://{images}/custom_game/icons/lumber_icon.psd");
 }
 
 #GoldIcon {
+  height: 20px;
+  width: 20px;
   background-image: url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex");
 }
 

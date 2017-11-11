@@ -1,0 +1,88 @@
+.QuestNotification {
+  background-image: url("s2r://panorama/images/hud/reborn/ability_bg_psd.vtex");
+  width: 400px;
+  height: 160px;
+  horizontal-align: center;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  transform: translatey( -400px );
+  transition-property: transform;
+  transition-duration: 0.8s;
+  flow-children: down;
+}
+
+.QuestNotificationPopup{
+  transform: translatey( 0px );
+}
+
+Label {
+  font-size: 20px;
+  color: #EEEEEE;
+}
+
+#NotificationHeader {
+  height: 100px;
+  width: 100%;
+  padding: 2px;
+  flow-children: down;
+}
+
+#NotificationRewards {
+  height: 60px;
+  horizontal-align: center;
+  flow-children: right;
+}
+
+#NotificationQuestCompleted {
+  horizontal-align: center;
+  font-size: 26px;
+  color: #81C784;
+}
+
+#NotificationQuestName {
+  font-size: 20px;
+  margin-top: 4px;
+  horizontal-align: center;
+  color: #FAB937;
+}
+
+#NotificationQuestDescription {
+  margin-top: 2px;
+  padding: 2px;
+  font-size: 16px;
+}
+
+.NotificationReward {
+  height: 60px;
+  width: 100px;
+  border-radius: 8px;
+  background-color: #333344AA;
+  margin: 5px;
+  margin-left: 16px;
+  margin-bottom: 10px;
+  padding: 2px;
+  flow-children: right;
+}
+
+.NotificationRewardLabel {
+  font-size: 24px;
+  vertical-align: middle;
+}
+
+.NotificationIcon {
+  height: 50px;
+  width: 50px;
+  background-size: 100% 100%;
+}
+
+.NotificationIconlumber {
+  background-image: url("file://{images}/custom_game/icons/lumber_icon.psd");
+}
+
+.NotificationIcongold {
+  background-image: url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex");
+}
+
+.NotificationIconxp {
+  background-image: url("file://{images}/custom_game/icons/xp_icon.png");
+}

@@ -2,7 +2,7 @@
   var goalPanels = {}
   $.GetContextPanel().LoadQuest = function (quest) {
     $('#Name').text = quest.name
-    $('#Description').text = quest.description
+    $('#Description').text = quest.name + '_Description'
     for (var valueName in quest.values) {
       var goalPanel = CreateLayout($('#Goals'), valueName, 'file://{resources}/layout/custom_game/quest/goal.xml')
       goalPanel.LoadGoal(valueName, quest.values[valueName], quest.valueGoals[valueName])

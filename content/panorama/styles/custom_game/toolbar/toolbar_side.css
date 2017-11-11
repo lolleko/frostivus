@@ -29,5 +29,5 @@
 
 .Highlight {
   box-shadow: #ffd7008f -6px -6px 36px 12px;
-  background-color: gradient( linear, 0% 0%, 0% 100%, from( #ffd700dd ), to( #2B3445dd ) );
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #ffd700dd ), to( #ffd7008f ) );
 }

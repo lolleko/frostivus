@@ -1,0 +1,18 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/quest/notification.css" />
+	</styles>
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/quest/notification.js" />
+	</scripts>
+	<Panel class="QuestNotification" hittest="false">
+		<Panel id="NotificationHeader">
+      <Label id="NotificationQuestCompleted" text="Quest completed" />
+      <Label id="NotificationQuestName" text="name" />
+      <Label id="NotificationQuestDescription" text="" />
+    </Panel>
+    <Panel id="NotificationRewards">
+
+    </Panel>
+	</Panel>
+</root>

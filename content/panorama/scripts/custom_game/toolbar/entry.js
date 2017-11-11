@@ -1,6 +1,6 @@
 (function () {
   $.GetContextPanel().LoadBuilding = function (buildingName, buildingData) {
-    $('#Name').text = buildingName
+    $('#Name').text = $.Localize('#' + buildingName)
     $('#BuildingImage').style.backgroundImage = 'url("file://{images}/custom_game/buildings/' + buildingName + '.psd")'
     if (buildingData.Requirements) {
       if (buildingData.Requirements.LumberCost) {

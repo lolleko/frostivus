@@ -19,7 +19,7 @@ function QuestBase:SetValue(valueName, value)
 end
 
 function QuestBase:Complete()
-  local completeData = {questName = self.name}
+  local completeData = {questName = self.name, rewards = self.rewards}
   CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), "frostivus_quest_completed", completeData)
   if self.rewards then
     if self.rewards.resource then
@@ -81,27 +81,9 @@ end
 
 local questList = {}
 
-SurviveGame = class(
-  {
-    name = "frostivus_quest_survive_game",
-    description = "frostivus_quest_survive_game_description",
-    values = {
-      frostivus_quest_goal_spirit_tree_protect = 0,
-      frostivus_quest_goal_kill_final_boss = 0
-    },
-    valueGoals = {
-      frostivus_quest_goal_spirit_tree_protect = 1,
-      frostivus_quest_goal_kill_final_boss = 1
-    },
-  },
-  nil,
-  QuestBase
-)
-
 StartKillEnemies = class(
   {
     name = "frostivus_quest_starter_kill_enemies",
-    description = "frostivus_quest_starter_kill_enemies_description",
     values = {
       frostivus_quest_goal_killed_enemies = 0
     },
@@ -137,7 +119,6 @@ end
 StartLumberCamp = class(
   {
     name = "frostivus_quest_starter_lumber_camp",
-    description = "frostivus_quest_starter_lumber_camp_description",
     values = {
       frostivus_quest_goal_lumber_camp_constructed = 0
     },
@@ -175,7 +156,6 @@ end
 StartBuildSentry = class(
   {
     name = "frostivus_quest_starter_build_sentry",
-    description = "frostivus_quest_starter_build_sentry_description",
     values = {
       frostivus_quest_goal_sentry_constructed = 0
     },
@@ -212,7 +192,6 @@ end
 StartBuildWalls = class(
   {
     name = "frostivus_quest_starter_build_walls",
-    description = "frostivus_quest_starter_build_walls_description",
     values = {
       frostivus_quest_goal_walls_constructed = 0
     },
@@ -242,5 +221,42 @@ function StartBuildWalls:OnStart()
 end
 
 function StartBuildWalls:OnDestroy()
+  StopListeningToGameEvent(self.npcSpawnedEventHandle)
+  PlayerResource:AddQuest(self.plyID, StartGoldCamp())
+end
+
+StartGoldCamp = class(
+  {
+    name = "frostivus_quest_starter_gold_camp",
+    values = {
+      frostivus_quest_goal_gold_camp_constructed = 0
+    },
+    valueGoals = {
+      frostivus_quest_goal_gold_camp_constructed = 1
+    },
+    rewards = {
+      resource = {
+        gold = 200,
+        lumber = 100,
+        xp = 100,
+      }
+    },
+  },
+  nil,
+  QuestBase
+)
+
+function StartGoldCamp:OnStart()
+  self.npcSpawnedEventHandle = ListenToGameEvent("npc_spawned", function(event)
+    local spawnedUnit = EntIndexToHScript( event.entindex )
+  	if spawnedUnit ~= nil then
+  		if spawnedUnit:GetPlayerOwnerID() == self.plyID and spawnedUnit:GetUnitName() == "npc_frostivus_gold_camp_tier1" then
+        self:ModifyValue("frostivus_quest_goal_gold_camp_constructed", 1)
+  		end
+  	end
+  end, nil)
+end
+
+function StartGoldCamp:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
 end

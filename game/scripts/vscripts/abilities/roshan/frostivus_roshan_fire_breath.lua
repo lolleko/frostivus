@@ -13,7 +13,7 @@ function frostivus_roshan_fire_breath:OnChannelThink(interval)
   direction = direction:Normalized()
   -- spawn projectile
   if self.nextParticle == 0 then
-    local distance = 600
+    local distance = self:GetSpecialValueFor("distance")
     ProjectileManager:CreateLinearProjectile({
       Ability = self,
       --EffectName = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf",

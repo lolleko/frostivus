@@ -77,6 +77,11 @@
 				"var_type" "FIELD_INTEGER"
 				"damage" "200"
 			}
+			"02"
+			{
+				"var_type" "FIELD_INTEGER"
+				"distance" "700"
+			}
 		}
 	}
 	"frostivus_roshan_slam"
@@ -86,8 +91,8 @@
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityCastRange" "250"
-		"AbilityCastPoint" "1.5"
+		"AbilityCastRange" "400"
+		"AbilityCastPoint" "0.5"
 		"AbilityCooldown" "15.0"
 
 		"AbilitySpecial"

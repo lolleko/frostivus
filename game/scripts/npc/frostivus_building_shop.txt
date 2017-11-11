@@ -36,4 +36,9 @@ FrostivusInvestments
     "Category" "Resources"
     "BuildingID" "103"
   }
+  "npc_frostivus_market_tier1"
+  {
+    "Category" "Resources"
+    "BuildingID" "104"
+  }
 }

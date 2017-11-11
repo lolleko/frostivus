@@ -9,14 +9,40 @@ function OrderThink()
 
   local slam = thisEntity:FindAbilityByName("frostivus_roshan_slam")
   if slam:IsCooldownReady() and GameRules:GetGameTime() > thisEntity.globalCooldown then
-    thisEntity:CastAbilityNoTarget(slam, -1)
-    thisEntity.globalCooldown = GameRules:GetGameTime() + 2
+    local units = FindUnitsInRadius(
+        thisEntity:GetTeam(),
+        thisEntity:GetOrigin(),
+        nil,
+        slam:GetSpecialValueFor("radius"),
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_CLOSEST,
+        false
+    )
+    if #units > 0 and IsValidEntity(units[1]) then
+      thisEntity:CastAbilityNoTarget(slam, -1)
+      thisEntity.globalCooldown = GameRules:GetGameTime() + 2
+    end
   end
 
   local fireBreath = thisEntity:FindAbilityByName("frostivus_roshan_fire_breath")
   if fireBreath:IsCooldownReady() and GameRules:GetGameTime() > thisEntity.globalCooldown then
-    thisEntity:CastAbilityOnPosition(thisEntity:GetOrigin(), fireBreath, -1)
-    thisEntity.globalCooldown = GameRules:GetGameTime() + 4
+    local units = FindUnitsInRadius(
+        thisEntity:GetTeam(),
+        thisEntity:GetOrigin(),
+        nil,
+        fireBreath:GetSpecialValueFor("distance"),
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_CLOSEST,
+        false
+    )
+    if #units > 0 and IsValidEntity(units[1]) then
+      thisEntity:CastAbilityOnPosition(units[1]:GetOrigin(), fireBreath, -1)
+      thisEntity.globalCooldown = GameRules:GetGameTime() + 4
+    end
   end
 
   -- second phase
