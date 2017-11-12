@@ -68,6 +68,7 @@
 			{
 				"LumberCost" "300"
 				"GoldCost" "100"
+				"Stage" "1"
 			}
 			"Upgrade"
 			{
@@ -156,6 +157,7 @@
 			{
 				"GoldCost" "200"
 				"LumberCost" "200"
+				"Stage" "1"
 			}
 			"Upgrade"
 			{
@@ -188,6 +190,7 @@
 
 		"Building"
 		{
+			"IsSpiritTree" "1"
 			"SizeX" "4"
 			"SizeY" "4"
 			"LumberCapacity" "500"
@@ -221,6 +224,7 @@
 
 		"Building"
 		{
+		  "IsSpiritTree" "1"
 			"SizeX" "4"
 			"SizeY" "4"
 			"LumberCapacity" "500"
@@ -253,17 +257,99 @@
 
 		"Building"
 		{
-			"SizeX" "8"
-			"SizeY" "8"
+			"SizeX" "6"
+			"SizeY" "6"
 			"LumberCapacity" "500"
 			"AcceptLumber" "1"
 			"Requirements" {
 				"GoldCost" "400"
 				"LumberCost" "300"
+				"MaxAlive" "1"
 			}
 			"Upgrade"
 			{
 				"UnitName" "npc_frostivus_lumber_storage_tier2"
+			}
+			"DynamicModels"
+			{
+				"0"
+				{
+					"Name" "penguin_location"
+					"Offset" "-118 -162 2"
+					"Angles" "0 302 0"
+					"Model"	"models/creeps/ice_biome/penguin/penguin.vmdl"
+					"ModelScale" "1.9"
+					"Sequence" "penguin_idle"
+				}
+				"1"
+				{
+					"Name" "banner_location"
+					"Offset" "184.109 173.789 110"
+					"Angles" "0 1.97761 0"
+					"Model"	"models/props_teams/banner_radiant.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "1"
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_lumber_storage_tier2"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/buildings/lumber_storage/lumber_storage_tier2.vmdl"
+		"ModelScale" "1"
+		"Level" "1"
+		"ArmorPhysical" "15"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BountyGoldMin" "0.0"
+		"BountyGoldMax" "0.0"
+		"BoundsHullName" "DOTA_HULL_SIZE_HUGE"
+		"RingRadius" "200"
+		"CollisionSize" "100"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"MovementTurnRate" "0"
+		"StatusHealth" "2500"
+		"StatusHealthRegen" "1"
+		"VisionDaytimeRange" "900"
+		"VisionNighttimeRange" "600"
+
+		"Building"
+		{
+			"SizeX" "6"
+			"SizeY" "6"
+			"LumberCapacity" "1500"
+			"AcceptLumber" "1"
+			"Requirements" {
+				"GoldCost" "1000"
+				"LumberCost" "200"
+				"MaxAlive" "1"
+			}
+			"Upgrade"
+			{
+				"UnitName" "npc_frostivus_lumber_storage_tier3"
+			}
+			"DynamicModels"
+			{
+				"0"
+				{
+					"Name" "penguin_location"
+					"Offset" "-118 -162 2"
+					"Angles" "0 302 0"
+					"Model"	"models/creeps/ice_biome/penguin/penguin.vmdl"
+					"ModelScale" "1.9"
+					"Sequence" "penguin_idle"
+				}
+				"1"
+				{
+					"Name" "banner_location"
+					"Offset" "184.109 173.789 110"
+					"Angles" "0 1.97761 0"
+					"Model"	"models/props_teams/banner_radiant.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "1"
+				}
 			}
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
@@ -293,12 +379,13 @@
 		{
 			"SizeX" "6"
 			"SizeY" "6"
-			"GoldCapacity" "500"
+			"GoldCapacity" "1000"
 			"AcceptGold" "1"
 			"Requirements"
 			{
 				"LumberCost" "400"
 				"GoldCost" "400"
+				"MaxAlive" "1"
 			}
 			"Upgrade"
 			{
@@ -359,6 +446,8 @@
 			{
 				"LumberCost" "1500"
 				"GoldCost" "1500"
+				"Stage" "1"
+				"MaxAlive" "1"
 			}
 			"Upgrade"
 			{
@@ -417,6 +506,7 @@
 			"Requirements"
 			{
 				"GoldCost" "100"
+				"MaxAlive" "1"
 			}
 			"Upgrade"
 			{
@@ -501,6 +591,8 @@
 			{
 				"GoldCost" "1000"
 				"LumberCost" "200"
+				"MaxAlive" "1"
+				"Stage" "1"
 			}
 			"Upgrade"
 			{
@@ -616,6 +708,7 @@
 			{
 				"LumberCost" "200"
 				"GoldCost" "100"
+				"MaxAlive" "1"
 			}
 			"Upgrade"
 			{
@@ -700,8 +793,10 @@
 			"SizeY" "8"
 			"Requirements"
 			{
-				"LumberCost" "200"
-				"GoldCost" "100"
+				"LumberCost" "1000"
+				"GoldCost" "1300"
+				"Stage" "1"
+				"MaxAlive" "1"
 			}
 			"Upgrade"
 			{
@@ -1199,6 +1294,81 @@
 		"vscripts" "entity_scripts/units/frost_ranged_creep.lua"
 	}
 	// boss units
+	"npc_frostivus_cheese_dragon"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/neutral_creeps/n_creep_dragonspawn_a/n_creep_dragonspawn_a.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"RingRadius" "70"
+		"AttackDamageMin" "56.0"
+		"AttackDamageMax" "58.0"
+		"AttackRate" "1.3"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "700"
+		"AttackRange" "700"
+		"StatusHealth" "900"
+		"StatusHealthRegen" "4"
+		"ArmorPhysical" "8"
+
+		"Ability1" "roshan_spell_block"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Quest"
+				{
+					"Item"
+					{
+						"1" "item_roshan_food_cheese"
+					}
+					"Chance" "100"
+				}
+			}
+		}
+	}
+
+	"npc_frostivus_cheese_lizard"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/neutral_creeps/n_creep_thunder_lizard/n_creep_thunder_lizard_big.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"RingRadius" "90"
+		"AttackDamageMin" "62.0"
+		"AttackDamageMax" "64.0"
+		"AttackRate" "1.6"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "200"
+		"AttackRange" "200"
+		"StatusHealth" "1400"
+		"StatusHealthRegen" "4"
+		"ArmorPhysical" "8"
+
+		"Ability1" "roshan_bash"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Quest"
+				{
+					"Item"
+					{
+						"1" "item_roshan_food_chicken"
+					}
+					"Chance" "100"
+				}
+			}
+		}
+	}
+
+	// boss units
 	"npc_frostivus_boss_roshan"
 	{
 		"BaseClass" "npc_dota_creature"
@@ -1210,18 +1380,24 @@
 		"RingRadius" "70"
 		"AttackDamageMin" "100.0"
 		"AttackDamageMax" "120.0"
-		"AttackRate" "1.3"
-		"AttackAnimationPoint" "1.0"
+		"AttackRate" "2"
+		"AttackAnimationPoint" "0.6"
 		"AttackAcquisitionRange" "300"
 		"AttackRange" "300"
-		"StatusHealth" "4000"
-		"StatusHealthRegen" "2"
-		"AttackRange" "250"
-		"ArmorPhysical" "8"
+		"StatusHealth" "8000"
+		"StatusHealthRegen" "32"
+		"ArmorPhysical" "18"
+		"VisionDaytimeRange" "1400"
+		"VisionNighttimeRange" "1400"
+
+		"MinimapIcon"               "minimap_roshancamp"
+		"MinimapIconSize"           "500"
 
 		"Ability1" "frostivus_roshan_fire_breath"
 		"Ability2" "frostivus_roshan_slam"
 		"Ability3" "frostivus_roshan_immortality"
+		"Ability4" "roshan_bash"
+		"Ability5" "roshan_spell_block"
 		"vscripts" "entity_scripts/units/boss_roshan.lua"
 	}
 }

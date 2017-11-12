@@ -8,6 +8,7 @@ function Spawn(entityKV)
 
   AddSpawnProperty(thisEntity, "IsWall", "bool", false, thisEntity.Building, "bIsWall")
   AddSpawnProperty(thisEntity, "IsLookout", "bool", false, thisEntity.Building, "bIsLookout")
+  AddSpawnProperty(thisEntity, "IsSpiritTree", "bool", false, thisEntity.Building, "bIsSpiritTree")
   AddSpawnProperty(thisEntity, "IsSpawner", "bool", false, thisEntity.Building, "bIsSpawner")
 
   AddSpawnProperty(thisEntity, "AcceptGold", "bool", false, thisEntity.Building, "bAcceptGold")
@@ -27,6 +28,10 @@ function Spawn(entityKV)
 
   function thisEntity:IsBuilding()
     return true
+  end
+
+  function thisEntity:IsSpiritTree()
+    return thisEntity.bIsSpiritTree
   end
 
   if thisEntity.Building.DynamicModels then

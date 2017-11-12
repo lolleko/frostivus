@@ -16,6 +16,10 @@ function CDOTA_BaseNPC:IsWall()
   return false
 end
 
+function CDOTA_BaseNPC:IsSpiritTree()
+  return false
+end
+
 function CDOTA_BaseNPC:IsDefenseBuilding()
   return false
 end

@@ -54,9 +54,9 @@ function OrderThink()
       -- move for at least 7 seconds
       thisEntity.globalCooldown = GameRules:GetGameTime() + 7
     else
-      -- TODO add chance here to ranomly bash down a building
+      -- TODO add chance here to randomly bash down a building
       thisEntity:MoveToPositionAggressive(tree:GetOrigin())
-      thisEntity.globalCooldown = GameRules:GetGameTime() + 10
+      thisEntity.globalCooldown = GameRules:GetGameTime() + 4
     end
   end
 

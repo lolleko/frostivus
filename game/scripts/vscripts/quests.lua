@@ -258,7 +258,59 @@ end
 
 function StartGoldCamp:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
-  PlayerResource:AddQuest(self.plyID, KillRoshan())
+  GM:AddQuest(SummonRoshan)
+end
+
+SummonRoshan = class(
+  {
+    name = "frostivus_quest_summon_roshan",
+    values = {
+      frostivus_quest_goal_summon_roshan_chicken = 0,
+      frostivus_quest_goal_summon_roshan_cheese = 0
+    },
+    valueGoals = {
+      frostivus_quest_goal_summon_roshan_chicken = 5,
+      frostivus_quest_goal_summon_roshan_cheese = 5
+    },
+    rewards = {
+      resource = {
+        gold = 200,
+        lumber = 100,
+        xp = 100,
+      }
+    },
+  },
+  nil,
+  QuestBase
+)
+
+function SummonRoshan:OnStart()
+  local spawnPoints = Entities:FindAllByName("cheese_dragon_spawn")
+  -- not all spawns will be used os shuffle a bit
+  table.shuffle(spawnPoints)
+  local dragonCount = 5
+  local lizardCount = 5
+  for _, spawnPoint in pairs(spawnPoints) do
+    if dragonCount ~= 0 then
+      CreateUnitByNameAsync("npc_frostivus_cheese_dragon", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function()
+      end)
+      dragonCount = dragonCount - 1
+    elseif lizardCount ~= 0 then
+      CreateUnitByNameAsync("npc_frostivus_cheese_lizard", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function()
+      end)
+      lizardCount = lizardCount - 1
+    end
+  end
+  -- Ping pit and reveal fog
+  -- TODO ping is broken? maybe handle with custom event
+  local pitOrigin = Entities:FindByName(nil, "roshan_bones_skull"):GetOrigin()
+  MinimapEvent(DOTA_TEAM_GOODGUYS, PlayerResource:GetSelectedHeroEntity(self.plyID), pitOrigin.x, pitOrigin.y, DOTA_MINIMAP_EVENT_HINT_LOCATION, 5)
+
+  AddFOWViewer(DOTA_TEAM_GOODGUYS, pitOrigin + Vector(0, 0, 80), 800, 3, false)
+end
+
+function SummonRoshan:OnDestroy()
+  GM:AddQuest(KillRoshan)
 end
 
 KillRoshan = class(

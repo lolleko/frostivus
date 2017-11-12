@@ -9,6 +9,10 @@ function modifier_frostivus_spirit_tree_regen:OnCreated(e)
 	ParticleManager:SetParticleControl(smoke, 1, Vector(self.radius, self.radius, self.radius))
 end
 
+function modifier_frostivus_spirit_tree_regen:IsHidden()
+	return true
+end
+
 function modifier_frostivus_spirit_tree_regen:IsAura()
 	return true
 end

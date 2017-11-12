@@ -1,15 +1,17 @@
 CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_PLAYER, {})
 
-function CDOTA_PlayerResource:AddQuest(plyID, quest)
+function CDOTA_PlayerResource:AddQuest(plyID, quest, force)
+  local questList = self:GetQuestList(plyID)
+  -- prevent adding the same quest multiple times by default
+  if not force and questList[quest.name] then return end
   local name = quest.name
   quest.plyID = plyID
-  local questList = self:GetQuestList(plyID)
   questList[quest.name] = quest
   if quest.OnStart then
     quest:OnStart()
   end
   if quest.timeLimit then
-    self:GetPlayer(plyID):SetContextThink("frostivus_quest_" .. name, function()
+    GameRules:GetGameModeEntity():SetContextThink("frostivus_quest_" .. name .. "_" .. plyID .. "_".. DoUniqueString(plyID), function()
       -- if the quest still exists fail it
       if questList[name] and questList[name] == quest then
         if questList[name].event then
@@ -33,6 +35,15 @@ end
 
 function GameMode:AddQuest(questClass)
   for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
-    PlayerResource:AddQuest(plyID, quest())
+    PlayerResource:AddQuest(plyID, questClass())
+  end
+end
+
+function GameMode:ModifyQuestValue(questName, valueName, change)
+  for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+    local quest = PlayerResource:GetQuest(plyID, questName)
+    if quest then
+      quest:ModifyValue(valueName, change)
+    end
   end
 end

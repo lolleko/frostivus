@@ -1,3 +1,57 @@
 "DOTAAbilities"
 {
+  "item_roshan_food_chicken"
+  {
+      "BaseClass"    "item_branches"
+      "AbilityTextureName" "shadow_shaman_voodoo"
+      "Model"        "models/props_gameplay/chicken.vmdl"
+      "Effect"       "particles/generic_gameplay/dropped_item.vpcf"
+      "ItemQuality"  "component"
+      "ItemCost"     "666"
+      "ItemKillable" "0"
+      "ItemSellable" "0"
+      "ItemPurchasable" "0"
+      "ItemDroppable" "1"
+      "ItemShareability" "ITEM_FULLY_SHAREABLE"
+      "SideShop"     "0"
+      "SecretShop"   "0"
+      "ItemStackable" "0"
+      "ItemPermanent" "1"
+      "ItemDisassembleRule" "DOTA_ITEM_DISASSEMBLE_NEVER"
+
+      // Sound
+      //-------------------------------------------------------------------------------------------------------------
+      "UIPickupSound"					"Item.PickUpGemShop"
+      "UIDropSound"					"Item.DropGemShop"
+      "WorldDropSound"				"Item.DropGemWorld"
+
+      "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+  }
+  "item_roshan_food_cheese"
+  {
+      "BaseClass"    "item_branches"
+      "AbilityTextureName" "shadow_shaman_voodoo"
+      "Model"        "models/props_gameplay/cheese.vmdl"
+      "Effect"       "particles/generic_gameplay/dropped_item.vpcf"
+      "ItemQuality"  "component"
+      "ItemCost"     "666"
+      "ItemKillable" "0"
+      "ItemSellable" "0"
+      "ItemPurchasable" "0"
+      "ItemDroppable" "1"
+      "ItemShareability" "ITEM_FULLY_SHAREABLE"
+      "SideShop"     "0"
+      "SecretShop"   "0"
+      "ItemStackable" "0"
+      "ItemPermanent" "1"
+      "ItemDisassembleRule" "DOTA_ITEM_DISASSEMBLE_NEVER"
+
+      // Sound
+      //-------------------------------------------------------------------------------------------------------------
+      "UIPickupSound"					"Item.PickUpGemShop"
+      "UIDropSound"					"Item.DropGemShop"
+      "WorldDropSound"				"Item.DropGemWorld"
+
+      "AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+  }
 }

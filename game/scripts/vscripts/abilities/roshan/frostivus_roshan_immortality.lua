@@ -6,7 +6,6 @@ function frostivus_roshan_immortality:IsPassive()
   return true
 end
 
-
 function frostivus_roshan_immortality:GetIntrinsicModifierName()
   return "modifier_frostivus_roshan_immortality"
 end

@@ -54,7 +54,7 @@ function GameMode:GetDifficultyScalar()
 		for _, bld in pairs(Entities:GetAllBuildings()) do
 			if IsValidEntity(bld) then
 				local level = bld:GetLevel()
-				scale = scale + level * 5
+				scale = scale + level * 7
 			end
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
@@ -63,6 +63,7 @@ function GameMode:GetDifficultyScalar()
 				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
 			end
 		end
+		scale = self:GetStage() * 500
 		self.DifficultyScale = scale
 		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
 	end

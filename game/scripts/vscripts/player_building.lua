@@ -1,11 +1,21 @@
 local unitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 CDOTA_PlayerResource:AddPlayerData("PreviewModel", NETWORKVAR_TRANSMIT_STATE_NONE, nil)
 
-function CDOTA_PlayerResource:HasRequirements(plyID, requirements)
+function CDOTA_PlayerResource:HasRequirements(plyID, requirements, buildingName)
   -- if requirements.Stage and requirements.Stage > GM:GetStage() then
   --   self:SendCastError(plyID, "frostivus_hud_error_stage_not_unlocked")
   --   return false
   -- end
+  if requirements.MaxAlive and buildingName then
+  	local i = buildingName:match( ".+()%_%w+$" )
+    --assert(i, "Missing underscore in building name")
+  	local baseName = buildingName:sub(1, i - 1)
+    local buildingsOfSameType = self:FindAllBuildingsWithName(plyID, baseName)
+    if #buildingsOfSameType >= requirements.MaxAlive then
+      self:SendCastError(plyID, "frostivus_hud_error_maximum_buildings_of_type")
+      return false
+    end
+  end
   -- if requirements.LumberCost and self:GetLumber(plyID) < requirements.LumberCost then
   --   self:SendCastError(plyID, "frostivus_hud_error_not_enough_lumber")
   --   return false
@@ -29,7 +39,7 @@ end
 function CDOTA_PlayerResource:ProcessBuildingPreviewRequest(eventSourceIndex, data)
   local plyID = data.PlayerID
   local building = BuildingKV:GetBuilding(data.unitName)
-  if not self:HasRequirements(plyID, building.Requirements) then
+  if not self:HasRequirements(plyID, building.Requirements, data.unitName) then
     return
   end
   local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.Model, scale = building.ModelScale})
@@ -75,7 +85,7 @@ function CDOTA_PlayerResource:ProcessConstructionRequest(eventSourceIndex, data)
 
   -- check and create building
   local building = BuildingKV:GetBuilding(data.buildingName)
-  if self:HasRequirements(plyID, building.Requirements) then
+  if self:HasRequirements(plyID, building.Requirements, data.unitName) then
     self:SpendResources(plyID, building.Requirements)
     local origin = Vector(data.origin["0"], data.origin["1"], data.origin["2"])
     origin = GetGroundPosition(origin, nil)

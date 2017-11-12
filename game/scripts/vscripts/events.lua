@@ -34,6 +34,10 @@ function GameMode:OnPlayerPickHero(data)
   end
   --AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
   PlayerResource:AddQuest(hero:GetPlayerOwnerID(), StartKillEnemies())
+  PlayerResource:AddQuest(hero:GetPlayerOwnerID(), SummonRoshan())
+
+
+  hero:AddItem(CreateItem("item_roshan_food_chicken", hero, hero))
 end
 
 function GameMode:OnHeroSelection(data)
@@ -46,6 +50,13 @@ end
 function GameMode:OnEntityKilled(data)
   local killedUnit = EntIndexToHScript(data.entindex_killed)
   if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetTeamNumber() == DOTA_TEAM_GOODGUYS) then
+    if killedUnit:IsSpiritTree() then
+      if self:IsPVP() then
+        -- TODO
+      else
+        GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)
+      end
+    end
     local ownerID = killedUnit:GetPlayerOwnerID()
     if ownerID ~= -1 then
       if killedUnit.LumberCapacity then

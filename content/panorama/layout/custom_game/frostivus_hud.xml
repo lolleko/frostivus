@@ -13,11 +13,11 @@
 		<include src="file://{resources}/scripts/custom_game/quest/manager.js"/>
 	</scripts>
 	<Panel class="FrostivusHUD" hittest="false">
-		<Panel id="QuestListRoot"></Panel>
-		<Panel id="BuildTutorial">
+		<Panel id="QuestListRoot" hittest="false" />
+		<Panel id="BuildTutorial" hittest="false">
 			<Label id="BuildTutorialLabel" text="MOUSE1: Build | MOUSE2: Cancel | MOUSE3: Rotate | HOLD SHIFT: Build multiple"/>
 		</Panel>
-		<Panel id="QuestNotificationList">
+		<Panel id="QuestNotificationList" hittest="false">
 		</Panel>
 		<Panel id="DungeonHUD">
 			<Panel id="lower_hud" hittest="false" disallowedstyleflags="hover,descendantfocus">
