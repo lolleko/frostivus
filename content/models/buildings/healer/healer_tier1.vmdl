@@ -5,8 +5,8 @@
 		m_meshList = 
 		[
 			{
-				m_meshName = "gold_storage1"
-				m_meshFile = "models/buildings/gold_storage/gold_storage_tier1.dmx"
+				m_meshName = "healer_tier1"
+				m_meshFile = "models/buildings/healer/healer_tier1.dmx"
 				m_materialSearchPath = ""
 				m_bSkinParentedObjects = true
 				m_bLegacySkinParentedTransforms = false
@@ -63,7 +63,7 @@
 								m_nGroupId = 0
 								m_sBoneName = "cube"
 								m_vMinBounds = [ -160.0, 0.0, -160.0 ]
-								m_vMaxBounds = [ 160.0, 160.0, 160.0 ]
+								m_vMaxBounds = [ 160.0, 300.0, 160.0 ]
 								m_bTranslationOnly = false
 								m_cRenderColor = [ 0, 0, 0, 0 ]
 							},
@@ -74,7 +74,31 @@
 			}
 		},
 	]
-	m_pAttachmentLists = [  ]
+	m_pAttachmentLists = 
+	[
+		{
+			m_pObject = 
+			{
+				m_name = ""
+				m_attachments = 
+				[
+					{
+						m_name = "ray_origin"
+						m_influences = 
+						[
+							{
+								m_influenceName = "cube"
+								m_vTranslationOffset = [ 169.943985, 200.540344, -173.141342 ]
+								m_vRotationOffset = [ -0.000017, -0.000055, -0.000017 ]
+								m_flWeight = 1.0
+								m_bRoot = false
+							},
+						]
+					},
+				]
+			}
+		},
+	]
 	m_pAnimGroup = 
 	{
 		m_pObject = 

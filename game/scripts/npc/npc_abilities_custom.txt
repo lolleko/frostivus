@@ -58,6 +58,32 @@
 			}
 		}
 	}
+	// Buildings
+	"frostivus_healer_heal"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_healer_heal.lua"
+		"AbilityTextureName" "pugna_life_drain"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AUTOCAST | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"  "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"AbilityCastRange" "800"
+		"AbilityCastPoint" "0.5"
+		"AbilityChannelTime" "12.0"
+		"AbilityCooldown" "1.0"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"health_per_tick" "10"
+			}
+		}
+	}
+	// BOSS
 	"frostivus_roshan_fire_breath"
 	{
 		"BaseClass" "ability_lua"

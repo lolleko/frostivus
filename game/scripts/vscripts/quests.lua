@@ -236,8 +236,7 @@ StartGoldCamp = class(
     },
     rewards = {
       resource = {
-        gold = 200,
-        lumber = 100,
+        gold = 50,
         xp = 100,
       }
     },
@@ -259,4 +258,39 @@ end
 
 function StartGoldCamp:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
+  PlayerResource:AddQuest(self.plyID, KillRoshan())
+end
+
+KillRoshan = class(
+  {
+    name = "frostivus_quest_kill_roshan",
+    values = {
+      frostivus_quest_goal_kill_roshan = 0
+    },
+    valueGoals = {
+      frostivus_quest_goal_kill_roshan = 2
+    },
+    rewards = {
+      resource = {
+        gold = 500,
+        lumber = 500,
+        xp = 500,
+      }
+    },
+  },
+  nil,
+  QuestBase
+)
+
+function KillRoshan:OnStart()
+  self.entityKillEventHandle = ListenToGameEvent("entity_killed", function(event)
+    local killedUnit = EntIndexToHScript( event.entindex_killed )
+		if killedUnit ~= nil and killedUnit:IsCreature() and killedUnit:GetUnitName() == "npc_frostivus_boss_roshan" then
+			self:ModifyValue("frostivus_quest_goal_kill_roshan", 1)
+		end
+  end, nil)
+end
+
+function KillRoshan:OnDestroy()
+  StopListeningToGameEvent(self.entityKillEventHandle)
 end

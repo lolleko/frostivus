@@ -28,7 +28,7 @@ function frostivus_roshan_fire_breath:OnChannelThink(interval)
       iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
       iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
       bDeleteOnHit = false,
-      vVelocity = direction * 400,
+      vVelocity = direction * 700,
       bProvidesVision = false
     })
     self.nextParticle = 4

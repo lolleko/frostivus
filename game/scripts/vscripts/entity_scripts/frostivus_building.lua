@@ -86,6 +86,11 @@ function Spawn(entityKV)
     end
     thisEntity:SetContextThink("SpawnerThink", SpawnerThink, 0)
   end
+
+  if thisEntity.Building.vscripts then
+    local spawnFunc = LoadFunctionFromFile(thisEntity.Building.vscripts, "Spawn", getfenv(Spawn))
+    spawnFunc(entityKV)
+  end
 end
 
 function WallRenderThink()

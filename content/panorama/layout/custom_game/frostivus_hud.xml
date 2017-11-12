@@ -17,7 +17,9 @@
 		<Panel id="BuildTutorial">
 			<Label id="BuildTutorialLabel" text="MOUSE1: Build | MOUSE2: Cancel | MOUSE3: Rotate | HOLD SHIFT: Build multiple"/>
 		</Panel>
-			<Panel id="DungeonHUD">
+		<Panel id="QuestNotificationList">
+		</Panel>
+		<Panel id="DungeonHUD">
 			<Panel id="lower_hud" hittest="false" disallowedstyleflags="hover,descendantfocus">
 				<Panel id="StatBranchDrawer" hittest="false">
 					<DOTAStatBranch id="statbranchdialog" hittest="false"/>
@@ -82,7 +84,6 @@
 					</Panel>
 				</Panel>
 			</Panel>
-
 		</Panel>
 	</Panel>
 </root>

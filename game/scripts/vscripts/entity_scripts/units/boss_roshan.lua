@@ -49,7 +49,7 @@ function OrderThink()
   if thisEntity:GetHealth() < thisEntity:GetMaxHealth() * 0.75 and GameRules:GetGameTime() > thisEntity.globalCooldown then
     local tree = GM:GetSpiritTree()
     -- if we are far away move closer
-    if tree:GetOrigin():Length2D() >= GM:GetBuildingRange() * math.sqrt(2) then
+    if tree:GetOrigin():Length2D(thisEntity:GetOrigin()) >= GM:GetBuildingRange() * math.sqrt(2) then
       thisEntity:MoveToPosition(tree:GetOrigin())
       -- move for at least 7 seconds
       thisEntity.globalCooldown = GameRules:GetGameTime() + 7

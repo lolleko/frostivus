@@ -15,6 +15,6 @@
       resourceLbl.text = resourceReward
     }
     $.GetContextPanel().AddClass('QuestNotificationPopup')
-    $.GetContextPanel().DeleteAsync(5)
+    $.GetContextPanel().DeleteAsync(8)
   }
 }())
