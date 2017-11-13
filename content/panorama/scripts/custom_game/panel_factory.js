@@ -46,7 +46,5 @@ function nFormatter (number) {
 
   var scaled = number / scale
 
-  $.Msg(scaled.toFixed(1) + prefix)
-
   return scaled.toFixed(1) + prefix
 }

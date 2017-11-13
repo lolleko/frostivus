@@ -2,7 +2,6 @@
   $.GetContextPanel().LoadQuest = function (quest) {
     $('#NotificationQuestName').text = $.Localize('#' + quest.questName)
     $('#NotificationQuestDescription').text = $.Localize('#' + quest.questName + '_completed_Description')
-    $.Msg(quest)
     for (var resourceName in quest.rewards.resource) {
       var resourceReward = quest.rewards.resource[resourceName]
       var resourPanel = $.CreatePanel('Panel', $('#NotificationRewards'), 'NotificationReward' + resourceName + 'Panel')
@@ -15,6 +14,6 @@
       resourceLbl.text = resourceReward
     }
     $.GetContextPanel().AddClass('QuestNotificationPopup')
-    $.GetContextPanel().DeleteAsync(8)
+    $.GetContextPanel().DeleteAsync(10)
   }
 }())

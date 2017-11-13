@@ -63,7 +63,7 @@ function GameMode:GetDifficultyScalar()
 				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
 			end
 		end
-		scale = self:GetStage() * 500
+		scale = scale + self:GetStage() * 500
 		self.DifficultyScale = scale
 		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
 	end

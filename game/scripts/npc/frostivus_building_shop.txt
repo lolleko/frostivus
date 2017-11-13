@@ -46,7 +46,7 @@ FrostivusInvestments
     "Category" "Resources"
     "BuildingID" "105"
   }
-  "npc_frostivus_barrack_tier1"
+  "npc_frostivus_barracks_tier1"
   {
     "Category" "Resources"
     "BuildingID" "106"

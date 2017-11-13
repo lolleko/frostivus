@@ -161,8 +161,10 @@ function WallRenderThink()
 end
 
 function SpawnerThink()
+  local interval = 1
+  local gameTime = GameRules:GetGameTime()
   for _, unitData in pairs(thisEntity.SpawnerUnits) do
-    if unitData.NextSpawnTime <= GameRules:GetGameTime() then
+    if unitData.NextSpawnTime <= gameTime then
       for k, unit in pairs(unitData.SpawnedUnits) do
         if not IsValidEntity(unit) or not unit:IsAlive() then
           table.remove(unitData.SpawnedUnits, k)
@@ -204,9 +206,12 @@ function SpawnerThink()
             end
             table.insert(unitData.SpawnedUnits, unit)
           end)
-          unitData.NextSpawnTime = GameRules:GetGameTime() + unitData.Interval
+          unitData.NextSpawnTime = gameTime + unitData.Interval
       end
+    elseif unitData.Stage and unitData.Stage > GM:GetStage() then
+      -- keep spawnDelay until stage is ready
+      unitData.NextSpawnTime = gameTime + unitData.InitialDelay
     end
   end
-  return 1
+  return interval
 end

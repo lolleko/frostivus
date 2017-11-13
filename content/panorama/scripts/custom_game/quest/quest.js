@@ -3,6 +3,9 @@
   $.GetContextPanel().LoadQuest = function (quest) {
     $('#Name').text = $.Localize('#' + quest.name)
     $('#Description').text = $.Localize('#' + quest.name + '_Description')
+    if ($('#Description').text === '') {
+      $('#Description').style.visibility = 'collapse'
+    }
     for (var valueName in quest.values) {
       var goalPanel = CreateLayout($('#Goals'), valueName, 'file://{resources}/layout/custom_game/quest/goal.xml')
       goalPanel.LoadGoal(valueName, quest.values[valueName], quest.valueGoals[valueName])

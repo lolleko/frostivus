@@ -3,6 +3,7 @@
   margin-left: 8px;
   margin-top: 8px;
   margin-bottom: 8px;
+  width: 500px;
   transition-property: transform;
   transition-duration: 2s;
   overflow: clip clip;
@@ -21,7 +22,7 @@
 }
 
 #Description {
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 4px;
   color: #DEDEDE;
   text-shadow: 0px 0px 2px 3.0 #444444b0;

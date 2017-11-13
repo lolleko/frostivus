@@ -158,7 +158,7 @@
       // Left-click is try build
       if (arg === 0) {
         if (blocked) {
-          $.Msg('blocked')
+          Players.SendCastError('frostivus_hud_error_space_blocked')
         } else {
           var queue = GameUI.IsShiftDown()
           GameEvents.SendCustomGameEventToServer('buildingRequestConstruction', {'origin': worldPos, 'buildingName': buildingName, 'queue': queue, 'rotation': rotation})

@@ -34,6 +34,8 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
   local rotation = spawnTable.rotation or 0
   local randomAngles = spawnTable.RandomAngles or building.RandomAngles
   local sizeX, sizeY = BuildingKV:GetSize(unitName)
+  local isPVP = GM:IsPVP()
+  local iIsPVP = isPVP and 1 or 0
   if (rotation / 90) % 2 == 1 then
     sizeX, sizeY = sizeY, sizeX
   end
@@ -49,7 +51,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
       gridPointer.x = gridPointer.x + 64
       for y=1, sizeY / 2 do
         gridPointer.y = gridPointer.y - 64
-        local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = gridPointer})
+        local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = gridPointer, block_fow = iIsPVP})
         table.insert(blockers, obstruction)
         gridPointer.y = gridPointer.y - 64
       end
