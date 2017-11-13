@@ -1,7 +1,7 @@
 (function () {
   var valueGoal
   $.GetContextPanel().LoadGoal = function (name, value, goal) {
-    $('#Name').text = name
+    $('#Name').text = $.Localize('#' + name)
     valueGoal = goal
     if (goal === 1) {
       $('#Value').text = ''
