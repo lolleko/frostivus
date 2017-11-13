@@ -1,7 +1,7 @@
 function Spawn(entityKV)
   thisEntity.foodCount = 0
   thisEntity.requiredFood = 10
-  thisEntity.resurrectDuration = 3
+  thisEntity.resurrectDuration = 3.5
   thisEntity.foodList = {}
   thisEntity.foodCompleted = false
   thisEntity.resurrectParticles = {}

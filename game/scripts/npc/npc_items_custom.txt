@@ -3,7 +3,7 @@
   "item_roshan_food_chicken"
   {
       "BaseClass"    "item_branches"
-      "AbilityTextureName" "shadow_shaman_voodoo"
+      "AbilityTextureName" "item_roshan_food_chicken"
       "Model"        "models/props_gameplay/chicken.vmdl"
       "Effect"       "particles/generic_gameplay/dropped_item.vpcf"
       "ItemQuality"  "component"
@@ -30,7 +30,7 @@
   "item_roshan_food_cheese"
   {
       "BaseClass"    "item_branches"
-      "AbilityTextureName" "shadow_shaman_voodoo"
+      "AbilityTextureName" "item_cheese"
       "Model"        "models/props_gameplay/cheese.vmdl"
       "Effect"       "particles/generic_gameplay/dropped_item.vpcf"
       "ItemQuality"  "component"

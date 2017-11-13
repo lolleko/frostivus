@@ -990,6 +990,77 @@
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
 	}
+	"npc_frostivus_barrack_tier1"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/buildings/barrack/barrack_tier1.vmdl"
+		"ModelScale" "1"
+		"Level" "1"
+		"ArmorPhysical" "15"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BountyGoldMin" "0.0"
+		"BountyGoldMax" "0.0"
+		"BoundsHullName" "DOTA_HULL_SIZE_HUGE"
+		"RingRadius" "180"
+		"CollisionSize" "100"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"MovementTurnRate" "0"
+		"StatusHealth" "300"
+		"StatusHealthRegen" "1"
+
+		"Ability3" "frostivus_barrack_spawn_melee1"
+
+		"Building"
+		{
+			"SizeX" "10"
+			"SizeY" "6"
+			"Requirements" {
+				"GoldCost" "2000"
+				"LumberCost" "1400"
+				"Stage" "1"
+			}
+			"DynamicModels"
+			{
+				"0"
+				{
+					"Name" "creep_location"
+					"Offset" "-176 33 0"
+					"Angles" "0 9 0"
+					"Model"	"models/creeps/lane_creeps/creep_radiant_melee/radiant_melee.vmdl"
+					"ModelScale" "1"
+					"Sequence" "idle_sleeping"
+				}
+				"1"
+				{
+					"Name" "banner_location"
+					"Offset" "255 -70 -10"
+					"Angles" "0 300 0"
+					"Model"	"models/props_teams/banner_radiant.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "0.8"
+				}
+				"2"
+				{
+					"Name" "monkey_location"
+					"Offset" "-284  193 -204"
+					"Angles" "0 313 0"
+					"Model"	"maps/journey_assets/characters/journey_monkey/journey_monkey.vmdl"
+					"ModelScale" "1"
+				}
+				"3"
+				{
+					"Name" "logo_ground_location"
+					"Offset" "-140 -92 -3"
+					"Angles" "0 0 0"
+					"Model"	"models/props_teams/logo_radiant_default.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "0.26"
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
 	// dire spawner
 	"npc_frostivus_dire_spawner"
 	{
@@ -1313,6 +1384,10 @@
 		"StatusHealthRegen" "4"
 		"ArmorPhysical" "8"
 
+		"BountyXP" "20"
+		"BountyGoldMin" "15"
+		"BountyGoldMax" "20"
+
 		"Ability1" "roshan_spell_block"
 
 		"Creature"
@@ -1349,6 +1424,11 @@
 		"StatusHealth" "1400"
 		"StatusHealthRegen" "4"
 		"ArmorPhysical" "8"
+
+		"BountyXP" "20"
+		"BountyGoldMin" "15"
+		"BountyGoldMax" "20"
+
 
 		"Ability1" "roshan_bash"
 

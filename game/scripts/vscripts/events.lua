@@ -34,10 +34,10 @@ function GameMode:OnPlayerPickHero(data)
   end
   --AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
   PlayerResource:AddQuest(hero:GetPlayerOwnerID(), StartKillEnemies())
-  PlayerResource:AddQuest(hero:GetPlayerOwnerID(), SummonRoshan())
-
 
   hero:AddItem(CreateItem("item_roshan_food_chicken", hero, hero))
+  hero:AddItem(CreateItem("item_roshan_food_cheese", hero, hero))
+
 end
 
 function GameMode:OnHeroSelection(data)

@@ -19,7 +19,7 @@
 		</Panel>
 		<Panel id="QuestNotificationList" hittest="false">
 		</Panel>
-		<Panel id="DungeonHUD">
+		<Panel id="DungeonHUD" hittest="false">
 			<Panel id="lower_hud" hittest="false" disallowedstyleflags="hover,descendantfocus">
 				<Panel id="StatBranchDrawer" hittest="false">
 					<DOTAStatBranch id="statbranchdialog" hittest="false"/>
