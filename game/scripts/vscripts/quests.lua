@@ -1,4 +1,17 @@
-local QuestBase = class({})
+local QuestBase = class({
+  constructor = function(self)
+    -- we need to copy tables
+    if self.rewards then
+      self.rewards = table.deepcopy(self.rewards)
+    end
+    if self.values then
+      self.values = table.deepcopy(self.values)
+    end
+    if self.valueGoals then
+      self.valueGoals = table.deepcopy(self.valueGoals)
+    end
+  end
+})
 
 function QuestBase:ModifyValue(valueName, change)
   self:SetValue(valueName, self:GetValue(valueName) + change)
@@ -97,7 +110,9 @@ StartKillEnemies = class(
       }
     },
   },
-  nil,
+  {
+    test = 10
+  },
   QuestBase
 )
 
@@ -105,7 +120,6 @@ function StartKillEnemies:OnStart()
   self.entityKillEventHandle = ListenToGameEvent("entity_killed", function(event)
     local killedUnit = EntIndexToHScript( event.entindex_killed )
 		if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetTeamNumber() ~= DOTA_TEAM_GOODGUYS) then
-      print(self.plyID)
 			self:ModifyValue("frostivus_quest_goal_killed_enemies", 1)
 		end
   end, nil)
@@ -215,7 +229,6 @@ function StartBuildWalls:OnStart()
   		if spawnedUnit:GetPlayerOwnerID() == self.plyID and  spawnedUnit:GetUnitName() == "npc_frostivus_defense_wall_tier1" then
         self:ModifyValue("frostivus_quest_goal_walls_constructed", 1)
   		end
-
   	end
   end, nil)
 end
@@ -279,34 +292,55 @@ SummonRoshan = class(
         xp = 100,
       }
     },
+    static = {
+      dragonsSpawned = false
+    },
   },
   nil,
   QuestBase
 )
 
 function SummonRoshan:OnStart()
-  local spawnPoints = Entities:FindAllByName("cheese_dragon_spawn")
-  -- not all spawns will be used os shuffle a bit
-  table.shuffle(spawnPoints)
-  local dragonCount = 5
-  local lizardCount = 5
-  for _, spawnPoint in pairs(spawnPoints) do
-    if dragonCount ~= 0 then
-      CreateUnitByNameAsync("npc_frostivus_cheese_dragon", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function()
-      end)
-      dragonCount = dragonCount - 1
-    elseif lizardCount ~= 0 then
-      CreateUnitByNameAsync("npc_frostivus_cheese_lizard", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function()
-      end)
-      lizardCount = lizardCount - 1
+  -- dragonsSpawned is static therefore this only will run once
+  if not self.static.dragonsSpawned then
+    local spawnPoints = Entities:FindAllByName("cheese_dragon_spawn")
+    -- not all spawns will be used os shuffle a bit
+    table.shuffle(spawnPoints)
+    local dragonCount = 5
+    local lizardCount = 5
+    local revealDragon = true
+    local revealLizard = true
+    for _, spawnPoint in pairs(spawnPoints) do
+      if dragonCount ~= 0 then
+        CreateUnitByNameAsync("npc_frostivus_cheese_dragon", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function()
+        end)
+        dragonCount = dragonCount - 1
+        if revealDragon then
+          -- reveal one unit
+          AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 400, 5, false)
+          -- TODO PPING
+          revealDragon = false
+        end
+      elseif lizardCount ~= 0 then
+        CreateUnitByNameAsync("npc_frostivus_cheese_lizard", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function()
+        end)
+        lizardCount = lizardCount - 1
+        if revealLizard then
+          -- reveal one unit
+          AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 400, 5, false)
+          -- TODO PPING
+          revealLizard = false
+        end
+      end
     end
-  end
-  -- Ping pit and reveal fog
-  -- TODO ping is broken? maybe handle with custom event
-  local pitOrigin = Entities:FindByName(nil, "roshan_bones_skull"):GetOrigin()
-  MinimapEvent(DOTA_TEAM_GOODGUYS, PlayerResource:GetSelectedHeroEntity(self.plyID), pitOrigin.x, pitOrigin.y, DOTA_MINIMAP_EVENT_HINT_LOCATION, 5)
+    -- Ping pit and reveal fog
+    -- TODO ping is broken? maybe handle with custom event
+    local pitOrigin = Entities:FindByName(nil, "roshan_bones_skull"):GetOrigin()
+    MinimapEvent(DOTA_TEAM_GOODGUYS, PlayerResource:GetSelectedHeroEntity(self.plyID), pitOrigin.x, pitOrigin.y, DOTA_MINIMAP_EVENT_HINT_LOCATION, 5)
 
-  AddFOWViewer(DOTA_TEAM_GOODGUYS, pitOrigin + Vector(0, 0, 80), 800, 3, false)
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, pitOrigin + Vector(0, 0, 80), 800, 3, false)
+    self.static.dragonsSpawned = true
+  end
 end
 
 function SummonRoshan:OnDestroy()

@@ -2,7 +2,7 @@ frostivus_roshan_fire_breath = class({})
 
 function frostivus_roshan_fire_breath:OnSpellStart()
   self.currentAngle = 80
-  self.nextParticle = 10
+  self.nextParticle = 2
 end
 
 function frostivus_roshan_fire_breath:OnChannelThink(interval)
@@ -28,18 +28,18 @@ function frostivus_roshan_fire_breath:OnChannelThink(interval)
       iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
       iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
       bDeleteOnHit = false,
-      vVelocity = direction * 700,
+      vVelocity = direction * 800,
       bProvidesVision = false
     })
-    self.nextParticle = 4
-    DebugDrawLine(caster:GetAttachmentOrigin(caster:ScriptLookupAttachment("attach_hitloc")),caster:GetAttachmentOrigin(caster:ScriptLookupAttachment("attach_hitloc")) + direction * 600, 255, 0, 0, false, 2)
+    self.nextParticle = 3
+    DebugDrawLine(caster:GetAttachmentOrigin(caster:ScriptLookupAttachment("attach_hitloc")),caster:GetAttachmentOrigin(caster:ScriptLookupAttachment("attach_hitloc")) + direction * distance, 255, 0, 0, false, 2)
   end
   self.nextParticle = self.nextParticle - 1
   self.currentAngle = self.currentAngle + (interval / self:GetChannelTime()) * 160
 end
 
 function frostivus_roshan_fire_breath:GetPlaybackRateOverride()
-  return 0.75
+  return 1
 end
 
 function frostivus_roshan_fire_breath:OnProjectileHit(target, location)

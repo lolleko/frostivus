@@ -10,8 +10,9 @@ function modifier_frostivus_lookout:IsHidden()
 	return true
 end
 
-function modifier_frostivus_lookout:OnDestroy()
-	if IsServer() then
-    SafeRemoveEntityDelayed(self.LookoutSentry, 4)
+function modifier_frostivus_lookout:OnDestroy(data)
+  -- Lets build a pyramid
+  if IsServer() then
+		SafeRemoveEntityDelayed(self.LookoutSentry, 4)
 	end
 end

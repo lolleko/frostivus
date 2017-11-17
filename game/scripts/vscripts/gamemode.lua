@@ -21,18 +21,20 @@ function GameMode:Init()
 	--GameRules:SetTimeOfDay( 0.25 )
 	GameRules:SetStrategyTime( 0.0 )
 	GameRules:SetShowcaseTime( 0.0 )
-	GameRules:SetPreGameTime( 0.0 )
+	GameRules:SetPreGameTime( 5.0 )
 	GameRules:SetPostGameTime( 45.0 )
 	GameRules:SetTreeRegrowTime( 10.0 )
 	GameRules:SetStartingGold( 0 )
 	GameRules:SetGoldTickTime( 999999.0 )
 	GameRules:SetGoldPerTick( 0 )
 	GameRules:SetStartingGold( 0 )
+	GameRules:SetUseUniversalShopMode(true)
 	GameRules:GetGameModeEntity():SetRemoveIllusionsOnDeath( true )
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled( false )
 	GameRules:GetGameModeEntity():SetStashPurchasingDisabled( true )
-	GameRules:GetGameModeEntity():SetCustomBuybackCooldownEnabled( true )
-	GameRules:GetGameModeEntity():SetCustomBuybackCostEnabled( true )
+	--GameRules:GetGameModeEntity():SetCustomBuybackCooldownEnabled( true )
+	--GameRules:GetGameModeEntity():SetCustomBuybackCostEnabled( true )
+	GameRules:GetGameModeEntity():SetBuybackEnabled(false)
 	GameRules:GetGameModeEntity():DisableHudFlip( true )
 	GameRules:GetGameModeEntity():SetLoseGoldOnDeath( true )
 	GameRules:GetGameModeEntity():SetFriendlyBuildingMoveToEnabled( true )
@@ -46,6 +48,8 @@ function GameMode:Init()
 	GameRules:SetCustomGameAllowHeroPickMusic( false )
 	GameRules:SetCustomGameAllowBattleMusic( false )
 	GameRules:SetCustomGameAllowMusicAtGameStart( true )
+
+	self:InitQuests()
 end
 
 function GameMode:GetDifficultyScalar()
@@ -54,12 +58,12 @@ function GameMode:GetDifficultyScalar()
 		for _, bld in pairs(Entities:GetAllBuildings()) do
 			if IsValidEntity(bld) then
 				local level = bld:GetLevel()
-				scale = scale + level * 7
+				scale = scale + level * 5
 			end
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
 			if PlayerResource:HasSelectedHero(plyID) then
-				scale = scale + 60
+				scale = scale + 80
 				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
 			end
 		end
@@ -70,13 +74,23 @@ function GameMode:GetDifficultyScalar()
 	return self.DifficultyScale or 1
 end
 
+function GameMode:ScaleUnit(unit)
+	local scalar = self:GetDifficultyScalar()
+	unit:SetMaxHealth(unit:GetMaxHealth() + math.floor(unit:GetMaxHealth() * scalar/800))
+	unit:SetHealth(unit:GetMaxHealth())
+	unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/900))
+	unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() + (unit:GetBaseMagicalResistanceValue() * scalar/1000))
+	unit:SetBaseDamageMin(unit:GetBaseDamageMin() + math.floor(scalar/80))
+	unit:SetBaseDamageMax(unit:GetBaseDamageMax() + math.floor(scalar/80))
+end
+
 function GameMode:SetCoopSpiritTree(tree)
 	if tree then
 		self.coopSpiritTree = tree
 	end
 end
 
-function GameMode:GetSpiritTree()
+function GameMode:GetSpiritTree(plyID)
 	if self:IsPVP() then
 		return PlayerResource:FindBuildingByName(plyID, "npc_frostivus_spirit_tree_pvp")
 	end
@@ -84,7 +98,7 @@ function GameMode:GetSpiritTree()
 end
 
 function GameMode:GetBuildingCenter(plyID)
-	return self:GetSpiritTree():GetOrigin()
+	return self:GetSpiritTree(plyID):GetOrigin()
 end
 
 function GameMode:GetBuildingRange(plyID)

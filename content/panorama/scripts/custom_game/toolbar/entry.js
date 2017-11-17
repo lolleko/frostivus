@@ -31,13 +31,13 @@
     btn.SetPanelEvent(
       'onmouseover',
       function () {
-        $.DispatchEvent('DOTAShowTitleTextTooltip', btn, buildingName, 'Description')
+        $.DispatchEvent('UIShowCustomLayoutParametersTooltip', $.GetContextPanel(), $.GetContextPanel().id, 'file://{resources}/layout/custom_game/building_tooltip.xml', 'buildingName=' + buildingName)
       })
 
     btn.SetPanelEvent(
       'onmouseout',
       function () {
-        $.DispatchEvent('DOTAHideTitleTextTooltip', btn)
+        $.DispatchEvent('UIHideCustomLayoutTooltip', $.GetContextPanel(), $.GetContextPanel().id)
       })
     Players.RegisterNetworkVarListener('GameStage', function (value) {
       if (buildingData.Requirements.Stage === value) {

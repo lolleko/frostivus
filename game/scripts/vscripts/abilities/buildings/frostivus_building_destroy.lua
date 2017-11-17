@@ -16,9 +16,8 @@ function frostivus_building_destroy:Refund()
   -- get cost
   local costs = self:GetTotalCost(casterName, 0, 0)
   local baseCost = BuildingKV:GetRequirements(casterName)
-  costs.gold = costs.gold + baseCost.GoldCost
-  costs.lumber = costs.lumber + baseCost.LumberCost
-  DeepPrintTable(costs)
+  costs.gold = costs.gold + (baseCost.GoldCost or 0)
+  costs.lumber = costs.lumber + (baseCost.LumberCost or 0)
   local percentage = caster:GetHealthPercent() / 100
   PlayerResource:ModifyLumber(plyID, costs.lumber * percentage)
   PlayerResource:ModifyGold(plyID, costs.gold * percentage)
@@ -30,8 +29,8 @@ function frostivus_building_destroy:GetTotalCost(name, goldCost, lumberCost)
     local upgradeName = BuildingKV:GetUpgradeName(unitName)
     if upgrade and upgradeName == name then
       local requirements = BuildingKV:GetRequirements(upgradeName)
-      goldCost = goldCost + requirements.GoldCost
-      lumberCost = lumberCost + requirements.LumberCost
+      goldCost = goldCost + (requirements.GoldCost or 0)
+      lumberCost = lumberCost + (requirements.LumberCost or 0)
       return self:GetTotalCost(unitName, goldCost, lumberCost)
     end
   end

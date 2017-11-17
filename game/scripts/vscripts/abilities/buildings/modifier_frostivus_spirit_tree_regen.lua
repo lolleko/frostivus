@@ -1,12 +1,14 @@
 modifier_frostivus_spirit_tree_regen = class({})
 
 function modifier_frostivus_spirit_tree_regen:OnCreated(e)
-	local smoke = ParticleManager:CreateParticle("particles/abilities/smoke_screen/smoke_screen.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+	if IsServer() then
+		local smoke = ParticleManager:CreateParticle("particles/abilities/smoke_screen/smoke_screen.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 
-	self.radius = self:GetAbility():GetSpecialValueFor("radius")
+		self.radius = self:GetAbility():GetSpecialValueFor("radius")
 
-	ParticleManager:SetParticleControl(smoke, 0, Vector(0, 0, 0))
-	ParticleManager:SetParticleControl(smoke, 1, Vector(self.radius, self.radius, self.radius))
+		ParticleManager:SetParticleControl(smoke, 0, Vector(0, 0, 0))
+		ParticleManager:SetParticleControl(smoke, 1, Vector(self.radius, self.radius, self.radius))
+	end
 end
 
 function modifier_frostivus_spirit_tree_regen:IsHidden()

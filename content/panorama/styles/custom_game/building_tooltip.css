@@ -1,0 +1,73 @@
+Label {
+  color: #EEEEEE;
+}
+
+.BuildingTooltip {
+  width: 400px;
+  padding: 0px;
+  background-image: url("s2r://panorama/images/hud/reborn/bg_tooltip_psd.vtex");
+  background-color: #10171C;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  flow-children: down;
+}
+
+#NamePanel {
+  width: 100%;
+  height: 34px;
+  border-bottom: 1px solid #333333;
+  flow-children: right;
+}
+
+#NameLabel {
+  font-size: 24px;
+}
+
+#TierLabel {
+  font-size: 20px;
+  vertical-align: middle;
+  horizontal-align: right;
+}
+
+#DescriptionPanel {
+  width: 100%;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 16px;
+}
+
+#DescriptionLabel {
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+#StatsPanel {
+  flow-children: down;
+  margin-top: 16px;
+}
+
+.StatPanel {
+  flow-children: right;
+  margin-top: 4px;
+}
+
+.StatIcon {
+  width: 24px;
+  height: 24px;
+  background-size: 100% 100%;
+  border-radius: 2px;
+}
+
+.StatName {
+  font-size: 16px;
+  margin-left: 4px;
+  color: #7F7F7F;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.StatValue {
+  font-size: 16px;
+  margin-left: 4px;
+  color: #CCCCCC;
+  vertical-align: middle;
+}

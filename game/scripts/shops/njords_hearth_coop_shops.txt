@@ -1,0 +1,38 @@
+"dota_shops"
+   {
+   "sideshop1"
+   {
+       "item" "item_branches"
+       "item" "item_magic_stick"
+       "item" "item_enchanted_mango"
+       "item" "item_blight_stone"
+       "item" "item_stout_shield"
+       "item" "item_quelling_blade"
+       "item" "item_boots"
+       "item" "item_wind_lace"
+       "item" "item_ring_of_protection"
+       "item" "item_ring_of_regen"
+       "item" "item_sobi_mask"
+       "item" "item_blades_of_attack"
+   }
+
+   "sideshop2"
+   {
+      "item" "item_gloves"
+      "item" "item_robe"
+      "item" "item_belt_of_strength"
+      "item" "item_boots_of_elves"
+      "item" "item_chainmail"
+      "item" "item_void_stone"
+      "item" "item_ring_of_health"
+      "item" "item_helm_of_iron_will"
+      "item" "item_energy_booster"
+      "item" "item_vitality_booster"
+      "item" "item_lifesteal"
+      "item" "item_broadsword"
+   }
+
+   "secretshop"
+   {
+   }
+}

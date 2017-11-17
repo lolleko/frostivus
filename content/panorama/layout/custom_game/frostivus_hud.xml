@@ -67,6 +67,7 @@
 						<Panel id="AbilitiesAndStatBranch" hittest="false">
 							<DOTAHealthMana id="health_mana"/>
 							<DOTATalentDisplay id="StatBranch"/>
+							<Panel id="UpgradeInfo"/>
 							<DOTAAbilityList id="abilities" hittest="false"/>
 						</Panel>
 						<DOTAHUDDeathPanel id="death_panel_buyback" class="">

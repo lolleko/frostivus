@@ -13,6 +13,18 @@
 		"AbilityCooldown" "1"
 		"AbilityCastPoint" "1"
 	}
+	"frostivus_unit_destroy"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_unit_destroy.lua"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityTextureName" "frostivus_building_destroy"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCooldown" "1"
+		"AbilityCastPoint" "1"
+	}
 	"frostivus_building_upgrade"
 	{
 		"BaseClass" "ability_lua"
@@ -88,12 +100,13 @@
 	{
 		"BaseClass" "ability_lua"
 		"ScriptFile" "abilities/roshan/frostivus_roshan_fire_breath.lua"
+		"AbilityTextureName" "dragon_knight_breathe_fire"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
 		"AbilityCastRange" "250"
-		"AbilityCastPoint" "1.5"
-		"AbilityChannelTime" "4.4"
+		"AbilityCastPoint" "1.2"
+		"AbilityChannelTime" "3.3"
 		"AbilityCooldown" "20.0"
 
 		"AbilitySpecial"
@@ -114,6 +127,7 @@
 	{
 		"BaseClass" "ability_lua"
 		"ScriptFile" "abilities/roshan/frostivus_roshan_slam.lua"
+		"AbilityTextureName" "roshan_slam"
 		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
@@ -1458,15 +1472,21 @@
 			{
 					"01"
 					{
-							"var_type"              "FIELD_INTEGER"
-							"radius"                "500 500 500 500"
+						"var_type"				"FIELD_INTEGER"
+						"arc_damage"			"85 100 115 145"
+						"LinkedSpecialBonus"	"special_bonus_unique_zeus_2"
 					}
 					"02"
 					{
 							"var_type"              "FIELD_INTEGER"
-							"jump_count"            "6 9 12 15"
+							"radius"                "500 500 500 500"
 					}
 					"03"
+					{
+							"var_type"              "FIELD_INTEGER"
+							"jump_count"            "6 9 12 15"
+					}
+					"04"
 					{
 							"var_type"              "FIELD_FLOAT"
 							"jump_delay"            "0.25 0.25 0.25 0.25"

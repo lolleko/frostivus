@@ -33,6 +33,78 @@ function CDOTA_PlayerResource:RemoveQuest(plyID, name)
   self:GetQuestList(plyID)[name] = nil
 end
 
+GameMode.EventList = {
+  {
+    class = ZombieEvent,
+    stages = {0, 1},
+    cooldown = 1200,
+    weight = 4,
+  },
+  {
+    class = SkeletonArmyEvent,
+    stages = {0},
+    cooldown = 900,
+    weight = 6,
+  },
+  {
+    class = ItemDrop,
+    stages = {0, 1, 2},
+    cooldown = 1200,
+    weight = 4,
+  },
+  {
+    class = GreevilsOnTheRun,
+    stages = {0, 1, 2},
+    cooldown = 1200,
+    weight = 3,
+  }
+}
+
+function GameMode:InitQuests()
+  -- world event schduling
+  -- start first event after 5-10 minutes
+  --
+  GameRules:GetGameModeEntity():SetContextThink("NextEventSchedule", function() return self:ScheduleNextEvent() end, RandomInt(300, 600))
+end
+
+function GameMode:ScheduleNextEvent()
+  local readyEvents = {}
+  local weights = {}
+  for _, event in pairs(self.Events) do
+    if not event.cooldownEndTime or event.cooldownEndTime <= GameRules:GetGameTime() then
+      local canHappenInCurrentStage = false
+      for _, stage in ipairs(event.stages) do
+        if stage == GM:GetStage() then
+          canHappenInCurrentStage = true
+        end
+      end
+      if canHappenInCurrentStage then
+        table.insert(readyEvents, event)
+        table.insert(weights, event.weight)
+      end
+    end
+  end
+  local weightSum = 0
+  for _, v in ipairs(weights) do
+    weightSum = weightSum + v
+  end
+  local rnd = RandomInt(0, weightSum)
+  local nextEvent
+  for _, event in ipairs(readyEvents) do
+    if not nextEvent then
+      if rnd < event.weight then
+        nextEvent = event
+      end
+      rnd = event.weight
+    end
+  end
+  -- dispatch event
+  GM:AddQuest(nextEvent.class)
+  -- add cooldown to event
+  nextEvent.cooldownEndTime = GameRules:GetGameTime() + nextEvent.cooldown
+  return RandomInt(300, 600)
+end
+
 function GameMode:AddQuest(questClass)
   for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
     PlayerResource:AddQuest(plyID, questClass())

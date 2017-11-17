@@ -85,7 +85,7 @@ function CDOTA_PlayerResource:ProcessConstructionRequest(eventSourceIndex, data)
 
   -- check and create building
   local building = BuildingKV:GetBuilding(data.buildingName)
-  if self:HasRequirements(plyID, building.Requirements, data.unitName) then
+  if self:HasRequirements(plyID, building.Requirements, data.buildingName) then
     self:SpendResources(plyID, building.Requirements)
     local origin = Vector(data.origin["0"], data.origin["1"], data.origin["2"])
     origin = GetGroundPosition(origin, nil)

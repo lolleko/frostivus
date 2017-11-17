@@ -39,6 +39,17 @@
   color: white;
 }
 
+#UpgradeInfo {
+  width: 32px;
+  height: 56px;
+  background-image: url("s2r://panorama/images/onstage_pods/uparrow_png.vtex");
+  background-size: 100% 100%;
+  margin-bottom: 16px;
+  vertical-align: bottom;
+  margin-right: 4px;
+  tooltip-position: top right;
+  visibility: collapse;
+}
 
 //default stuff
 #DungeonHUD

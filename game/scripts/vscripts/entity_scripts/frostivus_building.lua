@@ -2,12 +2,13 @@ local unitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
 function Spawn(entityKV)
 
-  thisEntity.Building = BuildingKV:GetBuilding(thisEntity:GetUnitName())
+  thisEntity.Building = table.deepcopy(BuildingKV:GetBuilding(thisEntity:GetUnitName()))
   AddSpawnProperty(thisEntity, "LumberCapacity", "number", 0, thisEntity.Building)
   AddSpawnProperty(thisEntity, "GoldCapacity", "number", 0, thisEntity.Building)
 
   AddSpawnProperty(thisEntity, "IsWall", "bool", false, thisEntity.Building, "bIsWall")
   AddSpawnProperty(thisEntity, "IsLookout", "bool", false, thisEntity.Building, "bIsLookout")
+  AddSpawnProperty(thisEntity, "IsDefense", "bool", false, thisEntity.Building, "bIsDefense")
   AddSpawnProperty(thisEntity, "IsSpiritTree", "bool", false, thisEntity.Building, "bIsSpiritTree")
   AddSpawnProperty(thisEntity, "IsSpawner", "bool", false, thisEntity.Building, "bIsSpawner")
 
@@ -22,7 +23,9 @@ function Spawn(entityKV)
   end
 
   if not string.match(thisEntity:GetUnitName(), "npc_frostivus_spirit_tree") then
-    thisEntity:AddAbility("frostivus_building_upgrade")
+    if thisEntity.Building.Upgrade then
+      thisEntity:AddAbility("frostivus_building_upgrade")
+    end
     thisEntity:AddAbility("frostivus_building_destroy")
   end
 
@@ -32,6 +35,14 @@ function Spawn(entityKV)
 
   function thisEntity:IsSpiritTree()
     return thisEntity.bIsSpiritTree
+  end
+
+  function thisEntity:IsDefense()
+    return thisEntity.bIsDefense
+  end
+
+  function thisEntity:IsLookout()
+    return thisEntity.bIsLookout
   end
 
   if thisEntity.Building.DynamicModels then
@@ -49,7 +60,6 @@ function Spawn(entityKV)
       if color then
         propDyn:SetRenderColor(color.x, color.y, color.z)
       end
-      print(color)
       propDyn:SetModelScale(scale)
       propDyn:SetParent(thisEntity, nil)
     end
@@ -80,7 +90,7 @@ function Spawn(entityKV)
   if thisEntity.bIsSpawner then
     thisEntity.SpawnerUnits = {}
     for _, unitData in pairs(thisEntity.Building.Spawner.Units) do
-      local unitDataExt = table.merge({}, unitData)
+      local unitDataExt = table.deepcopy(unitData)
       -- randomize first interval a bit
       local initalDelay = unitDataExt.InitialDelay or 0
       unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay + RandomInt(0, unitDataExt.Interval / 8)
@@ -177,6 +187,9 @@ function SpawnerThink()
               spawnPoint = unitData.Spawnpoint:GetOrigin()
           end
           CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), thisEntity:GetTeam(), function(unit)
+            -- TODO the elveling is only used for resource drones
+            -- TODO make more SOLID 
+            unit:CreatureLevelUp(thisEntity:GetLevel() - unit:GetLevel())
             if unitData.InitialGoal then
               if unitData.MoveToGoal then
                 unit:SetContextThink("initalOrderDelayed", function()
@@ -196,21 +209,15 @@ function SpawnerThink()
               end, 0)
             end
             if unitData.ScaleUnits then
-              local scalar = GM:GetDifficultyScalar()
-              unit:SetMaxHealth(unit:GetMaxHealth() + math.floor(unit:GetMaxHealth() * scalar/800))
-              unit:SetHealth(unit:GetMaxHealth())
-              unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/900))
-              unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() + (unit:GetBaseMagicalResistanceValue() * scalar/1000))
-              unit:SetBaseDamageMin(unit:GetBaseDamageMin() + math.floor(unit:GetBaseDamageMin() * scalar/700))
-              unit:SetBaseDamageMax(unit:GetBaseDamageMax() + math.floor(unit:GetBaseDamageMax() * scalar/700))
+              GM:ScaleUnit(unit)
             end
             table.insert(unitData.SpawnedUnits, unit)
           end)
           unitData.NextSpawnTime = gameTime + unitData.Interval
       end
-    elseif unitData.Stage and unitData.Stage > GM:GetStage() then
+    elseif GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS or (unitData.Stage and unitData.Stage > GM:GetStage()) then
       -- keep spawnDelay until stage is ready
-      unitData.NextSpawnTime = gameTime + unitData.InitialDelay
+      unitData.NextSpawnTime = gameTime + (unitData.InitialDelay or unitData.Interval)
     end
   end
   return interval

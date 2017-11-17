@@ -11,7 +11,6 @@ build_defense_flame_thrower = frostivus_buy
 function frostivus_buy:OnSpellStart()
   local instanceKV = abilityKV[self:GetAbilityName()]
   if instanceKV["Building"] then
-    print("logging")
     local modelName = unitKV[instanceKV["UnitName"]].model
     local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = modelName, origin = caster:GetOrigin()})
     prop:AddEffects(EF_NODRAW)

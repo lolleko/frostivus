@@ -6,10 +6,11 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     local model
     local modelScale = 1
     self.stackCount = 5
-    self.stackSize = RandomInt(6, 8)
+    self.stackSize = RandomInt(7 + parent:GetLevel()^4, 13 + parent:GetLevel()^4)
     local offsets
     self.IsLumber = data.IsLumber
     self.IsGold = data.IsGold
+    -- TODO rework prop placement this is shitty...
     if data.IsLumber then
       model = "models/props_nature/log001.vmdl"
       modelScale = 0.3
@@ -33,7 +34,11 @@ function modifier_frostivus_resource_carry:OnCreated(data)
           ang.y = ang.y + 180
         end
         --prop:FollowEntity(parent, false)
+        if parent:HasFlyMovementCapability() then
+          offset = offset + Vector(0, 0, 10)
+        end
         prop:SetOrigin(origin + offset)
+
         prop:SetAngles(ang.x, ang.y, ang.z)
         prop:SetParent(parent, "saddleBag2_end_A_L")
       end

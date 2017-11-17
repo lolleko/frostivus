@@ -1,9 +1,13 @@
 --CDOTA_PlayerResource:AddPlayerData("UnitKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, LoadKeyValues("scripts/npc/npc_units_custom.txt"))
-local buildingShopData = {}
+local buildingShopData = table.deepcopy(BuildingKV:GetAllBuildings())
 for k,v in pairs(LoadKeyValues("scripts/npc/frostivus_building_shop.txt")) do
-  buildingShopData[k] = BuildingKV:GetBuilding(k)
   buildingShopData[k].Category = v.Category
   buildingShopData[k].BuildingID = v.BuildingID
+  -- we dont net to network DynamicModels
+end
+for k, _ in pairs(buildingShopData) do
+  buildingShopData[k].DynamicModels = nil
+  buildingShopData[k].Spawner = nil
 end
 CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, buildingShopData)
 
@@ -30,6 +34,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
   -- RotatePreview
   local origin = spawnTable.origin
   local building = BuildingKV:GetBuilding(unitName)
+  if not building then return end
   local owner = spawnTable.owner or self:GetSelectedHeroEntity(plyID)
   local rotation = spawnTable.rotation or 0
   local randomAngles = spawnTable.RandomAngles or building.RandomAngles
@@ -133,7 +138,7 @@ end
 function CDOTA_PlayerResource:FindBuildingByName(plyID, unitName)
   local buildingList = self:GetBuildingList(plyID)
   for k, unit in pairs(buildingList) do
-    if not IsValidEntity(unit) or not unit:IsAlive() then
+    if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
     elseif string.match(unit:GetUnitName(), unitName) then
       return unit
@@ -145,7 +150,7 @@ function CDOTA_PlayerResource:FindAllBuildingsWithName(plyID, unitName)
   local units = {}
   local buildingList = self:GetBuildingList(plyID)
   for k, unit in pairs(buildingList) do
-    if not IsValidEntity(unit) or not unit:IsAlive() then
+    if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
     elseif string.match(unit:GetUnitName(), unitName) then
       table.insert(units, unit)

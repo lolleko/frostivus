@@ -22,6 +22,8 @@
   buildings.LoadCategory('Resources')
   toolbar.Insert('Buildings', buildings)
 
+  $.Msg(Players.GetBuildingShopKV(Players.GetLocalPlayer()))
+
   var shopBtn = $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse('ShopButton')
   shopBtn.style.width = '240px'
   shopBtn.style.flowChildren = 'right'
@@ -60,4 +62,38 @@
 
   resourcePanel(shopBtn, 'Lumber', 'url("file://{images}/custom_game/icons/lumber_icon.psd")')
   resourcePanel(shopBtn, 'Gold', 'url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex")', true)
+
+  function activeUnitChanged () {
+    var portraitUnit = Players.GetLocalPlayerPortraitUnit(Players.GetLocalPlayer())
+    var upgrade = Entities.GetAbilityByName(portraitUnit, 'frostivus_building_upgrade')
+    if (upgrade !== -1) {
+      $('#StatBranch').style.visibility = 'collapse'
+      var upgradeInfo = $('#UpgradeInfo')
+      upgradeInfo.style.visibility = 'visible'
+      upgradeInfo.RemoveAndDeleteChildren()
+      var unitName = Entities.GetUnitName(portraitUnit)
+      var upgradeName = unitName.slice(0, -1) + (Entities.GetLevel(portraitUnit) + 1)
+      var tooltipContainer = $.CreatePanel('Panel', upgradeInfo, upgradeName)
+      tooltipContainer.style.tooltipPosition = 'top right'
+      tooltipContainer.style.width = '100%'
+      tooltipContainer.style.height = '100%'
+      upgradeInfo.ClearPanelEvent('onmouseover')
+      upgradeInfo.ClearPanelEvent('onmouseout')
+      upgradeInfo.SetPanelEvent(
+        'onmouseover',
+        function () {
+          $.DispatchEvent('UIShowCustomLayoutParametersTooltip', tooltipContainer, tooltipContainer.id, 'file://{resources}/layout/custom_game/building_tooltip.xml', 'buildingName=' + upgradeName + '&compareWithPrevTier=true')
+        })
+      upgradeInfo.SetPanelEvent(
+        'onmouseout',
+        function () {
+          $.DispatchEvent('UIHideCustomLayoutTooltip', tooltipContainer, tooltipContainer.id)
+        })
+    } else {
+      $('#StatBranch').style.visibility = 'visible'
+      $('#UpgradeInfo').style.visibility = 'collapse'
+    }
+  }
+  GameEvents.Subscribe('dota_player_update_query_unit', activeUnitChanged)
+  GameEvents.Subscribe('dota_player_update_selected_unit', activeUnitChanged)
 }())

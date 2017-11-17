@@ -1,14 +1,36 @@
 -- Helper class for BuildingKV access
 BuildingKV = class({})
-BuildingKV.UnitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
+local unitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
-function BuildingKV:GetBuilding(name)
-  local data = self.UnitKV[name]
+BuildingKV.Buildings = {}
+
+for name, data in pairs(unitKV) do
   if istable(data) and data.Building then
+    -- track some data not in the building block but used by buildings
     data.Building.Model = data.Model
     data.Building.ModelScale = data.ModelScale or 1
-    return data.Building
+    data.Building.StatusHealth = data.StatusHealth
+    data.Building.ArmorPhysical = data.ArmorPhysical
+    data.Building.AttackCapabilities = data.AttackCapabilities
+    data.Building.StatusHealthRegen = data.StatusHealthRegen
+    data.Building.Level = data.Level
+    data.Building.AttackDamageMin = data.AttackDamageMin
+    data.Building.AttackDamageMax = data.AttackDamageMax
+    data.Building.AttackRate = data.AttackRate
+    data.Building.AttackRange = data.AttackRange
+    BuildingKV.Buildings[name] = data.Building
   end
+end
+
+
+-- DATA RETURNED FROM THIS CLASS SHOULD BE TREATED AS READONLY
+-- DEEPCOPY THE RETURN VALUES IF YOU NEED TO CHANGE THEM
+function BuildingKV:GetBuilding(name)
+  return self.Buildings[name]
+end
+
+function BuildingKV:GetAllBuildings()
+  return self.Buildings
 end
 
 function BuildingKV:GetSize(name)

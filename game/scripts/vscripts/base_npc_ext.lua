@@ -20,6 +20,10 @@ function CDOTA_BaseNPC:IsSpiritTree()
   return false
 end
 
-function CDOTA_BaseNPC:IsDefenseBuilding()
+function CDOTA_BaseNPC:IsDefense()
+  return false
+end
+
+function CDOTA_BaseNPC:IsLookout()
   return false
 end

@@ -24,8 +24,8 @@ function GameMode:OnPlayerPickHero(data)
   else
     self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
     for _, plyID in pairs(PlayerResource:GetAllInTeam(DOTA_TEAM_GOODGUYS)) do
-      PlayerResource:SetLumberCapacity(plyID, PlayerResource:GetLumberCapacity(plyID) + self:GetSpiritTree().LumberCapacity)
-      PlayerResource:SetGoldCapacity(plyID, PlayerResource:GetGoldCapacity(plyID) + self:GetSpiritTree().GoldCapacity)
+      PlayerResource:SetLumberCapacity(plyID, PlayerResource:GetLumberCapacity(plyID) + self:GetSpiritTree(plyID).LumberCapacity)
+      PlayerResource:SetGoldCapacity(plyID, PlayerResource:GetGoldCapacity(plyID) + self:GetSpiritTree(plyID).GoldCapacity)
     end
   end
 
@@ -34,17 +34,20 @@ function GameMode:OnPlayerPickHero(data)
   end
   --AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
   PlayerResource:AddQuest(hero:GetPlayerOwnerID(), StartKillEnemies())
-
-  hero:AddItem(CreateItem("item_roshan_food_chicken", hero, hero))
-  hero:AddItem(CreateItem("item_roshan_food_cheese", hero, hero))
-
 end
 
 function GameMode:OnHeroSelection(data)
+  -- try to set the tree here (coop)
+  self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
   for _,plyID in pairs(PlayerResource:GetAll()) do
-    --PlayerResource:SetHasRandomed(plyID)
-    --PlayerResource:GetPlayer(plyID):MakeRandomHeroSelection()
+    PlayerResource:SetHasRandomed(plyID)
+    PlayerResource:GetPlayer(plyID):MakeRandomHeroSelection()
   end
+end
+
+function GameMode:OnGameStart()
+  -- resend quest
+  self:AddQuest(StartKillEnemies)
 end
 
 function GameMode:OnEntityKilled(data)
@@ -80,8 +83,16 @@ end
 
 -- Make sure we dont go over the limit through kill bounties
 function GameMode:GoldFilter(data)
-  for _, plyID in pairs(PlayerResource:GetAllInTeam(PlayerResource:GetTeam(data.player_id_const))) do
-    PlayerResource:ModifyGold(plyID, data.gold)
+  local plyIDKiller = data.player_id_const
+  local hero = PlayerResource:GetSelectedHeroEntity(plyIDKiller)
+  if hero:GetGold() + data.gold > PlayerResource:GetGoldCapacity(plyIDKiller) then
+    data.gold = PlayerResource:GetGoldCapacity(plyIDKiller) - hero:GetGold()
   end
-	return false
+  -- share gold bounties
+  for _, plyID in pairs(PlayerResource:GetAllInTeam(PlayerResource:GetTeam(plyIDKiller))) do
+    if plyID ~= plyIDKiller then
+      PlayerResource:ModifyGold(plyID, data.gold)
+    end
+  end
+	return true
 end
