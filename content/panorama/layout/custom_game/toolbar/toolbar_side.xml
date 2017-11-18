@@ -1,5 +1,6 @@
 <root>
 	<scripts>
+		<include src="file://{resources}/scripts/custom_game/util.js" />
     <include src="file://{resources}/scripts/custom_game/panel_factory.js" />
 		<include src="file://{resources}/scripts/custom_game/toolbar/toolbar_side.js" />
 	</scripts>

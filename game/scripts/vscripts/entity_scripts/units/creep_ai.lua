@@ -1,13 +1,18 @@
 function Spawn()
   -- onyl perform this every Interval seconds since we calculate path lengths
-  thisEntity:SetContextThink("OrderThink", OrderThink, 5)
-  Interval = 5
+  Interval = 8
+  thisEntity:SetContextThink("OrderThink", OrderThink, 1)
 end
 
 function OrderThink()
   if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then return 10 end
 
-  if (thisEntity:GetOrigin() - GM:GetSpiritTree():GetOrigin()):Length2D() >= GM:GetBuildingRange() * 2 then
+  if (thisEntity:GetOrigin() - GM:GetSpiritTree():GetOrigin()):Length2D() >= GM:GetBuildingRange() then
+    ExecuteOrderFromTable({
+      UnitIndex = thisEntity:entindex(),
+      OrderType = DOTA_UNIT_ORDER_ATTACK_MOVE,
+      Position = GM:GetSpiritTree():GetOrigin(),
+    })
     return Interval / 2
   end
 

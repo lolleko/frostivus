@@ -54,3 +54,7 @@ Players.SendCastError = function (message, reason) {
 GameEvents.Subscribe('cg_custom_cast_error', function (e) {
   Players.SendCastError(e)
 })
+
+GameEvents.Subscribe('cg_ping_minimap', function (e) {
+  GameUI.PingMinimapAtLocation(e.pos)
+})

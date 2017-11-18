@@ -79,7 +79,10 @@ function Spawn(entityKV)
 
   -- expose this function
   function thisEntity:OnConstructionCompleted()
-
+    if thisEntity:GetUnitName() == "npc_frostivus_market_tier1" then
+      local shopEnt = Entities:FindByName(nil, "market_shop_template")
+      local newshop = SpawnEntityFromTableSynchronous('trigger_shop', {origin = thisEntity:GetAbsOrigin(), shoptype = 0, model = shopEnt:GetModelName(), parent = thisEntity})
+    end
   end
 
   if thisEntity.bIsWall then
@@ -93,13 +96,21 @@ function Spawn(entityKV)
       local unitDataExt = table.deepcopy(unitData)
       -- randomize first interval a bit
       local initalDelay = unitDataExt.InitialDelay or 0
-      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay + RandomInt(0, unitDataExt.Interval / 8)
+      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay
       unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
-      unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
+      if unitData.Spawnpoint then
+        unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
+      else
+        unitDataExt.Spawnpoint = thisEntity
+      end
       unitDataExt.SpawnedUnits = {}
       table.insert(thisEntity.SpawnerUnits, unitDataExt)
     end
     thisEntity:SetContextThink("SpawnerThink", SpawnerThink, 0)
+  end
+
+  if thisEntity.Building.IsInvulnerable then
+    thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
   end
 
   if thisEntity.Building.vscripts then
@@ -187,8 +198,8 @@ function SpawnerThink()
               spawnPoint = unitData.Spawnpoint:GetOrigin()
           end
           CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), thisEntity:GetTeam(), function(unit)
-            -- TODO the elveling is only used for resource drones
-            -- TODO make more SOLID 
+            -- TODO the leveling is only used for resource drones
+            -- TODO make more SOLID
             unit:CreatureLevelUp(thisEntity:GetLevel() - unit:GetLevel())
             if unitData.InitialGoal then
               if unitData.MoveToGoal then

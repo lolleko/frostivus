@@ -6,7 +6,7 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     local model
     local modelScale = 1
     self.stackCount = 5
-    self.stackSize = RandomInt(7 + parent:GetLevel()^4, 13 + parent:GetLevel()^4)
+    self.stackSize = RandomInt(8 + parent:GetLevel()^4, 14 + parent:GetLevel()^4)
     local offsets
     self.IsLumber = data.IsLumber
     self.IsGold = data.IsGold

@@ -23,31 +23,36 @@ function GameMode:OnPlayerPickHero(data)
     PlayerResource:SpawnBuilding(hero:GetPlayerOwnerID(), "npc_frostivus_spirit_tree", {origin = spawn, sizeX = 2, sizeY = 2, owner = hero})
   else
     self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
-    for _, plyID in pairs(PlayerResource:GetAllInTeam(DOTA_TEAM_GOODGUYS)) do
-      PlayerResource:SetLumberCapacity(plyID, PlayerResource:GetLumberCapacity(plyID) + self:GetSpiritTree(plyID).LumberCapacity)
-      PlayerResource:SetGoldCapacity(plyID, PlayerResource:GetGoldCapacity(plyID) + self:GetSpiritTree(plyID).GoldCapacity)
-    end
+    local plyID = hero:GetPlayerOwnerID()
+    PlayerResource:SetLumberCapacity(plyID, PlayerResource:GetLumberCapacity(plyID) + self:GetSpiritTree(plyID).LumberCapacity)
+    PlayerResource:SetGoldCapacity(plyID, PlayerResource:GetGoldCapacity(plyID) + self:GetSpiritTree(plyID).GoldCapacity)
   end
 
   if PlayerResource:HasRandomed(hero:GetPlayerOwnerID()) then
     hero:ModifyGold(-200, false, 0)
   end
-  --AddFOWViewer(hero:GetTeam(), spawn, 16000, 0.1, false)
-  PlayerResource:AddQuest(hero:GetPlayerOwnerID(), StartKillEnemies())
+  --PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList.StartKillEnemies())
 end
 
 function GameMode:OnHeroSelection(data)
   -- try to set the tree here (coop)
   self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
+end
+
+function GameMode:OnPreGame()
   for _,plyID in pairs(PlayerResource:GetAll()) do
-    PlayerResource:SetHasRandomed(plyID)
-    PlayerResource:GetPlayer(plyID):MakeRandomHeroSelection()
+    if not PlayerResource:HasSelectedHero(plyID) then
+      PlayerResource:SetHasRandomed(plyID)
+      PlayerResource:GetPlayer(plyID):MakeRandomHeroSelection()
+    end
   end
 end
 
 function GameMode:OnGameStart()
+  -- init events
+  self:InitQuests()
   -- resend quest
-  self:AddQuest(StartKillEnemies)
+  self:AddQuest(QuestList.StartKillEnemies)
 end
 
 function GameMode:OnEntityKilled(data)
@@ -79,7 +84,6 @@ function GameMode:OnEntityKilled(data)
     end
   end
 end
-
 
 -- Make sure we dont go over the limit through kill bounties
 function GameMode:GoldFilter(data)

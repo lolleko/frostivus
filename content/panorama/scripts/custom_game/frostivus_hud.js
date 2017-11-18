@@ -55,8 +55,8 @@
     var lblCap = $.CreatePanel('Label', container, name + '_' + 'cap')
     lblCap.style.fontSize = '22px'
 
-    LinkLabelToPlayerVariable(lblCurrent, name, true)
-    LinkLabelToPlayerVariable(lblCap, name + 'Capacity', true)
+    util.linkLabelToPlayerVariable(lblCurrent, name, true)
+    util.linkLabelToPlayerVariable(lblCap, name + 'Capacity', true)
     return container
   }
 

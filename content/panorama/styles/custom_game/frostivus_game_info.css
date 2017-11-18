@@ -1,0 +1,114 @@
+.FrostivusGameInfoRoot {
+	width: 100%;
+	flow-children: down;
+	padding-left: 4px;
+	//margin-top: -56px;
+}
+
+Label {
+	font-size: 18px;
+	color: #999999;
+	vertical-align: top;
+}
+
+.Title {
+	color: #cccccc;
+	font-size: 32px;
+	margin-top: 16px;
+	text-transform: uppercase;
+	vertical-align: center;
+}
+
+.FlowRight {
+	flow-children: right;
+}
+
+.FlowDown {
+	flow-children: down;
+}
+
+.Center {
+	horizontal-align: center;
+}
+
+.Right {
+	horizontal-align: right;
+}
+
+Image {
+	box-shadow: #000000 0px 0px 8px 0px;
+}
+
+.TargetImage {
+	height: 128px;
+}
+
+.CompassImages{
+	width: 100%;
+}
+
+.CompassImage {
+	height: 96px;
+	horizontal-align: center;
+}
+
+.HidingPlaceImage {
+	height: 128px;
+	margin-left: 8px;
+}
+
+.BlendingImage {
+	height: 196px;
+}
+
+.Paragraph {
+	margin-left: 16px;
+	margin-top: 8px;
+	margin-right: 100px;
+}
+
+.Caption {
+	margin-top: 8px;
+	margin-left: 4px;
+	font-size: 15px;
+	text-align: center;
+}
+
+.Bold {
+	font-weight: bold;
+}
+
+.Ability {
+	flow-children: right;
+	width: 100%;
+	margin-top: 16px;
+	margin-right: 80px;
+
+}
+
+.AbilityInfo {
+	width: 100%;
+	flow-children: down;
+	padding-left: 8px;
+}
+
+.AbilityName {
+	font-size: 24px;
+}
+
+.AbilityDescription {
+	font-size: 15px;
+	padding-left: 8px;
+}
+
+.AbilityNote {
+	font-size: 14px;
+	color: #00E676;
+	padding-top: 4px;
+	padding-left: 16px;
+}
+
+.AbilityImage {
+	height: 64px;
+	width: 64px;
+}

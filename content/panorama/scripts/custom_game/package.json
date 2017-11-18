@@ -13,7 +13,8 @@
       "Entities",
       "CLICK_BEHAVIORS",
       "CustomGameEventManager",
-      "LinkLabelToPlayerVariable"
+      "LinkLabelToPlayerVariable",
+      "util"
     ]
   }
 }

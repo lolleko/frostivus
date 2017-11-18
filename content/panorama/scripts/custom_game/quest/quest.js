@@ -1,5 +1,7 @@
 (function () {
   var goalPanels = {}
+  var timeLeft
+  var timeLimit
   $.GetContextPanel().LoadQuest = function (quest) {
     $('#Name').text = $.Localize('#' + quest.name)
     $('#Description').text = $.Localize('#' + quest.name + '_Description')
@@ -11,6 +13,23 @@
       goalPanel.LoadGoal(valueName, quest.values[valueName], quest.valueGoals[valueName])
       goalPanels[valueName] = goalPanel
     }
+    if (quest.timeLimit) {
+      $.Schedule(1, timer)
+      timeLeft = quest.timeLimit
+      timeLimit = quest.timeLimit
+      $('#Timer').style.visibility = 'visible'
+      $('#TimerLabel').text = timeLeft
+    }
+  }
+  function timer () {
+    if (timeLeft !== 0) {
+      $.Schedule(1, timer)
+    }
+    if (!Game.IsGamePaused()) {
+      timeLeft--
+    }
+    $('#TimerLabel').text = util.secondsToString(timeLeft)
+    $('#TimerProgressBarInner').style.width = (timeLeft / timeLimit * 100) + '%'
   }
   $.GetContextPanel().SetValue = function (valueName, value) {
     goalPanels[valueName].SetValue(value)

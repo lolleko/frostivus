@@ -168,6 +168,318 @@
 		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO"
 		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
 	}
+
+	"ability_storegga_rock"
+  {
+      "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+
+      "BaseClass"             "ability_datadriven"
+
+      "IsOnCastBar"                   "0"
+
+      "Modifiers"
+      {
+          "modifier_ability_storegga_rock"
+          {
+              "Passive" "1"
+              "States"
+              {
+                  "MODIFIER_STATE_ROOTED"           "MODIFIER_STATE_VALUE_ENABLED"
+                  "MODIFIER_STATE_ATTACK_IMMUNE"                 "MODIFIER_STATE_VALUE_ENABLED"
+              }
+          }
+      }
+  }
+
+	"storegga_arm_slam"
+  {
+      // General
+      //-------------------------------------------------------------------------------------------------------------
+      "BaseClass"                     "ability_lua"
+      "AbilityTextureName"            "bloodseeker_bloodrage"
+      "ScriptFile"                    "abilities/storegga_arm_slam"
+      "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_7"
+
+      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+      "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+      "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+      "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+      "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+      "AnimationIgnoresModelScale"    "1"
+
+      "IsOnCastBar"                   "1"
+
+      // Casting
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCastRange"              "450"
+      "AbilityCastPoint"              "2.2"
+
+      // Time
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCooldown"               "2.2"
+
+      // Cost
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityManaCost"               "0"
+
+      // Special
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilitySpecial"
+      {
+          "01"
+          {
+              "var_type"                  "FIELD_INTEGER"
+              "damage"                    "1300"
+          }
+          "02"
+          {
+              "var_type"                  "FIELD_INTEGER"
+              "damage_radius"             "210"
+          }
+          "03"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "animation_time"            "2.2"
+          }
+          "04"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "initial_delay"             "1.32"
+          }
+          "05"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "stun_duration"             "2.0"
+          }
+      }
+  }
+
+  //=================================================================================================================
+  // Storegga Grab
+  //=================================================================================================================
+  "storegga_grab"
+  {
+      // General
+      //-------------------------------------------------------------------------------------------------------------
+      "BaseClass"                     "ability_lua"
+      "AbilityTextureName"            "bloodseeker_bloodrage"
+      "ScriptFile"                    "abilities/storegga_grab"
+      "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_6"
+
+      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+      "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+      "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_ALL"
+      "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+      "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+
+      "AnimationIgnoresModelScale"    "1"
+
+      "IsOnCastBar"                   "1"
+
+      // Casting
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCastRange"              "450"
+      "AbilityCastPoint"              "2.0"
+
+      // Time
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCooldown"               "20.0"
+
+      // Cost
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityManaCost"               "0"
+
+      // Special
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilitySpecial"
+      {
+          "01"
+          {
+              "var_type"                  "FIELD_INTEGER"
+              "grab_radius"               "200"
+          }
+          "02"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "animation_time"            "2.00"
+          }
+          "03"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "initial_delay"             "1.2"
+          }
+          "04"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "min_hold_time"             "1.0"
+          }
+          "05"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "max_hold_time"             "5.0"
+          }
+      }
+  }
+
+  //=================================================================================================================
+  // Storegga Grab Throw
+  //=================================================================================================================
+  "storegga_grab_throw"
+  {
+      // General
+      //-------------------------------------------------------------------------------------------------------------
+      "BaseClass"                     "ability_lua"
+      "AbilityTextureName"            "storegga_grab_throw"
+      "ScriptFile"                    "abilities/storegga_grab_throw"
+      "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_5"
+
+      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+      "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+
+      "IsOnCastBar"                   "1"
+
+      "MaxLevel"                      "1"
+
+       // Casting
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCastRange"              "1500"
+      "AbilityCastPoint"              "1.25"
+
+      // Time
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCooldown"               "0"
+
+      // Cost
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityManaCost"               "0"
+
+      // Special
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilitySpecial"
+      {
+          "01"
+          {
+              "var_type"          "FIELD_INTEGER"
+              "throw_speed"         "2500"
+          }
+
+          "02"
+          {
+              "var_type"          "FIELD_INTEGER"
+              "impact_radius"       "200"
+          }
+
+          "03"
+          {
+              "var_type"            "FIELD_FLOAT"
+              "stun_duration"       "2.0"
+          }
+
+          "04"
+          {
+              "var_type"              "FIELD_INTEGER"
+              "knockback_duration"    "1.0"
+          }
+          "05"
+          {
+              "var_type"              "FIELD_INTEGER"
+              "knockback_distance"    "275"
+          }
+          "06"
+          {
+              "var_type"              "FIELD_INTEGER"
+              "knockback_damage"       "1450"
+          }
+          "07"
+          {
+              "var_type"              "FIELD_INTEGER"
+              "knockback_height"       "150"
+          }
+      }
+  }
+
+  //=================================================================================================================
+  // Storegga: Avalanche
+  //=================================================================================================================
+  "storegga_avalanche"
+  {
+      // General
+      //-------------------------------------------------------------------------------------------------------------
+      "BaseClass"                     "ability_lua"
+      "ScriptFile"                    "abilities/storegga_avalanche"
+      "AbilityTextureName"            "omniknight_guardian_angel"
+
+      "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+      "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+      "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+      "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+      "FightRecapLevel"               "2"
+
+      "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+      "AnimationIgnoresModelScale"    "1"
+
+      "IsOnCastBar"                   "1"
+
+      // Time
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilityCooldown"               "35"
+      "AbilityChannelTime"            "10.0"
+      "AbilityCastPoint"              "2.5"
+
+       // Special
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilitySpecial"
+      {
+          "01"
+          {
+              "var_type"               "FIELD_FLOAT"
+              "interval"               "0.5"
+          }
+          "02"
+          {
+              "var_type"               "FIELD_FLOAT"
+              "slow_duration"          "0.5"
+          }
+          "03"
+          {
+              "var_type"               "FIELD_INTEGER"
+              "damage"                 "400"
+          }
+          "04"
+          {
+              "var_type"               "FIELD_INTEGER"
+              "radius"                 "225"
+          }
+          "05"
+          {
+              "var_type"               "FIELD_INTEGER"
+              "movement"               "300"
+          }
+      }
+  }
+
+  //=================================================================================================================
+  // Storegga Passive
+  //=================================================================================================================
+  "storegga_passive"
+  {
+      // General
+      //-------------------------------------------------------------------------------------------------------------
+      "BaseClass"                     "ability_lua"
+      "ScriptFile"                    "abilities/storegga_passive"
+
+      "MaxLevel"                      "1"
+      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+      "IsOnCastBar"                   "0"
+
+      // Special
+      //-------------------------------------------------------------------------------------------------------------
+      "AbilitySpecial"
+      {
+      }
+  }
 	// Hereos
 
 	//=================================================================================================================
@@ -1095,13 +1407,19 @@
 			{
 					"01"
 					{
-							"var_type"                  "FIELD_INTEGER"
-							"radius"                    "400"
+						"var_type"					"FIELD_INTEGER"
+						"radius"					"400"
 					}
 					"02"
 					{
-							"var_type"                  "FIELD_INTEGER"
-							"rockets_per_second"        "10"
+						"var_type"					"FIELD_INTEGER"
+						"rockets_per_second"		"10"
+					}
+					"03"
+					{
+						"var_type"					"FIELD_INTEGER"
+						"rocket_damage"				"7 12 17 22"
+						"LinkedSpecialBonus"		"special_bonus_unique_gyrocopter_3"
 					}
 			}
 	}

@@ -277,8 +277,8 @@
 		  "IsSpiritTree" "1"
 			"SizeX" "4"
 			"SizeY" "4"
-			"LumberCapacity" "500"
-			"GoldCapacity" "500"
+			"LumberCapacity" "1200"
+			"GoldCapacity" "1200"
 			"AcceptGold" "1"
 			"AcceptLumber" "1"
 		}
@@ -1468,7 +1468,7 @@
 		"ArmorPhysical" "3"
 		"BountyGoldMin" "2"
 		"BountyGoldMax" "3"
-		"BountyXP" "6"
+		"BountyXP" "12"
 
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
@@ -1497,7 +1497,7 @@
 		"AttackRange" "600"
 		"ProjectileModel" "particles/base_attacks/ranged_badguy.vpcf"
 		"ProjectileSpeed" "1250"
-		"BountyXP" "10"
+		"BountyXP" "16"
 		"BountyGoldMin" "4"
 		"BountyGoldMax" "5"
 
@@ -1598,7 +1598,7 @@
 		"AttackRange" "600"
 		"ProjectileModel" "particles/base_attacks/ranged_siege_bad.vpcf"
 		"ProjectileSpeed" "500"
-		"BountyXP" "14"
+		"BountyXP" "30"
 		"BountyGoldMin" "8"
 		"BountyGoldMax" "9"
 
@@ -1728,7 +1728,7 @@
 		"ArmorPhysical" "4"
 		"BountyGoldMin" "3"
 		"BountyGoldMax" "4"
-		"BountyXP" "5"
+		"BountyXP" "20"
 
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
@@ -1757,7 +1757,7 @@
 		"AttackRange" "500"
 		"ProjectileModel" "particles/units/heroes/hero_witchdoctor/witchdoctor_base_attack.vpcf"
 		"ProjectileSpeed" "1000"
-		"BountyXP" "11"
+		"BountyXP" "26"
 		"BountyGoldMin" "6"
 		"BountyGoldMax" "7"
 
@@ -1871,7 +1871,7 @@
 		"AttackRange" "500"
 		"ProjectileModel" "particles/units/heroes/hero_witchdoctor/witchdoctor_base_attack.vpcf"
 		"ProjectileSpeed" "1000"
-		"BountyXP" "18"
+		"BountyXP" "34"
 		"BountyGoldMin" "6"
 		"BountyGoldMax" "8"
 
@@ -1903,7 +1903,7 @@
 		"ProjectileModel" "particles/neutral_fx/black_dragon_attack.vpcf"
 		"ProjectileSpeed" "1000"
 
-		"BountyXP" "20"
+		"BountyXP" "30"
 		"BountyGoldMin" "15"
 		"BountyGoldMax" "20"
 
@@ -1944,7 +1944,7 @@
 		"StatusHealthRegen" "4"
 		"ArmorPhysical" "8"
 
-		"BountyXP" "20"
+		"BountyXP" "30"
 		"BountyGoldMin" "15"
 		"BountyGoldMax" "20"
 
@@ -1967,6 +1967,247 @@
 		}
 	}
 
+	"npc_frostivus_snow_maker"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/props_structures/dire_statue001.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"RingRadius" "90"
+		"StatusHealth" "3000"
+		"StatusHealthRegen" "8"
+		"ArmorPhysical" "4"
+		"VisionDaytimeRange" "1400"
+		"VisionNighttimeRange" "1400"
+
+		"Building"
+		{
+			"IsSpawner" "1"
+			"IsInvulnerable" "1"
+			"Spawner"
+			{
+				"Units"
+				{
+					"0"
+					{
+						"UnitName" "npc_frostivus_snow_maker_skeleton"
+						"Interval" "30"
+						"MaxAlive" "2"
+						"ScaleUnits" "1"
+						"Stage" "1"
+					}
+					"1"
+					{
+						"UnitName" "npc_frostivus_snow_maker_skeleton_armor"
+						"Interval" "40"
+						"MaxAlive" "1"
+						"ScaleUnits" "1"
+						"Stage" "1"
+					}
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+
+	"npc_frostivus_snow_maker_skeleton_armor"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/ice_biome/undeadtusk/undead_tuskskeleton_armor01.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "250"
+		"RingRadius" "60"
+		"AttackDamageMin" "84.0"
+		"AttackDamageMax" "82.0"
+		"AttackRate" "1.6"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "200"
+		"AttackRange" "200"
+		"StatusHealth" "1200"
+		"StatusHealthRegen" "4"
+		"ArmorPhysical" "9"
+
+		"BountyXP" "24"
+		"BountyGoldMin" "4"
+		"BountyGoldMax" "6"
+	}
+
+	"npc_frostivus_snow_maker_skeleton"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/ice_biome/undeadtusk/undead_tuskskeleton01.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "300"
+		"RingRadius" "60"
+		"AttackDamageMin" "74.0"
+		"AttackDamageMax" "72.0"
+		"AttackRate" "1.6"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "200"
+		"AttackRange" "200"
+		"StatusHealth" "800"
+		"StatusHealthRegen" "4"
+		"ArmorPhysical" "6"
+
+		"BountyXP" "12"
+		"BountyGoldMin" "4"
+		"BountyGoldMax" "6"
+	}
+
+	// events
+	"npc_frostivus_zombie_army_tombstone"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/heroes/undying/undying_tower.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"RingRadius" "90"
+		"StatusHealth" "1200"
+		"StatusHealthRegen" "1"
+		"ArmorPhysical" "4"
+		"VisionDaytimeRange" "1400"
+		"VisionNighttimeRange" "1400"
+
+		"Building"
+		{
+			"IsSpawner" "1"
+			"Spawner"
+			{
+				"Units"
+				{
+					"0"
+					{
+						"UnitName" "npc_frostivus_zombie_army_zombie"
+						"Interval" "10"
+						"MaxAlive" "3"
+						"InitialGoal" "world_center"
+						"MoveToGoalAggressive" "1"
+						"ScaleUnits" "1"
+					}
+					"1"
+					{
+						"UnitName" "npc_frostivus_zombie_army_zombie_torso"
+						"Interval" "5"
+						"MaxAlive" "5"
+						"InitialGoal" "world_center"
+						"MoveToGoalAggressive" "1"
+						"ScaleUnits" "1"
+					}
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+
+	"npc_frostivus_zombie_army_zombie"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/heroes/undying/undying_minion.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "250"
+		"RingRadius" "60"
+		"AttackDamageMin" "23.0"
+		"AttackDamageMax" "26.0"
+		"AttackRate" "1.6"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "200"
+		"AttackRange" "200"
+		"StatusHealth" "80"
+		"StatusHealthRegen" "4"
+		"ArmorPhysical" "1"
+
+		"BountyXP" "4"
+		"BountyGoldMin" "2"
+		"BountyGoldMax" "2"
+	}
+
+	"npc_frostivus_zombie_army_zombie_torso"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/heroes/undying/undying_minion_torso.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "300"
+		"RingRadius" "60"
+		"AttackDamageMin" "13.0"
+		"AttackDamageMax" "16.0"
+		"AttackRate" "1.6"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "200"
+		"AttackRange" "200"
+		"StatusHealth" "40"
+		"StatusHealthRegen" "4"
+		"ArmorPhysical" "1"
+
+		"BountyXP" "2"
+		"BountyGoldMin" "1"
+		"BountyGoldMax" "1"
+	}
+
+	"npc_frostivus_skeleton_army_skeleton"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/neutral_creeps/n_creep_troll_skeleton/n_creep_skeleton_melee.vmdl"
+		"ModelScale" "1.2"
+		"AttackCapabilities" "DOTA_UNIT_CAP_MELEE_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "250"
+		"RingRadius" "60"
+		"AttackDamageMin" "73.0"
+		"AttackDamageMax" "76.0"
+		"AttackRate" "1.6"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "200"
+		"AttackRange" "200"
+		"StatusHealth" "180"
+		"StatusHealthRegen" "1"
+		"ArmorPhysical" "3"
+
+		"BountyXP" "45"
+		"BountyGoldMin" "12"
+		"BountyGoldMax" "14"
+
+		"vscripts" "entity_scripts/units/creep_ai.lua"
+	}
+
+	"npc_frostivus_item_drop_carrier"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/props_gameplay/donkey_dire.vmdl"
+		"ModelScale" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "250"
+		"RingRadius" "60"
+		"StatusHealth" "2000"
+		"StatusHealthRegen" "8"
+		"ArmorPhysical" "3"
+
+		"MinimapIcon"               "minimap_courier"
+		"MinimapIconSize"           "300"
+
+		"BountyXP" "12"
+		"BountyGoldMin" "30"
+		"BountyGoldMax" "32"
+	}
+
 	// boss units
 	"npc_frostivus_boss_roshan"
 	{
@@ -1984,7 +2225,7 @@
 		"AttackAnimationPoint" "0.6"
 		"AttackAcquisitionRange" "280"
 		"AttackRange" "280"
-		"StatusHealth" "7500"
+		"StatusHealth" "8000"
 		"StatusHealthRegen" "14"
 		"ArmorPhysical" "18"
 		"VisionDaytimeRange" "1400"
@@ -1999,5 +2240,110 @@
 		"Ability4" "roshan_bash"
 		"Ability5" "roshan_spell_block"
 		"vscripts" "entity_scripts/units/boss_roshan.lua"
+
+		"Creature"
+		{
+			"DisableResistance"			"100.0"
+		}
+	}
+
+	"npc_frostivus_boss_storegga"
+	{
+		// Script
+		"vscripts"					"entity_scripts/units/boss_storegga.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/creeps/ice_biome/storegga/storegga.vmdl"
+		"SoundSet"					"Hero_Tiny"
+		"Level"						"13"
+		"ModelScale" 				"3.0"
+		"ConsideredHero"			"1"
+		"IsAncient"					"1"
+		"IsBossMonster"				"1"
+
+		"MinimapIcon"				"minimap_enemyicon"
+		"MinimapIconSize"			"300"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"storegga_arm_slam"
+		"Ability2"					"storegga_grab"
+		"Ability3"					"storegga_grab_throw"
+		"Ability4"					"storegga_avalanche"
+		"Ability5"					"storegga_passive"
+		//"Ability6"					"generic_gold_bag_fountain_750"
+
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"40"
+		"MagicalResistance"			"0"
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1500"
+		"AttackDamageMax"			"2000"
+		"AttackRate"				"2.5"
+		"AttackAnimationPoint"		"1.0"
+		"AttackAcquisitionRange"	"1500"
+		"AttackRange"				"10"
+		"ProjectileModel"			""
+		"ProjectileSpeed"			"0"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"100"
+		"HealthBarOffset"			"850"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"2500"
+		"BountyGoldMin"				"0"
+		"BountyGoldMax"				"0"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"550"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"30000"
+		"StatusHealthRegen"			"15"
+		"StatusMana"				"10000"
+		"StatusManaRegen"			"50"
+
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1800"
+		"VisionNighttimeRange"		"1800"
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		// Creature Data
+		//----------------------------------------------------------------
+		"Creature"
+		{
+			"DisableResistance"			"100.0"
+		}
+	}
+
+	// MISC
+	"npc_frostivus_vision_dummy"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/heroes/dragon_knight/dragon_knight.vmdl"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_SMALL"
+		"RingRadius" "0"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_FLY"
 	}
 }

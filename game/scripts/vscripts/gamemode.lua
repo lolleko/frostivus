@@ -28,7 +28,7 @@ function GameMode:Init()
 	GameRules:SetGoldTickTime( 999999.0 )
 	GameRules:SetGoldPerTick( 0 )
 	GameRules:SetStartingGold( 0 )
-	GameRules:SetUseUniversalShopMode(true)
+	--GameRules:SetUseUniversalShopMode(true)
 	GameRules:GetGameModeEntity():SetRemoveIllusionsOnDeath( true )
 	GameRules:GetGameModeEntity():SetDaynightCycleDisabled( false )
 	GameRules:GetGameModeEntity():SetStashPurchasingDisabled( true )
@@ -48,8 +48,6 @@ function GameMode:Init()
 	GameRules:SetCustomGameAllowHeroPickMusic( false )
 	GameRules:SetCustomGameAllowBattleMusic( false )
 	GameRules:SetCustomGameAllowMusicAtGameStart( true )
-
-	self:InitQuests()
 end
 
 function GameMode:GetDifficultyScalar()
@@ -63,11 +61,11 @@ function GameMode:GetDifficultyScalar()
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
 			if PlayerResource:HasSelectedHero(plyID) then
-				scale = scale + 80
+				scale = scale + 120
 				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
 			end
 		end
-		scale = scale + self:GetStage() * 500
+		scale = scale + self:GetStage() * 200
 		self.DifficultyScale = scale
 		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
 	end
@@ -78,7 +76,7 @@ function GameMode:ScaleUnit(unit)
 	local scalar = self:GetDifficultyScalar()
 	unit:SetMaxHealth(unit:GetMaxHealth() + math.floor(unit:GetMaxHealth() * scalar/800))
 	unit:SetHealth(unit:GetMaxHealth())
-	unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/900))
+	unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/1000))
 	unit:SetBaseMagicalResistanceValue(unit:GetBaseMagicalResistanceValue() + (unit:GetBaseMagicalResistanceValue() * scalar/1000))
 	unit:SetBaseDamageMin(unit:GetBaseDamageMin() + math.floor(scalar/80))
 	unit:SetBaseDamageMax(unit:GetBaseDamageMax() + math.floor(scalar/80))
@@ -105,7 +103,7 @@ function GameMode:GetBuildingRange(plyID)
 	if self:IsPVP() then
 		return 1280
 	end
-	return 2240
+	return 2368
 end
 
 function GameMode:GetStage()

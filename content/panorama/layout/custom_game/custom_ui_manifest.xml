@@ -1,10 +1,12 @@
 <root>
 	<scripts>
+		<include src="file://{resources}/scripts/custom_game/util.js" />
 		<include src="file://{resources}/scripts/custom_game/player.js" />
 		<include src="file://{resources}/scripts/custom_game/player_building.js" />
 	</scripts>
 	<Panel>
 		<CustomUIElement type="Hud" layoutfile="file://{resources}/layout/custom_game/frostivus_hud.xml" />
+		<CustomUIElement type="GameInfo" layoutfile="file://{resources}/layout/custom_game/frostivus_game_info.xml" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_defense_wall_tier1.psd" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_lumber_camp_tier1.psd" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_gold_camp_tier1.psd" />

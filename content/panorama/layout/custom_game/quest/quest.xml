@@ -1,15 +1,21 @@
 <root>
 	<styles>
-		<include src="file://{resources}/styles/custom_game/quest/quest.css" />
+		<include src="file://{resources}/styles/custom_game/quest/quest.css"/>
 	</styles>
 	<scripts>
-		<include src="file://{resources}/scripts/custom_game/quest/quest.js" />
-		<include src="file://{resources}/scripts/custom_game/panel_factory.js" />
+		<include src="file://{resources}/scripts/custom_game/util.js" />
+		<include src="file://{resources}/scripts/custom_game/quest/quest.js"/>
+		<include src="file://{resources}/scripts/custom_game/panel_factory.js"/>
 	</scripts>
 	<Panel class="QuestRoot" hittest="false">
-    <Label id="Name" />
-		<Label id="Description" />
-    <Panel id="Goals">
-    </Panel>
+		<Label id="Name"/>
+		<Label id="Description"/>
+		<Panel id="Goals"/>
+		<Panel id="Timer">
+			<Panel id="TimerProgressBar">
+				<Panel id="TimerProgressBarInner"/>
+			</Panel>
+			<Label id="TimerLabel" />
+		</Panel>
 	</Panel>
 </root>

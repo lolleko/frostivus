@@ -3,6 +3,7 @@
 		<include src="file://{resources}/styles/custom_game/building_tooltip.css" />
 	</styles>
 	<scripts>
+    <include src="file://{resources}/scripts/custom_game/util.js" />
 		<include src="file://{resources}/scripts/custom_game/building_tooltip.js" />
 	</scripts>
   <Panel class="BuildingTooltip" ontooltiploaded="SetupTooltip()">

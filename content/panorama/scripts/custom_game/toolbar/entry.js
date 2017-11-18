@@ -4,12 +4,12 @@
     $('#BuildingImage').style.backgroundImage = 'url("file://{images}/custom_game/buildings/' + buildingName + '.psd")'
     if (buildingData.Requirements) {
       if (buildingData.Requirements.LumberCost) {
-        $('#LumberCost').text = nFormatter(buildingData.Requirements.LumberCost)
+        $('#LumberCost').text = util.nFormatter(buildingData.Requirements.LumberCost)
       } else {
         $('#LumberPanel').style.visibility = 'collapse'
       }
       if (buildingData.Requirements.GoldCost) {
-        $('#GoldCost').text = nFormatter(buildingData.Requirements.GoldCost)
+        $('#GoldCost').text = util.nFormatter(buildingData.Requirements.GoldCost)
       } else {
         $('#GoldPanel').style.visibility = 'collapse'
       }

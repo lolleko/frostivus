@@ -14,7 +14,7 @@ CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_P
 CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
 
 function CDOTA_PlayerResource:ModifyLumber(plyID, lumberChange)
-  self:SetLumber(plyID, math.clamp(self:GetLumber(plyID) + lumberChange, 0 ,self:GetLumberCapacity(plyID)))
+  self:SetLumber(plyID, math.floor(math.clamp(self:GetLumber(plyID) + lumberChange, 0 ,self:GetLumberCapacity(plyID))))
 end
 
 function CDOTA_PlayerResource:ModifyGold(plyID, goldChange, bReliable)
