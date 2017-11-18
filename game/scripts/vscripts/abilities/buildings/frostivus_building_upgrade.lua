@@ -29,6 +29,6 @@ function frostivus_building_upgrade:OnSpellStart()
       end
     end
   end
-  PlayerResource:SpawnBuilding(plyID, BuildingKV:GetUpgradeName(caster:GetUnitName()), {origin = GetGroundPosition(caster:GetOrigin(), caster), rotation = caster:GetAngles().y, Force = true})
+  PlayerResource:SpawnBuilding(plyID, BuildingKV:GetUpgradeName(caster:GetUnitName()), {origin = GetGroundPosition(caster:GetOrigin(), caster), rotation = caster:GetAngles().y, force = true})
   caster:Kill(self, caster)
 end

@@ -1,9 +1,9 @@
 "AddonInfo"
 {
-	"maps"			"njords_heart_coop"
+	"maps"			"njords_hearth_coop"
 	"IsPlayable"	"1"
 
-	"njords_heart_coop"
+	"njords_hearth_coop"
 	{
 		"MaxPlayers"                    "4"
 	}

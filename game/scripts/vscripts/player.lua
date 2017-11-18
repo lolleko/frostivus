@@ -32,12 +32,12 @@ CDOTA_PlayerResource:AddPlayerData("BuildingList", NETWORKVAR_TRANSMIT_STATE_NON
 
 function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callback)
   -- RotatePreview
-  local origin = spawnTable.origin
+  local origin = GetGroundPosition(spawnTable.origin, nil)
   local building = BuildingKV:GetBuilding(unitName)
   if not building then return end
   local owner = spawnTable.owner or self:GetSelectedHeroEntity(plyID)
   local rotation = spawnTable.rotation or 0
-  local randomAngles = spawnTable.RandomAngles or building.RandomAngles
+  local randomAngles = spawnTable.randomAngles or building.RandomAngles
   local sizeX, sizeY = BuildingKV:GetSize(unitName)
   local isPVP = GM:IsPVP()
   local iIsPVP = isPVP and 1 or 0
@@ -46,7 +46,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
   end
   -- check once again if area blocked
   local areaBlocked = GridNav:IsAreaBlocked(origin, sizeX, sizeY)
-  if not areaBlocked or spawnTable.Force then
+  if not areaBlocked or spawnTable.force then
     -- block area
     local blockers = {}
     local gridPointer = Vector(origin.x - (sizeX / 2) * 64, origin.y + (sizeY / 2) * 64, origin.z)
@@ -63,7 +63,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
       gridPointer.x = gridPointer.x + 64
     end
     -- spawnbuilding
-    local time = spawnTable.AnimationTime or building.AnimationTime or 4
+    local time = spawnTable.animationTime or building.AnimationTime or 4
     local animDistance = 400
     if building.IsLookout then
       animDistance = animDistance + 220
@@ -179,3 +179,4 @@ end
 
 
 require "player_building"
+require "player_persistence"

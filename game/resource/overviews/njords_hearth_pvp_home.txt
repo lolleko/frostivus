@@ -1,0 +1,8 @@
+njords_hearth_pvp_home
+{
+	material materials/overviews/njords_hearth_pvp_home.vmat
+	pos_x -4096
+	pos_y 4096
+	scale 8.000
+}
+

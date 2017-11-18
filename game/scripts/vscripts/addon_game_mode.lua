@@ -31,10 +31,8 @@ LinkLuaModifier("modifier_provides_fow_position", "modifiers/modifier_provides_f
 GameMode.CGName = "frostivus"
 
 if string.match(GetMapName(), "coop") then
-	GameMode.bIsCoop = true
 	GameMode.bIsPVP = false
 else
-	GameMode.bIsCoop = false
 	GameMode.bIsPVP = true
 end
 
@@ -43,7 +41,8 @@ function GameMode:IsPVP()
 end
 
 GameMode.CGDefaultData = {
-	units = {}
+	buildings = {},
+	hero = {}
 }
 
 function Precache( context )

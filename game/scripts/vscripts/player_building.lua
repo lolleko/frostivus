@@ -2,28 +2,28 @@ local unitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 CDOTA_PlayerResource:AddPlayerData("PreviewModel", NETWORKVAR_TRANSMIT_STATE_NONE, nil)
 
 function CDOTA_PlayerResource:HasRequirements(plyID, requirements, buildingName)
-  if requirements.Stage and requirements.Stage > GM:GetStage() then
-    self:SendCastError(plyID, "frostivus_hud_error_stage_not_unlocked")
-    return false
-  end
-  if requirements.MaxAlive and buildingName then
-  	local i = buildingName:match( ".+()%_%w+$" )
-    --assert(i, "Missing underscore in building name")
-  	local baseName = buildingName:sub(1, i - 1)
-    local buildingsOfSameType = self:FindAllBuildingsWithName(plyID, baseName)
-    if #buildingsOfSameType >= requirements.MaxAlive then
-      self:SendCastError(plyID, "frostivus_hud_error_maximum_buildings_of_type")
-      return false
-    end
-  end
-  if requirements.LumberCost and self:GetLumber(plyID) < requirements.LumberCost then
-    self:SendCastError(plyID, "frostivus_hud_error_not_enough_lumber")
-    return false
-  end
-  if requirements.GoldCost and self:GetGold(plyID) < requirements.GoldCost then
-    self:SendCastError(plyID, "frostivus_hud_error_not_enough_gold")
-    return false
-  end
+  -- if requirements.Stage and requirements.Stage > GM:GetStage() then
+  --   self:SendCastError(plyID, "frostivus_hud_error_stage_not_unlocked")
+  --   return false
+  -- end
+  -- if requirements.MaxAlive and buildingName then
+  -- 	local i = buildingName:match( ".+()%_%w+$" )
+  --   --assert(i, "Missing underscore in building name")
+  -- 	local baseName = buildingName:sub(1, i - 1)
+  --   local buildingsOfSameType = self:FindAllBuildingsWithName(plyID, baseName)
+  --   if #buildingsOfSameType >= requirements.MaxAlive then
+  --     self:SendCastError(plyID, "frostivus_hud_error_maximum_buildings_of_type")
+  --     return false
+  --   end
+  -- end
+  -- if requirements.LumberCost and self:GetLumber(plyID) < requirements.LumberCost then
+  --   self:SendCastError(plyID, "frostivus_hud_error_not_enough_lumber")
+  --   return false
+  -- end
+  -- if requirements.GoldCost and self:GetGold(plyID) < requirements.GoldCost then
+  --   self:SendCastError(plyID, "frostivus_hud_error_not_enough_gold")
+  --   return false
+  -- end
   return true
 end
 
