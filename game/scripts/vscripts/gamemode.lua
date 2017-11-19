@@ -15,7 +15,9 @@ function GameMode:Init()
 	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_8, 0)
 
 	GameRules:GetGameModeEntity():SetAnnouncerDisabled( true )
-	GameRules:GetGameModeEntity():SetUnseenFogOfWarEnabled( true )
+	if not self:IsPVP() then
+		GameRules:GetGameModeEntity():SetUnseenFogOfWarEnabled( true )
+	end
 
 	GameRules:SetHeroSelectionTime( 30.0 )
 	--GameRules:SetTimeOfDay( 0.25 )
@@ -101,9 +103,9 @@ end
 
 function GameMode:GetBuildingRange(plyID)
 	if self:IsPVP() then
-		return 1280
+		return 1664
 	end
-	return 2368
+	return 2432
 end
 
 function GameMode:GetStage()

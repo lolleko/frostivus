@@ -20,6 +20,7 @@ function GameMode:OnPlayerPickHero(data)
   if self:IsPVP() then
     local playerCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
     local spawn = self:GetSpiritTreeSpawnTable()[playerCount][data.player]
+    PlayerResource:LoadPlayer(hero:GetPlayerOwnerID(), hero)
     PlayerResource:SpawnBuilding(hero:GetPlayerOwnerID(), "npc_frostivus_spirit_tree_pvp", {origin = spawn, sizeX = 2, sizeY = 2, owner = hero})
   else
     self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))

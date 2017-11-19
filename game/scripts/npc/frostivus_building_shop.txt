@@ -51,4 +51,9 @@ FrostivusInvestments
     "Category" "Resources"
     "BuildingID" "106"
   }
+  "npc_frostivus_radiant_melee_creep_tier1"
+  {
+    "Category" "Units"
+    "BuildingID" "107"
+  }
 }

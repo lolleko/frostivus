@@ -37,10 +37,9 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
   if not building then return end
   local owner = spawnTable.owner or self:GetSelectedHeroEntity(plyID)
   local rotation = spawnTable.rotation or 0
+  local isUnit = tobool(building.IsUnit)
   local randomAngles = spawnTable.randomAngles or building.RandomAngles
   local sizeX, sizeY = BuildingKV:GetSize(unitName)
-  local isPVP = GM:IsPVP()
-  local iIsPVP = isPVP and 1 or 0
   if (rotation / 90) % 2 == 1 then
     sizeX, sizeY = sizeY, sizeX
   end
@@ -56,7 +55,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
       gridPointer.x = gridPointer.x + 64
       for y=1, sizeY / 2 do
         gridPointer.y = gridPointer.y - 64
-        local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = gridPointer, block_fow = iIsPVP})
+        local obstruction = SpawnEntityFromTableSynchronous("point_simple_obstruction", {origin = gridPointer, block_fow = 0})
         table.insert(blockers, obstruction)
         gridPointer.y = gridPointer.y - 64
       end
@@ -64,6 +63,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
     end
     -- spawnbuilding
     local time = spawnTable.animationTime or building.AnimationTime or 4
+    local animEndTime = GameRules:GetGameTime() + time
     local animDistance = 400
     if building.IsLookout then
       animDistance = animDistance + 220
@@ -72,18 +72,25 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
     local fps = 30
     local step = animDistance / (time * fps)
     local startOrigin = Vector(origin.x, origin.y, origin.z - animDistance)
+    if isUnit then
+      startOrigin = origin
+    end
+
 
     local lookoutSentry
     if building.IsLookout then
       lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin, scale = 0.8})
     end
 
-    CreateUnitByNameAsync(unitName, startOrigin, false, owner, owner, self:GetTeam(plyID), function(unit)
+    CreateUnitByNameAsync(unitName, startOrigin, isUnit, owner, owner, self:GetTeam(plyID), function(unit)
       unit:SetNeverMoveToClearSpace(true)
       table.insert(self:GetBuildingList(plyID), unit)
       table.insert(Entities:GetBuildingListRaw(), unit)
-      if building.IsLookout then
+      if building.IsLookout or isUnit then
         ApplyStun(unit, time)
+      end
+
+      if building.IsLookout then
         unit:AddNewModifier(unit, nil, "modifier_frostivus_lookout", {lookoutSentry = lookoutSentry:GetEntityIndex()})
       end
 
@@ -96,30 +103,37 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
         unit:SetControllableByPlayer(plyID, true)
       end, 0)
 
-      local constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
-      ParticleManager:SetParticleControl(constructionParticle, 0, unit:GetOrigin())
+      local constructionParticle
       unit:SetHealth(1)
-      unit:SetOrigin(startOrigin)
+      if not isUnit then
+        unit:SetOrigin(startOrigin)
+        constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
+        ParticleManager:SetParticleControl(constructionParticle, 0, unit:GetOrigin())
+      end
       unit:SetContextThink("contructionThink", function()
-        if math.abs(origin.z - unit:GetOrigin().z) <= step then
-          unit:SetOrigin(origin)
+        unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
+        if animEndTime <= GameRules:GetGameTime() then
           if lookoutSentry then
             lookoutSentry:SetOrigin(origin - Vector(0, 0, 220))
           end
-          ParticleManager:DestroyParticle(constructionParticle, false)
-          ParticleManager:ReleaseParticleIndex(constructionParticle)
+          if not isUnit then
+            unit:SetOrigin(origin)
+            ParticleManager:DestroyParticle(constructionParticle, false)
+            ParticleManager:ReleaseParticleIndex(constructionParticle)
+          end
           unit:OnConstructionCompleted()
+          -- heal a additional time jsut in case
+          unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
           return
         end
-        if unit:GetOrigin() ~= origin then
-          unit:Heal(unit:GetMaxHealth() / (time * fps), unit)
+        if not isUnit then
           startOrigin.z = startOrigin.z + step
           unit:SetOrigin(startOrigin)
           if lookoutSentry then
             lookoutSentry:SetOrigin(startOrigin - Vector(0, 0, 220))
           end
-          return 1/fps
         end
+        return 1/fps
       end, 0)
       for _, psos in pairs(blockers) do
         if lookoutSentry then

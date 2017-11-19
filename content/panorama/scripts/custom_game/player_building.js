@@ -5,6 +5,7 @@
   var range = 0
   var sizeX
   var sizeY
+  var center
   var squareParticles = []
   var blockedSquaresParticles = []
   var buildingName
@@ -29,6 +30,7 @@
     Particles.SetParticleControl(rangeParticle, 0, data.center)
     Particles.SetParticleControl(rangeParticle, 1, [data.range, 0, 0])
     range = data.range
+    center = data.center
     // Particles.SetParticleControl(rangeParticle, 1, [data.range, 0, 0]) // hardcoded in aprticle
     // cahce squareParticles
     var squareParticle
@@ -38,18 +40,58 @@
 
       squareParticles.push(squareParticle)
     }
-    for (var index in data.blockedSquares) {
-      var squarePos = data.blockedSquares[index]
-      squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
-      Particles.SetParticleControl(squareParticle, 0, squarePos)
-      Particles.SetParticleControl(squareParticle, 1, [255, 150, 150])
-      blockedSquaresParticles.push(squareParticle)
-    }
 
+    UpdateBlockedSquares(data)
     UpdatePreview()
     $.GetContextPanel().GetParent().FindChildTraverse('BuildTutorial').style.visibility = 'visible'
   }
   GameEvents.Subscribe('buildingStartPreview', OnStartPreview)
+
+  function UpdateBlockedSquares () {
+    if (previewActive) {
+      // dont do this that often as it will eb laggy
+      $.Schedule(1, UpdateBlockedSquares)
+      GameEvents.SendCustomGameEventToServer('buildingCheckBlockedSquares', {'center': center, 'range': range})
+    }
+  }
+
+  function DrawBlockedSquares (data) {
+    var deleteLater = blockedSquaresParticles.slice(0)
+    blockedSquaresParticles = []
+    if (previewActive) {
+      var topLeft = data.blockedSquares.topLeft.split(' ').map(Number)
+      var lines = data.blockedSquares.lines
+      var lineCount = lines.length
+      var initialX = topLeft[0]
+      for (var i = 0; i < lineCount; i++) {
+        if (lines[i] === '1') {
+          var squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+          Particles.SetParticleControl(squareParticle, 0, topLeft)
+          Particles.SetParticleControl(squareParticle, 1, [255, 150, 150])
+          blockedSquaresParticles.push(squareParticle)
+        }
+        topLeft[0] += 64
+        if (lines[i] === ';') {
+          topLeft[0] = initialX
+          topLeft[1] -= 64
+        }
+      }
+      $.Schedule(0.05, function () {
+        deleteLater.forEach(function (square) {
+          Particles.DestroyParticleEffect(square, true)
+          Particles.ReleaseParticleIndex(square)
+        })
+      })
+      // for (var index in data.lines) {
+      //   var squarePos = data.blockedSquares[index]
+      //   var squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+      //   Particles.SetParticleControl(squareParticle, 0, squarePos)
+      //   Particles.SetParticleControl(squareParticle, 1, [255, 150, 150])
+      //   blockedSquaresParticles.push(squareParticle)
+      // }
+    }
+  }
+  GameEvents.Subscribe('buildingUpdateBlockedSquares', DrawBlockedSquares)
 
   function StopPreview () {
     previewActive = false

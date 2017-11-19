@@ -6,16 +6,16 @@ function CDOTA_PlayerResource:HasRequirements(plyID, requirements, buildingName)
   --   self:SendCastError(plyID, "frostivus_hud_error_stage_not_unlocked")
   --   return false
   -- end
-  -- if requirements.MaxAlive and buildingName then
-  -- 	local i = buildingName:match( ".+()%_%w+$" )
-  --   --assert(i, "Missing underscore in building name")
-  -- 	local baseName = buildingName:sub(1, i - 1)
-  --   local buildingsOfSameType = self:FindAllBuildingsWithName(plyID, baseName)
-  --   if #buildingsOfSameType >= requirements.MaxAlive then
-  --     self:SendCastError(plyID, "frostivus_hud_error_maximum_buildings_of_type")
-  --     return false
-  --   end
-  -- end
+  if requirements.MaxAlive and buildingName then
+  	local i = buildingName:match( ".+()%_%w+$" )
+    --assert(i, "Missing underscore in building name")
+  	local baseName = buildingName:sub(1, i - 1)
+    local buildingsOfSameType = self:FindAllBuildingsWithName(plyID, baseName)
+    if #buildingsOfSameType >= requirements.MaxAlive then
+      self:SendCastError(plyID, "frostivus_hud_error_maximum_buildings_of_type")
+      return false
+    end
+  end
   -- if requirements.LumberCost and self:GetLumber(plyID) < requirements.LumberCost then
   --   self:SendCastError(plyID, "frostivus_hud_error_not_enough_lumber")
   --   return false
@@ -46,26 +46,16 @@ function CDOTA_PlayerResource:ProcessBuildingPreviewRequest(eventSourceIndex, da
   prop:AddEffects(EF_NODRAW)
   self:SetPreviewModel(plyID, prop)
   local range = GM:GetBuildingRange()
-  local gridPointer = Vector(-range, range, 0)
-  local groundHeight = GetGroundHeight(GM:GetBuildingCenter(plyID), prop)
-  local blockedSquares = {}
-  for x=-range,range,64  do
-    for y=range,-range,-64  do
-      local squarePos = Vector(x - 32, y -32, groundHeight)
-      if GridNav:IsBlocked(squarePos) then
-        table.insert(blockedSquares, squarePos)
-      end
-    end
-  end
+  local center = GM:GetBuildingCenter(plyID)
   CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(plyID), "buildingStartPreview", {
     buildingName = data.unitName,
     previewModel = prop:GetEntityIndex(),
     sizeX = building.SizeX,
     sizeY = building.SizeY,
     scale = building.ModelScale,
-    center = GM:GetBuildingCenter(plyID),
+    center = center,
     range = range,
-    blockedSquares = blockedSquares
+    blockedSquares = GridNav:GetBlockedInSquare(center, range, true)
   })
 end
 CustomGameEventManager:RegisterListener("buildingPreviewRequest", function(...) PlayerResource:ProcessBuildingPreviewRequest(...) end)
@@ -120,3 +110,10 @@ function CDOTA_PlayerResource:OnBuildingCheckSquare(eventSourceIndex, data)
   CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(data.PlayerID), "buildingUpdateSquare", {blocked = areaBlocked, squareID = squareID})
 end
 CustomGameEventManager:RegisterListener("buildingCheckSquare", function(...) PlayerResource:OnBuildingCheckSquare(...) end)
+
+function CDOTA_PlayerResource:OnBuildingCheckBlockedSquares(eventSourceIndex, data)
+  CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(data.PlayerID), "buildingUpdateBlockedSquares", {
+    blockedSquares = GridNav:GetBlockedInSquare(Vector(data.center["0"], data.center["1"], data.center["2"]), data.range, true)
+  })
+end
+CustomGameEventManager:RegisterListener("buildingCheckBlockedSquares", function(...) PlayerResource:OnBuildingCheckBlockedSquares(...) end)

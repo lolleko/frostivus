@@ -9,7 +9,7 @@
   flow-children: right;
   z-index: 10;
   margin-bottom: 4px;
-  margin-right: 400px;
+  margin-right: 280px;
 }
 
 #ToolbarContent {
@@ -22,7 +22,7 @@
   height: 96px;
   width: 96px;
   background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
-  background-image: url("s2r://panorama/images/topbar/armory_icon_off_png.vtex");
+  background-image: url("s2r://panorama/images/control_icons/camera_topdown_psd.vtex");
   background-size: 100% 100%;
   border-radius: 2px;
 }

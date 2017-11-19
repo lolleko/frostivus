@@ -20,6 +20,7 @@
   var buildings = CreateLayout($.GetContextPanel(), 'BuildingMenu', 'file://{resources}/layout/custom_game/toolbar/building_menu.xml')
   buildings.LoadCategory('Defense')
   buildings.LoadCategory('Resources')
+  buildings.LoadCategory('Units')
   toolbar.Insert('Buildings', buildings)
 
   $.Msg(Players.GetBuildingShopKV(Players.GetLocalPlayer()))

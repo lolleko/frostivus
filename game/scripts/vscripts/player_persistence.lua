@@ -20,12 +20,14 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
     if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
     else
-      local bld = {}
-      bld.unitName = unit:GetUnitName()
-      local origin = unit:GetOrigin()
-      bld.origin = {origin.x, origin.y, origin.z}
-      bld.rotation = unit:GetAngles().y
-      table.insert(saveData.buildings, bld)
+			if not unit:IsSpiritTree() then
+				local bld = {}
+	      bld.unitName = unit:GetUnitName()
+	      local origin = unit:GetOrigin()
+	      bld.origin = {origin.x, origin.y, origin.z}
+	      bld.rotation = unit:GetAngles().y
+	      table.insert(saveData.buildings, bld)
+			end
     end
   end
   saveData.hero = {}
@@ -44,10 +46,12 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
   self:UpdatePersitenData(plyID)
 end
 
-function CDOTA_PlayerResource:LoadPlayer(plyID)
+function CDOTA_PlayerResource:LoadPlayer(plyID, owner)
+	-- owner arg ioos required because GetSelectedHeroEntity isnt set yet if OnPlayerPickHero is called
   local saveData = self:GetCGData(plyID)
   for _, building in pairs(saveData.buildings) do
     building.origin = Vector(building.origin[1], building.origin[2], building.origin[3])
+		building.owner = owner
     self:SpawnBuilding(plyID, building.unitName, building)
   end
 end

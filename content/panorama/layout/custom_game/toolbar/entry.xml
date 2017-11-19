@@ -9,16 +9,17 @@
 	</scripts>
 	<Panel class="MenuEntryRoot" hittest="false">
 		<Button id="ButtonWrap">
-			<Label id="Name" text="name" />
-		  <Panel id="BuildingImage"/>
-			<Panel id="StatInfo">
-				<Panel class="ResourcePanel" id="LumberPanel">
-					<Panel class="ResourceIcon" id="LumberIcon"/>
-					<Label class="ResourceLabel" id="LumberCost" text="lumber_cost" />
-				</Panel>
-				<Panel class="ResourcePanel" id="GoldPanel">
-					<Panel class="ResourceIcon" id="GoldIcon"/>
-					<Label class="ResourceLabel" id="GoldCost" text="gold_cost" />
+		  <Panel id="BuildingImage">
+				<Label id="Name" text="name" />
+				<Panel id="StatInfo">
+					<Panel class="ResourcePanel" id="LumberPanel">
+						<Panel class="ResourceIcon" id="LumberIcon"/>
+						<Label class="ResourceLabel" id="LumberCost" text="lumber_cost" />
+					</Panel>
+					<Panel class="ResourcePanel" id="GoldPanel">
+						<Panel class="ResourceIcon" id="GoldIcon"/>
+						<Label class="ResourceLabel" id="GoldCost" text="gold_cost" />
+					</Panel>
 				</Panel>
 			</Panel>
 		</Button>
