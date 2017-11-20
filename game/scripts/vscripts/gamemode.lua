@@ -2,17 +2,26 @@ require "cgcore.gamemode"
 
 require "events"
 
+GameMode.TeamMaxPlayersMap = {
+	njords_hearth_coop = {
+		[DOTA_TEAM_BADGUYS] = 0,
+		[DOTA_TEAM_GOODGUYS] = 4
+	},
+	njords_hearth_pvp_home = {
+		[DOTA_TEAM_BADGUYS] = 0,
+		[DOTA_TEAM_GOODGUYS] = 1
+	},
+	njords_hearth_pvp_1v1 = {
+		[DOTA_TEAM_BADGUYS] = 1,
+		[DOTA_TEAM_GOODGUYS] = 1
+	}
+}
+
 function GameMode:Init()
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_3, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_4, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_5, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_6, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_7, 0)
-	GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_8, 0)
+	for teamID, plyCount in pairs(self.TeamMaxPlayersMap[GetMapName()]) do
+		GameRules:SetCustomGameTeamMaxPlayers(teamID, plyCount)
+
+	end
 
 	GameRules:GetGameModeEntity():SetAnnouncerDisabled( true )
 	if not self:IsPVP() then
@@ -92,7 +101,15 @@ end
 
 function GameMode:GetSpiritTree(plyID)
 	if self:IsPVP() then
-		return PlayerResource:FindBuildingByName(plyID, "npc_frostivus_spirit_tree_pvp")
+		if plyID then
+			return PlayerResource:FindBuildingByName(plyID, "npc_frostivus_spirit_tree_pvp")
+		else
+			local trees = Entities:FindAllBuildingsWithName("npc_frostivus_spirit_tree")
+			table.shuffle(trees)
+			if #trees > 0 then
+				return trees[1]
+			end
+		end
 	end
 	return self.coopSpiritTree
 end

@@ -16,6 +16,7 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
   local buildingList = self:GetBuildingList(plyID)
   local saveData = {}
   saveData.buildings = {}
+	local center = GM:GetBuildingCenter(plyID)
   for k, unit in pairs(buildingList) do
     if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
@@ -24,7 +25,7 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
 				local bld = {}
 	      bld.unitName = unit:GetUnitName()
 	      local origin = unit:GetOrigin()
-	      bld.origin = {origin.x, origin.y, origin.z}
+	      bld.origin = {center.x - origin.x, center.y - origin.y, center.z - origin.z}
 	      bld.rotation = unit:GetAngles().y
 	      table.insert(saveData.buildings, bld)
 			end
@@ -46,12 +47,23 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
   self:UpdatePersitenData(plyID)
 end
 
-function CDOTA_PlayerResource:LoadPlayer(plyID, owner)
-	-- owner arg ioos required because GetSelectedHeroEntity isnt set yet if OnPlayerPickHero is called
+function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
+	-- hero arg is required because GetSelectedHeroEntity isnt set when OnPlayerPickHero is called
+	hero = hero or PlayerResource:GetSelectedHeroEntity(plyID)
   local saveData = self:GetCGData(plyID)
+	local center = GM:GetBuildingCenter(plyID)
+	-- load buidligns
   for _, building in pairs(saveData.buildings) do
-    building.origin = Vector(building.origin[1], building.origin[2], building.origin[3])
-		building.owner = owner
+    building.origin = Vector(center.x - building.origin[1], center.y - building.origin[2], center.z - building.origin[3])
+		building.owner = hero
     self:SpawnBuilding(plyID, building.unitName, building)
   end
+	-- load hero
+	for i=1, saveData.hero.level - 1 do
+		hero:HeroLevelUp(false)
+	end
+	hero:AddExperience(saveData.hero.xp, 0, false, false)
+	for _, item in pairs(saveData.hero.inventory) do
+		hero:AddItemByName(item)
+	end
 end

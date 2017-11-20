@@ -61,22 +61,37 @@
     if (previewActive) {
       var topLeft = data.blockedSquares.topLeft.split(' ').map(Number)
       var lines = data.blockedSquares.lines
-      var lineCount = lines.length
-      var initialX = topLeft[0]
-      for (var i = 0; i < lineCount; i++) {
-        if (lines[i] === '1') {
-          var squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
-          Particles.SetParticleControl(squareParticle, 0, topLeft)
-          Particles.SetParticleControl(squareParticle, 1, [255, 150, 150])
-          blockedSquaresParticles.push(squareParticle)
-        }
-        topLeft[0] += 64
+      var charCount = lines.length
+      var padding = data.blockedSquares.padding
+      var lineArr = []
+      var index = 0
+      // unpack
+      lineArr[0] = ''
+      for (var i = 0; i < charCount; i++) {
         if (lines[i] === ';') {
-          topLeft[0] = initialX
-          topLeft[1] -= 64
+          lineArr[index] = lineArr[index].substring(0, lineArr[index].length - padding)
+          index++
+          lineArr[index] = ''
+        } else {
+          var binPad = parseInt(lines[i], 16).toString(2)
+          lineArr[index] += Array(4 + 1 - binPad.length).join('0') + binPad
         }
       }
-      $.Schedule(0.05, function () {
+      var initialX = topLeft[0]
+      for (i = 0; i < lineArr.length; i++) {
+        for (var j = 0; j < lineArr[i].length; j++) {
+          if (lineArr[i][j] === '1') {
+            var squareParticle = Particles.CreateParticle('particles/misc/building_grid_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+            Particles.SetParticleControl(squareParticle, 0, topLeft)
+            Particles.SetParticleControl(squareParticle, 1, [255, 150, 150])
+            blockedSquaresParticles.push(squareParticle)
+          }
+          topLeft[0] += 64
+        }
+        topLeft[0] = initialX
+        topLeft[1] -= 64
+      }
+      $.Schedule(0.1, function () {
         deleteLater.forEach(function (square) {
           Particles.DestroyParticleEffect(square, true)
           Particles.ReleaseParticleIndex(square)

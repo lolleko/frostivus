@@ -91,22 +91,37 @@ function Spawn(entityKV)
   	thisEntity:SetContextThink( "WallRenderThink", WallRenderThink, 0)
   end
   if thisEntity.bIsSpawner then
-    thisEntity.SpawnerUnits = {}
-    for _, unitData in pairs(thisEntity.Building.Spawner.Units) do
-      local unitDataExt = table.deepcopy(unitData)
-      -- randomize first interval a bit
-      local initalDelay = unitDataExt.InitialDelay or 0
-      unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay
-      unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
-      if unitData.Spawnpoint then
-        unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
-      else
-        unitDataExt.Spawnpoint = thisEntity
+    thisEntity:SetContextThink("SpawnerThinkInital", function ()
+      thisEntity.SpawnerUnits = {}
+      for _, unitData in pairs(thisEntity.Building.Spawner.Units) do
+        local unitDataExt = table.deepcopy(unitData)
+        -- randomize first interval a bit
+        local initalDelay = unitDataExt.InitialDelay or 0
+        unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay
+        unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
+        local goals = Entities:FindAllByName(unitData.InitialGoal)
+        local minDist = -1
+        local minGoal
+        for _, goal in pairs(goals) do
+          local dist = (thisEntity:GetOrigin() - goal:GetOrigin()):Length2D()
+          if minDist == -1 or dist < minDist then
+            minDist = dist
+            minGoal = goal
+          end
+        end
+        if #goals > 0 then
+          unitDataExt.InitialGoal = minGoal
+        end
+        if unitData.Spawnpoint then
+          unitDataExt.Spawnpoint = Entities:FindByName(nil, unitData.Spawnpoint) or thisEntity
+        else
+          unitDataExt.Spawnpoint = thisEntity
+        end
+        unitDataExt.SpawnedUnits = {}
+        table.insert(thisEntity.SpawnerUnits, unitDataExt)
       end
-      unitDataExt.SpawnedUnits = {}
-      table.insert(thisEntity.SpawnerUnits, unitDataExt)
-    end
-    thisEntity:SetContextThink("SpawnerThink", SpawnerThink, 0)
+      thisEntity:SetContextThink("SpawnerThink", SpawnerThink, 0)
+    end, 0)
   end
 
   if thisEntity.Building.IsInvulnerable then

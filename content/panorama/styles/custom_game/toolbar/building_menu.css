@@ -16,7 +16,12 @@
 
 .CategoryLabel {
   font-size: 20px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px 3 #00000066;
   color: #FEFEFE;
 }
 

@@ -39,36 +39,44 @@ function GridNav:GetBlockedInSquare(center, range, compress)
   local blockedSquaresZipped = {}
   blockedSquaresZipped.topLeft = Vector(center.x - range + 32, center.y + range - 32, groundHeight)
   local lines = {}
+  local currentNum = ""
+  local count = 0
   for y=range,-range,-64  do
     local line = {}
+    currentNum = ""
+    blockedSquaresZipped.padding = count
+    count = 0
     for x=-range,range,64  do
+      if count == 4 then
+        line[#line + 1] = string.format("%x", tonumber(currentNum, 2))
+        currentNum = ""
+        count = 0
+      end
       local squarePos = Vector(center.x + x + 32, center.y + y - 32, groundHeight)
       if GridNav:IsBlocked(squarePos) then
         if compress then
-          line[#line + 1] = 1
+          currentNum = currentNum .. 1
         else
           blockedSquares[#blockedSquares + 1] = squarePos
         end
       else
         if compress then
-          line[#line + 1] = 0
+          currentNum = currentNum .. 0
         end
       end
+      count = count + 1
     end
     if compress then
       lines[#lines + 1] = table.concat(line)
     end
   end
-  -- we could even zip this more by encoding the lines in decimal but his will be enough for now (because deadline and simplicity)
-  -- this will keep the size of blockedSquaresZipped below 8KB when networked
-  -- and even more if i knew how custom messages are networked... JSON string?
-  -- right now this consumes 3-8KB i could easily reduce it to 375 bytes - 1KB
+  -- I could even zip this more but this will be enough for now (because deadline and simplicity)
+  -- I currently convert to hex and not unicode because unicode support is weird in js and lua 5.1
+  -- anyway this will keep the size of blockedSquaresZipped below 2KB when networked (assuming a character consumes 1byte)
+  -- this will result in ~2kb/s for each building preview
+  -- but careful this will grow exponentialy with the building range
   if compress then
     blockedSquaresZipped.lines = table.concat(lines, ";")
-    for _,v in pairs(lines) do
-      print(v)
-    end
-    print("---END---")
     return blockedSquaresZipped
   end
   return blockedSquares

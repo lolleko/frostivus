@@ -3,7 +3,7 @@
     var category = $.CreatePanel('Panel', $.GetContextPanel(), categoryName)
     category.AddClass('Category')
     var columnLabel = $.CreatePanel('Label', category, categoryName + '_label')
-    category.AddClass('CategoryLabel')
+    columnLabel.AddClass('CategoryLabel')
     columnLabel.text = categoryName
     var categoryRow = $.CreatePanel('Panel', $.GetContextPanel(), categoryName + '_row')
     categoryRow.AddClass('CategoryRow')

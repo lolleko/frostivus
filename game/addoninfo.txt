@@ -1,10 +1,18 @@
 "AddonInfo"
 {
-	"maps"			"njords_hearth_coop"
+	"maps"			"njords_hearth_coop njords_hearth_pvp_home njords_hearth_pvp_1v1"
 	"IsPlayable"	"1"
 
 	"njords_hearth_coop"
 	{
 		"MaxPlayers"                    "4"
+	}
+	"njords_hearth_pvp_home"
+	{
+		"MaxPlayers"                    "1"
+	}
+	"njords_hearth_pvp_1v1"
+	{
+		"MaxPlayers"                    "2"
 	}
 }

@@ -113,7 +113,7 @@ CustomGameEventManager:RegisterListener("buildingCheckSquare", function(...) Pla
 
 function CDOTA_PlayerResource:OnBuildingCheckBlockedSquares(eventSourceIndex, data)
   CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(data.PlayerID), "buildingUpdateBlockedSquares", {
-    blockedSquares = GridNav:GetBlockedInSquare(Vector(data.center["0"], data.center["1"], data.center["2"]), data.range, true)
+    blockedSquares = GridNav:GetBlockedInSquare(GM:GetBuildingCenter(data.PlayerID), data.range, true)
   })
 end
 CustomGameEventManager:RegisterListener("buildingCheckBlockedSquares", function(...) PlayerResource:OnBuildingCheckBlockedSquares(...) end)

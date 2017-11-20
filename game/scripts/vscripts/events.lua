@@ -1,17 +1,18 @@
 GameMode.BuildingRange = 1280
 
 function GameMode:GetSpiritTreeSpawnTable()
-  local range = GameMode.BuildingRange
-  local baseSpacing = 128
-  local rangeSpaced = range + baseSpacing
-  local groundHeight = GetGroundHeight(Vector(0, 0, 10000), nil)
-  local spiritTreeSpawns = {
-    {Vector(0, 0, groundHeight)}, -- Vertex
-    {Vector(0, rangeSpaced, groundHeight), Vector(0, -rangeSpaced, groundHeight)}, -- Line
-    {Vector(-rangeSpaced, -rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(0, rangeSpaced, groundHeight)}, -- Triangle
-    {Vector(-rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(-rangeSpaced, -rangeSpaced, groundHeight)}, -- Square
-  }
-  return spiritTreeSpawns
+  -- local range = GameMode.BuildingRange
+  -- local baseSpacing = 128
+  -- local rangeSpaced = range + baseSpacing
+  -- local groundHeight = GetGroundHeight(Vector(0, 0, 10000), nil)
+  -- local spiritTreeSpawns = {
+  --   {Vector(0, 0, groundHeight)}, -- Vertex
+  --   {Vector(0, rangeSpaced, groundHeight), Vector(0, -rangeSpaced, groundHeight)}, -- Line
+  --   {Vector(-rangeSpaced, -rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(0, rangeSpaced, groundHeight)}, -- Triangle
+  --   {Vector(-rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, rangeSpaced, groundHeight), Vector(rangeSpaced, -rangeSpaced, groundHeight), Vector(-rangeSpaced, -rangeSpaced, groundHeight)}, -- Square
+  -- }
+  -- return spiritTreeSpawns
+  return Entities:FindAllByName("spirit_tree_spawn")
 end
 
 function GameMode:OnPlayerPickHero(data)
@@ -19,9 +20,11 @@ function GameMode:OnPlayerPickHero(data)
 
   if self:IsPVP() then
     local playerCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
-    local spawn = self:GetSpiritTreeSpawnTable()[playerCount][data.player]
-    PlayerResource:LoadPlayer(hero:GetPlayerOwnerID(), hero)
-    PlayerResource:SpawnBuilding(hero:GetPlayerOwnerID(), "npc_frostivus_spirit_tree_pvp", {origin = spawn, sizeX = 2, sizeY = 2, owner = hero})
+    local spawn = self:GetSpiritTreeSpawnTable()[data.player]
+    hero:SetRespawnPosition(spawn:GetOrigin())
+    PlayerResource:SpawnBuilding(hero:GetPlayerOwnerID(), "npc_frostivus_spirit_tree_pvp", {origin = spawn:GetOrigin(), sizeX = 2, sizeY = 2, owner = hero}, function (args)
+      PlayerResource:LoadPlayer(hero:GetPlayerOwnerID(), hero)
+    end)
   else
     self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
     local plyID = hero:GetPlayerOwnerID()

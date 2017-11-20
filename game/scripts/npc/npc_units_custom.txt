@@ -1257,6 +1257,7 @@
 			"Requirements" {
 				"GoldCost" "1100"
 				"LumberCost" "1200"
+				"MaxAlive" "6"
 				"Stage" "1"
 			}
 			"DynamicModels"
@@ -1348,7 +1349,7 @@
 		"vscripts" "entity_scripts/frostivus_building.lua"
 	}
 	// dire spawner
-	"npc_frostivus_dire_spawner"
+	"npc_frostivus_dire_spawner_coop_stage0"
 	{
 		"BaseClass" "npc_dota_creature"
 		"Model" "models/props_structures/bad_barracks001_melee.vmdl"
@@ -1447,6 +1448,83 @@
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
 	}
+	"npc_frostivus_dire_spawner_home_stage0"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/props_structures/bad_barracks001_melee.vmdl"
+		"ModelScale" "1"
+		"Level" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+
+		"Building"
+		{
+			"IsSpawner" "1"
+			"IsInvulnerable" "1"
+			"Spawner"
+			{
+				"Units"
+				{
+					"0"
+					{
+						"UnitName" "npc_frostivus_dire_melee_creep"
+						"Interval" "20"
+						"InitialDelay" "10"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_creep_spawn0"
+						"ScaleUnits" "1"
+					}
+					"1"
+					{
+						"UnitName" "npc_frostivus_dire_melee_creep"
+						"Interval" "20"
+						"InitialDelay" "10"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_creep_spawn1"
+						"ScaleUnits" "1"
+					}
+					"2"
+					{
+						"UnitName" "npc_frostivus_dire_melee_creep"
+						"Interval" "20"
+						"InitialDelay" "40"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_creep_spawn2"
+						"ScaleUnits" "1"
+					}
+					"5"
+					{
+						"UnitName" "npc_frostivus_dire_ranged_creep"
+						"Interval" "40"
+						"InitialDelay" "180"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_creep_spawn1"
+						"ScaleUnits" "1"
+					}
+					"6"
+					{
+						"UnitName" "npc_frostivus_dire_ranged_creep"
+						"Interval" "40"
+						"InitialDelay" "180"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_creep_spawn2"
+						"ScaleUnits" "1"
+					}
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
 	// dire units
 	"npc_frostivus_dire_melee_creep"
 	{
@@ -1506,7 +1584,7 @@
 
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
-	"npc_frostivus_dire_spawner_stage1"
+	"npc_frostivus_dire_spawner_coop_stage1"
 	{
 		"BaseClass" "npc_dota_creature"
 		"Model" "models/props_structures/bad_barracks001_ranged.vmdl"
@@ -1608,7 +1686,7 @@
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
 	// frost spawner
-	"npc_frostivus_frost_spawner"
+	"npc_frostivus_frost_spawner_coop_stage0"
 	{
 		"BaseClass" "npc_dota_creature"
 		"Model" "models/props_structures/dire_barracks_melee001.vmdl"
@@ -1707,6 +1785,83 @@
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
 	}
+	"npc_frostivus_frost_spawner_home_stage0"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/props_structures/dire_barracks_melee001.vmdl"
+		"ModelScale" "1"
+		"Level" "1"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+
+		"Building"
+		{
+			"IsSpawner" "1"
+			"IsInvulnerable" "1"
+			"Spawner"
+			{
+				"Units"
+				{
+					"0"
+					{
+						"UnitName" "npc_frostivus_frost_melee_creep"
+						"Interval" "50"
+						"InitialDelay" "60"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn0"
+						"ScaleUnits" "1"
+					}
+					"1"
+					{
+						"UnitName" "npc_frostivus_frost_melee_creep"
+						"Interval" "50"
+						"InitialDelay" "60"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn1"
+						"ScaleUnits" "1"
+					}
+					"2"
+					{
+						"UnitName" "npc_frostivus_frost_melee_creep"
+						"Interval" "50"
+						"InitialDelay" "60"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn2"
+						"ScaleUnits" "1"
+					}
+					"3"
+					{
+						"UnitName" "npc_frostivus_frost_ranged_creep"
+						"Interval" "100"
+						"InitialDelay" "120"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn0"
+						"ScaleUnits" "1"
+					}
+					"4"
+					{
+						"UnitName" "npc_frostivus_frost_ranged_creep"
+						"Interval" "100"
+						"InitialDelay" "120"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn2"
+						"ScaleUnits" "1"
+					}
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
 	// frost units
 	"npc_frostivus_frost_melee_creep"
 	{
@@ -1767,7 +1922,7 @@
 		"Ability1" "ogre_magi_frost_armor"
 		"vscripts" "entity_scripts/units/frost_ranged_creep.lua"
 	}
-	"npc_frostivus_frost_spawner_stage1"
+	"npc_frostivus_frost_spawner_coop_stage1"
 	{
 		"BaseClass" "npc_dota_creature"
 		"Model" "models/props_structures/dire_barracks_ranged001.vmdl"

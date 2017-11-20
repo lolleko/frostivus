@@ -1,6 +1,6 @@
 .MenuEntryRoot {
-  margin-left: 8px;
-  margin-bottom: 8px;
+  margin-left: 4px;
+  margin-bottom: 4px;
 }
 
 #ButtonWrap {
@@ -50,6 +50,7 @@ Label {
   font-size: 14px;
   padding: 2px;
   horizontal-align: center;
+  text-overflow: shrink;
 }
 
 #LumberIcon {
