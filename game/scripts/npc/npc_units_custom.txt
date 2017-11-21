@@ -461,6 +461,15 @@
 					"Color" "!PlayerColor"
 					"ModelScale" "1"
 				}
+				"2"
+				{
+					"Name" "owl_location"
+					"Offset" "-167.498 0 85.3061"
+					"Angles" "0 270 0"
+					"Model" "models/props_wildlife/snow_owl001.vmdl"
+					"ModelScale" "1"
+					"Sequence" "snow_owl_idle"
+				}
 			}
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
@@ -1295,16 +1304,14 @@
 		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
 		"BountyGoldMin" "0.0"
 		"BountyGoldMax" "0.0"
-		"BoundsHullName" "DOTA_HULL_SIZE_HUGE"
+		"BoundsHullName" "DOTA_HULL_SIZE_BARRACKS"
 		"RingRadius" "180"
 		"CollisionSize" "100"
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
 		"MovementSpeed" "0"
 		"MovementTurnRate" "0"
-		"StatusHealth" "300"
+		"StatusHealth" "800"
 		"StatusHealthRegen" "1"
-
-		"Ability3" "frostivus_barracks_spawn_melee1"
 
 		"Building"
 		{
@@ -1315,12 +1322,16 @@
 				"LumberCost" "2100"
 				"Stage" "1"
 			}
+			"Upgrade"
+			{
+				"UnitName" "npc_frostivus_barracks_tier2"
+			}
 			"DynamicModels"
 			{
 				"0"
 				{
 					"Name" "creep_location"
-					"Offset" "-176 33 0"
+					"Offset" "-186 33 10"
 					"Angles" "0 9 0"
 					"Model"	"models/creeps/lane_creeps/creep_radiant_melee/radiant_melee.vmdl"
 					"ModelScale" "1"
@@ -1338,11 +1349,82 @@
 				"2"
 				{
 					"Name" "logo_ground_location"
-					"Offset" "-140 -92 -3"
+					"Offset" "-140 -76 4"
 					"Angles" "0 0 0"
 					"Model"	"models/props_teams/logo_radiant_default.vmdl"
 					"Color" "!PlayerColor"
 					"ModelScale" "0.26"
+				}
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_barracks_tier2"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/buildings/barracks/barracks_tier2.vmdl"
+		"ModelScale" "1"
+		"Level" "2"
+		"ArmorPhysical" "15"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BountyGoldMin" "0.0"
+		"BountyGoldMax" "0.0"
+		"BoundsHullName" "DOTA_HULL_SIZE_BARRACKS"
+		"RingRadius" "180"
+		"CollisionSize" "100"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"MovementTurnRate" "0"
+		"StatusHealth" "1200"
+		"StatusHealthRegen" "1"
+
+		"Building"
+		{
+			"SizeX" "10"
+			"SizeY" "6"
+			"Requirements" {
+				"GoldCost" "2000"
+				"LumberCost" "2100"
+				"Stage" "1"
+			}
+			"DynamicModels"
+			{
+				"0"
+				{
+					"Name" "creep_location"
+					"Offset" "-186 33 10"
+					"Angles" "0 9 0"
+					"Model"	"models/creeps/lane_creeps/creep_radiant_melee/radiant_melee.vmdl"
+					"ModelScale" "1"
+					"Sequence" "idle_sleeping"
+				}
+				"1"
+				{
+					"Name" "banner_location"
+					"Offset" "255 -70 -10"
+					"Angles" "0 300 0"
+					"Model"	"models/props_teams/banner_radiant.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "0.8"
+				}
+				"2"
+				{
+					"Name" "logo_ground_location"
+					"Offset" "-140 -76 4"
+					"Angles" "0 0 0"
+					"Model"	"models/props_teams/logo_radiant_default.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "0.26"
+				}
+				"3"
+				{
+					"Name" "tower_location"
+					"Offset" "128 -8 188"
+					"Angles" "0 216 0"
+					"Model"	"models/props_structures/tower_good.vmdl"
+					"Color" "!PlayerColor"
+					"ModelScale" "0.69"
+					"Sequence" "tower_good_idle"
 				}
 			}
 		}
@@ -1469,7 +1551,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "20"
-						"InitialDelay" "10"
+						"InitialDelay" "0"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1480,7 +1562,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "20"
-						"InitialDelay" "10"
+						"InitialDelay" "20"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1491,7 +1573,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "20"
-						"InitialDelay" "40"
+						"InitialDelay" "0"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1806,7 +1888,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
 						"Interval" "50"
-						"InitialDelay" "60"
+						"InitialDelay" "100"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1817,7 +1899,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
 						"Interval" "50"
-						"InitialDelay" "60"
+						"InitialDelay" "200"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1828,7 +1910,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
 						"Interval" "50"
-						"InitialDelay" "60"
+						"InitialDelay" "100"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1839,7 +1921,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_ranged_creep"
 						"Interval" "100"
-						"InitialDelay" "120"
+						"InitialDelay" "200"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1850,7 +1932,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_ranged_creep"
 						"Interval" "100"
-						"InitialDelay" "120"
+						"InitialDelay" "200"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -2044,12 +2126,12 @@
 		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
 		"RingRadius" "70"
-		"AttackDamageMin" "20.0"
-		"AttackDamageMax" "30.0"
+		"AttackDamageMin" "28.0"
+		"AttackDamageMax" "32.0"
 		"AttackRate" "1.35"
 		"AttackAnimationPoint" "0.5"
 		"AttackAcquisitionRange" "300"
-		"StatusHealth" "100"
+		"StatusHealth" "200"
 		"StatusHealthRegen" "2"
 		"AttackRange" "180"
 		"ArmorPhysical" "3"
@@ -2066,11 +2148,56 @@
 			{
 				"LumberCost" "50"
 				"GoldCost" "100"
-				"MaxAlive" "10"
+				"MaxAlive" "12"
 			}
 			"SizeX" "0"
 			"SizeY" "0"
 			"IsUnit" "1"
+			"ScaleUnit" "1"
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_radiant_ranged_creep_tier1"
+	{
+		"Model" "models/creeps/lane_creeps/creep_radiant_ranged/radiant_ranged.vmdl"
+		"BaseClass" "npc_dota_creature"
+		"Level" "1"
+		"ModelScale" "1"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "300"
+		"StatusHealth" "120"
+		"StatusHealthRegen" "4"
+		"StatusMana" "180"
+		"StatusManaRegen" "2"
+		"ArmorPhysical" "2"
+		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin" "30.0"
+		"AttackDamageMax" "40.0"
+		"AttackRate" "1.75"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "500"
+		"AttackRange" "500"
+		"ProjectileModel" "particles/base_attacks/ranged_goodguy_trail.vpcf"
+		"ProjectileSpeed" "1000"
+		"BountyXP" "26"
+		"BountyGoldMin" "6"
+		"BountyGoldMax" "7"
+
+		"VisionDaytimeRange"		"1100"
+		"VisionNighttimeRange"		"1100"
+
+		"Building"
+		{
+			"Requirements"
+			{
+				"LumberCost" "200"
+				"GoldCost" "150"
+				"MaxAlive" "6"
+			}
+			"SizeX" "0"
+			"SizeY" "0"
+			"IsUnit" "1"
+			"ScaleUnit" "1"
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
 	}

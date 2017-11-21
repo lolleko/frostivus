@@ -23,7 +23,11 @@
   buildings.LoadCategory('Units')
   toolbar.Insert('Buildings', buildings)
 
-  $.Msg(Players.GetBuildingShopKV(Players.GetLocalPlayer()))
+  $('#SaveDataButton').SetPanelEvent(
+    'onactivate',
+    function () {
+      GameEvents.SendCustomGameEventToServer('playerRequestSave', {})
+    })
 
   var shopBtn = $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse('ShopButton')
   shopBtn.style.width = '240px'

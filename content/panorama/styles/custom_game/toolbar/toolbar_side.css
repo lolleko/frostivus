@@ -8,8 +8,7 @@
   vertical-align: bottom;
   flow-children: right;
   z-index: 10;
-  margin-bottom: 4px;
-  margin-right: 280px;
+  margin-right: 260px;
 }
 
 #ToolbarContent {
@@ -19,8 +18,8 @@
 }
 
 .ToolbarButton {
-  height: 96px;
-  width: 96px;
+  height: 102px;
+  width: 102px;
   background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
   background-image: url("s2r://panorama/images/control_icons/camera_topdown_psd.vtex");
   background-size: 100% 100%;

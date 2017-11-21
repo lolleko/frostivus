@@ -61,17 +61,17 @@ function GameMode:Init()
 	GameRules:SetCustomGameAllowMusicAtGameStart( true )
 end
 
-function GameMode:GetDifficultyScalar()
+function GameMode:GetDifficultyScalar(teamID)
 	if not self.NextDifficultyCalculation or self.NextDifficultyCalculation <= GameRules:GetGameTime() then
 		local scale = 1
 		for _, bld in pairs(Entities:GetAllBuildings()) do
-			if IsValidEntity(bld) then
+			if IsValidEntity(bld) and (not teamID or bld:GetTeam() == teamID) then
 				local level = bld:GetLevel()
 				scale = scale + level * 5
 			end
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
-			if PlayerResource:HasSelectedHero(plyID) then
+			if PlayerResource:HasSelectedHero(plyID) and (not teamID or PlayerResource:GetTeam(plyID) == teamID) then
 				scale = scale + 120
 				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
 			end
@@ -84,7 +84,7 @@ function GameMode:GetDifficultyScalar()
 end
 
 function GameMode:ScaleUnit(unit)
-	local scalar = self:GetDifficultyScalar()
+	local scalar = self:GetDifficultyScalar(unit:GetOpposingTeamNumber())
 	unit:SetMaxHealth(unit:GetMaxHealth() + math.floor(unit:GetMaxHealth() * scalar/800))
 	unit:SetHealth(unit:GetMaxHealth())
 	unit:SetPhysicalArmorBaseValue(unit:GetPhysicalArmorValue() + (unit:GetPhysicalArmorValue() * scalar/1000))

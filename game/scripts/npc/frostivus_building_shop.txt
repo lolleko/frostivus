@@ -56,4 +56,9 @@ FrostivusInvestments
     "Category" "Units"
     "BuildingID" "107"
   }
+  "npc_frostivus_radiant_ranged_creep_tier1"
+  {
+    "Category" "Units"
+    "BuildingID" "108"
+  }
 }

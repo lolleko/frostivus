@@ -35,7 +35,6 @@ function GameMode:OnPlayerPickHero(data)
   if PlayerResource:HasRandomed(hero:GetPlayerOwnerID()) then
     hero:ModifyGold(-200, false, 0)
   end
-  --PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList.StartKillEnemies())
 end
 
 function GameMode:OnHeroSelection(data)
@@ -56,7 +55,17 @@ function GameMode:OnGameStart()
   -- init events
   self:InitQuests()
   -- resend quest
-  self:AddQuest(QuestList.StartKillEnemies)
+  if not self:IsPVP() then
+    self:AddQuest(QuestList.StartKillEnemies)
+  end
+end
+
+function GameMode:OnPlayerThink(plyID)
+  -- auto save every 5min
+  if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 600 <= GameRules:GetGameTime() then
+    PlayerResource:SetLastSaveTime(plyID, GameRules:GetGameTime())
+    PlayerResource:StorePlayer(plyID)
+  end
 end
 
 function GameMode:OnEntityKilled(data)

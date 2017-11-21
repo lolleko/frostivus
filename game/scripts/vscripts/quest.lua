@@ -5,6 +5,7 @@ function CDOTA_PlayerResource:AddQuest(plyID, quest, force)
   -- prevent adding the same quest multiple times by default
   if not force and questList[quest.name] then return end
   local name = quest.name
+  -- in home we can only have one quest that is saved for now
   quest.plyID = plyID
   questList[quest.name] = quest
   if quest.OnStart then

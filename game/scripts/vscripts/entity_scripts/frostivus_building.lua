@@ -11,6 +11,7 @@ function Spawn(entityKV)
   AddSpawnProperty(thisEntity, "IsDefense", "bool", false, thisEntity.Building, "bIsDefense")
   AddSpawnProperty(thisEntity, "IsSpiritTree", "bool", false, thisEntity.Building, "bIsSpiritTree")
   AddSpawnProperty(thisEntity, "IsSpawner", "bool", false, thisEntity.Building, "bIsSpawner")
+  AddSpawnProperty(thisEntity, "ScaleUnit", "bool", false, thisEntity.Building, "bScaleUnit")
 
   AddSpawnProperty(thisEntity, "AcceptGold", "bool", false, thisEntity.Building, "bAcceptGold")
   AddSpawnProperty(thisEntity, "AcceptLumber", "bool", false, thisEntity.Building, "bAcceptLumber")
@@ -83,6 +84,10 @@ function Spawn(entityKV)
       local shopEnt = Entities:FindByName(nil, "market_shop_template")
       local newshop = SpawnEntityFromTableSynchronous('trigger_shop', {origin = thisEntity:GetAbsOrigin(), shoptype = 0, model = shopEnt:GetModelName(), parent = thisEntity})
     end
+  end
+
+  if thisEntity.bScaleUnit then
+    GM:ScaleUnit(thisEntity)
   end
 
   if thisEntity.bIsWall then

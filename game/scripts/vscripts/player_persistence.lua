@@ -10,11 +10,36 @@ if IsInToolsMode() then
     plyID = tonumber(plyID)
     PlayerResource:LoadPlayer(plyID)
   end, "Test persistence", 0)
+
+	Convars:RegisterCommand("frost_test_persistence_reset", function(cmdName, plyID)
+		plyID = tonumber(plyID)
+		PlayerResource:SetCGData(plyID, table.deepcopy(GM.CGDefaultData))
+		PlayerResource:UpdatePersitenData(plyID)
+		print("---DISCONNECT TO PERMANETLY RESET---")
+	end, "Test persistence", 0)
 end
+
+CDOTA_PlayerResource:AddPlayerData("LastSaveTime", NETWORKVAR_TRANSMIT_STATE_NONE, 60)
+
+function CDOTA_PlayerResource:ProcessSaveRequest(eventSourceIndex, data)
+	local plyID = data.PlayerID
+	if not GM:IsPVPHome() then
+		self:SendCastError(plyID, "frostivus_hud_error_cant_save")
+		return
+	end
+	if self:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() then
+		self:SetLastSaveTime(plyID, GameRules:GetGameTime())
+		self:StorePlayer(plyID)
+	else
+		self:SendCastError(plyID, "frostivus_hud_error_save_cooldown")
+	end
+end
+CustomGameEventManager:RegisterListener("playerRequestSave", function(...) PlayerResource:ProcessSaveRequest(...) end)
 
 function CDOTA_PlayerResource:StorePlayer(plyID)
   local buildingList = self:GetBuildingList(plyID)
-  local saveData = {}
+	-- overwrite or keep existing data
+  local saveData = self:GetCGData(plyID)
   saveData.buildings = {}
 	local center = GM:GetBuildingCenter(plyID)
   for k, unit in pairs(buildingList) do
@@ -43,8 +68,22 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
     end
   end
 
+	saveData.hero.gold = hero:GetGold()
+	saveData.hero.lumber = self:GetLumber(plyID)
+
+	-- palyer isnt considered new after first save
+	saveData.newPlayer = false
+
+	-- save quests
+	-- we could store the whole quest list
+	-- but we will jsut store the names for now (progress wil be reset)
+	saveData.activeQuests = {}
+	for questName, _ in pairs(self:GetQuestList(plyID)) do
+		table.insert(saveData.activeQuests, questName)
+	end
   self:SetCGData(plyID, saveData)
   self:UpdatePersitenData(plyID)
+	UTIL_MessageText(plyID, "#frostivus_hud_error_save_completed", 255, 255, 255, 255)
 end
 
 function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
@@ -65,5 +104,18 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
 	hero:AddExperience(saveData.hero.xp, 0, false, false)
 	for _, item in pairs(saveData.hero.inventory) do
 		hero:AddItemByName(item)
+	end
+	if GM:IsPVPHome() then
+		self:ModifyGold(saveData.hero.gold)
+		self:ModifyLumber(saveData.hero.lumber)
+	end
+	-- load quest
+	if GM:IsPVPHome() then
+		for _, questName  in pairs(saveData.activeQuests) do
+			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList[questName]())
+		end
+		if saveData.newPlayer then
+			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList["StartKillEnemies"]())
+		end
 	end
 end

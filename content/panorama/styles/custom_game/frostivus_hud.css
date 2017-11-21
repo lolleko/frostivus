@@ -51,6 +51,20 @@
   visibility: collapse;
 }
 
+#SaveDataButton {
+  width: 60px;
+  height: 48px;
+  vertical-align: bottom;
+  horizontal-align: right;
+  margin-bottom: 100px;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #404D65dd ), to( #2B3445dd ) );
+}
+
+#SaveDataButtonLabel {
+  horizontal-align: center;
+  text-align: center;
+}
+
 //default stuff
 #DungeonHUD
 {
