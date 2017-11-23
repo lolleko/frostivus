@@ -1,7 +1,7 @@
 -- Do not polute gobal NS with evvery single quest -> group them
 QuestList = {}
 
-local StartKillEnemies = class(
+local frostivus_quest_starter_kill_enemies = class(
   {
     name = "frostivus_quest_starter_kill_enemies",
     values = {
@@ -20,9 +20,9 @@ local StartKillEnemies = class(
   nil,
   QuestBase
 )
-QuestList.StartKillEnemies = StartKillEnemies
+QuestList.frostivus_quest_starter_kill_enemies = frostivus_quest_starter_kill_enemies
 
-function StartKillEnemies:OnStart()
+function frostivus_quest_starter_kill_enemies:OnStart()
   self.entityKillEventHandle = ListenToGameEvent("entity_killed", function(event)
     local killedUnit = EntIndexToHScript( event.entindex_killed )
 		if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetTeamNumber() ~= DOTA_TEAM_GOODGUYS) then
@@ -31,12 +31,12 @@ function StartKillEnemies:OnStart()
   end, nil)
 end
 
-function StartKillEnemies:OnDestroy()
+function frostivus_quest_starter_kill_enemies:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
-  PlayerResource:AddQuest(self.plyID, QuestList.StartLumberCamp())
+  PlayerResource:AddQuest(self.plyID, QuestList.frostivus_quest_starter_lumber_camp())
 end
 
-local StartLumberCamp = class(
+local frostivus_quest_starter_lumber_camp = class(
   {
     name = "frostivus_quest_starter_lumber_camp",
     values = {
@@ -56,9 +56,9 @@ local StartLumberCamp = class(
   nil,
   QuestBase
 )
-QuestList.StartLumberCamp = StartLumberCamp
+QuestList.frostivus_quest_starter_lumber_camp = frostivus_quest_starter_lumber_camp
 
-function StartLumberCamp:OnStart()
+function frostivus_quest_starter_lumber_camp:OnStart()
   self.npcSpawnedEventHandle = ListenToGameEvent("npc_spawned", function(event)
     local spawnedUnit = EntIndexToHScript( event.entindex )
   	if spawnedUnit ~= nil then
@@ -69,12 +69,12 @@ function StartLumberCamp:OnStart()
   end, nil)
 end
 
-function StartLumberCamp:OnDestroy()
+function frostivus_quest_starter_lumber_camp:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
-  PlayerResource:AddQuest(self.plyID, QuestList.StartBuildSentry())
+  PlayerResource:AddQuest(self.plyID, QuestList.frostivus_quest_starter_build_sentry())
 end
 
-local StartBuildSentry = class(
+local frostivus_quest_starter_build_sentry = class(
   {
     name = "frostivus_quest_starter_build_sentry",
     values = {
@@ -93,9 +93,9 @@ local StartBuildSentry = class(
   nil,
   QuestBase
 )
-QuestList.StartBuildSentry = StartBuildSentry
+QuestList.frostivus_quest_starter_build_sentry = frostivus_quest_starter_build_sentry
 
-function StartBuildSentry:OnStart()
+function frostivus_quest_starter_build_sentry:OnStart()
   self.npcSpawnedEventHandle = ListenToGameEvent("npc_spawned", function(event)
     local spawnedUnit = EntIndexToHScript( event.entindex )
   	if spawnedUnit ~= nil then
@@ -106,12 +106,12 @@ function StartBuildSentry:OnStart()
   end, nil)
 end
 
-function StartBuildSentry:OnDestroy()
+function frostivus_quest_starter_build_sentry:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
-  PlayerResource:AddQuest(self.plyID, QuestList.StartBuildWalls())
+  PlayerResource:AddQuest(self.plyID, QuestList.frostivus_quest_starter_build_walls())
 end
 
-local StartBuildWalls = class(
+local frostivus_quest_starter_build_walls = class(
   {
     name = "frostivus_quest_starter_build_walls",
     values = {
@@ -129,9 +129,9 @@ local StartBuildWalls = class(
   nil,
   QuestBase
 )
-QuestList.StartBuildWalls = StartBuildWalls
+QuestList.frostivus_quest_starter_build_walls = frostivus_quest_starter_build_walls
 
-function StartBuildWalls:OnStart()
+function frostivus_quest_starter_build_walls:OnStart()
   self.npcSpawnedEventHandle = ListenToGameEvent("npc_spawned", function(event)
     local spawnedUnit = EntIndexToHScript( event.entindex )
   	if spawnedUnit ~= nil then
@@ -142,12 +142,12 @@ function StartBuildWalls:OnStart()
   end, nil)
 end
 
-function StartBuildWalls:OnDestroy()
+function frostivus_quest_starter_build_walls:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
-  PlayerResource:AddQuest(self.plyID, QuestList.StartGoldCamp())
+  PlayerResource:AddQuest(self.plyID, QuestList.frostivus_quest_starter_gold_camp())
 end
 
-local StartGoldCamp = class(
+local frostivus_quest_starter_gold_camp = class(
   {
     name = "frostivus_quest_starter_gold_camp",
     values = {
@@ -166,9 +166,9 @@ local StartGoldCamp = class(
   nil,
   QuestBase
 )
-QuestList.StartGoldCamp = StartGoldCamp
+QuestList.frostivus_quest_starter_gold_camp = frostivus_quest_starter_gold_camp
 
-function StartGoldCamp:OnStart()
+function frostivus_quest_starter_gold_camp:OnStart()
   self.npcSpawnedEventHandle = ListenToGameEvent("npc_spawned", function(event)
     local spawnedUnit = EntIndexToHScript( event.entindex )
   	if spawnedUnit ~= nil then
@@ -179,12 +179,14 @@ function StartGoldCamp:OnStart()
   end, nil)
 end
 
-function StartGoldCamp:OnDestroy()
+function frostivus_quest_starter_gold_camp:OnDestroy()
   StopListeningToGameEvent(self.npcSpawnedEventHandle)
-  GM:AddQuest(QuestList.SummonRoshan)
+  if not GM:IsPVP() then
+    GM:AddQuest(QuestList.frostivus_quest_summon_roshan)
+  end
 end
 
-local SummonRoshan = class(
+local frostivus_quest_summon_roshan = class(
   {
     name = "frostivus_quest_summon_roshan",
     values = {
@@ -209,9 +211,9 @@ local SummonRoshan = class(
   nil,
   QuestBase
 )
-QuestList.SummonRoshan = SummonRoshan
+QuestList.frostivus_quest_summon_roshan = frostivus_quest_summon_roshan
 
-function SummonRoshan:OnStart()
+function frostivus_quest_summon_roshan:OnStart()
   -- dragonsSpawned is static therefore this only will run once
   if not self.static.dragonsSpawned then
     local spawnPoints = Entities:FindAllByName("cheese_dragon_spawn")
@@ -253,11 +255,11 @@ function SummonRoshan:OnStart()
   end
 end
 
-function SummonRoshan:OnDestroy()
-  GM:AddQuest(QuestList.KillRoshan)
+function frostivus_quest_summon_roshan:OnDestroy()
+  GM:AddQuest(QuestList.frostivus_quest_kill_roshan)
 end
 
-local KillRoshan = class(
+local frostivus_quest_kill_roshan = class(
   {
     name = "frostivus_quest_kill_roshan",
     values = {
@@ -277,9 +279,9 @@ local KillRoshan = class(
   nil,
   QuestBase
 )
-QuestList.KillRoshan = KillRoshan
+QuestList.frostivus_quest_kill_roshan = frostivus_quest_kill_roshan
 
-function KillRoshan:OnStart()
+function frostivus_quest_kill_roshan:OnStart()
   self.entityKillEventHandle = ListenToGameEvent("entity_killed", function(event)
     local killedUnit = EntIndexToHScript( event.entindex_killed )
 		if killedUnit ~= nil and killedUnit:IsCreature() and killedUnit:GetUnitName() == "npc_frostivus_boss_roshan" then
@@ -288,13 +290,13 @@ function KillRoshan:OnStart()
   end, nil)
 end
 
-function KillRoshan:OnDestroy()
+function frostivus_quest_kill_roshan:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
-  GM:AddQuest(QuestList.DestroySnowMakers)
+  GM:AddQuest(QuestList.frostivus_quest_destroy_snow_makers)
   GM:SetStage(1)
 end
 
-local DestroySnowMakers = class(
+local frostivus_quest_destroy_snow_makers = class(
   {
     name = "frostivus_quest_destroy_snow_makers",
     values = {
@@ -314,9 +316,9 @@ local DestroySnowMakers = class(
   nil,
   QuestBase
 )
-QuestList.DestroySnowMakers = DestroySnowMakers
+QuestList.frostivus_quest_destroy_snow_makers = frostivus_quest_destroy_snow_makers
 
-function DestroySnowMakers:OnStart()
+function frostivus_quest_destroy_snow_makers:OnStart()
   local snowMakers = Entities:FindAllByName("npc_frostivus_snow_maker")
   self.valueGoals.frostivus_quest_goal_destroy_snow_makers = #snowMakers
   for _, ent in pairs(snowMakers) do
@@ -333,14 +335,14 @@ function DestroySnowMakers:OnStart()
   end, nil)
 end
 
-function DestroySnowMakers:OnDestroy()
+function frostivus_quest_destroy_snow_makers:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
-  GM:AddQuest(QuestList.KillStoregga)
+  GM:AddQuest(QuestList.frostivus_quest_kill_storegga)
 end
 
-local KillStoregga = class(
+local frostivus_quest_kill_storegga = class(
   {
-    name = "frostivus_quest_goal_kill_storegga",
+    name = "frostivus_quest_kill_storegga",
     values = {
       frostivus_quest_goal_kill_storegga = 0
     },
@@ -361,9 +363,9 @@ local KillStoregga = class(
   nil,
   QuestBase
 )
-QuestList.KillStoregga = KillStoregga
+QuestList.frostivus_quest_kill_storegga = frostivus_quest_kill_storegga
 
-function KillStoregga:OnStart()
+function frostivus_quest_kill_storegga:OnStart()
   if not self.static.storrega_spawned then
     local spawn = Entities:FindByName(nil, "storegga_spawn"):GetOrigin()
     CreateUnitByNameAsync("npc_frostivus_boss_storegga", spawn, true, nil, nil, DOTA_TEAM_BADGUYS, function(unit)
@@ -380,6 +382,6 @@ function KillStoregga:OnStart()
   end, nil)
 end
 
-function KillStoregga:OnDestroy()
+function frostivus_quest_kill_storegga:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
 end

@@ -52,7 +52,13 @@ end
 
 GameMode.CGDefaultData = {
 	buildings = {},
-	hero = {},
+	hero = {
+		level = 1,
+		xp = 0,
+		gold = 0,
+		lumber = 0,
+		inventory = {}
+	},
 	newPlayer = true,
 	activeQuests = {}
 }

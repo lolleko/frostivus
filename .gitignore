@@ -91,7 +91,7 @@ panorama_debugger.cfg
 game/dota_addons/nemesis/screenshots/
 
 # SFM
-game/dota_addons/nemesis/elements/
+trailer*
 
 # ModdKit kvs
 # =========================

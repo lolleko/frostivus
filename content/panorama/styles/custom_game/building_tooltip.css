@@ -62,12 +62,11 @@ Label {
   margin-left: 4px;
   color: #7F7F7F;
   text-transform: uppercase;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .StatValue {
   font-size: 16px;
   margin-left: 4px;
   color: #CCCCCC;
-  vertical-align: middle;
 }

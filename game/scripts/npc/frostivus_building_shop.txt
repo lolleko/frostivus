@@ -61,4 +61,9 @@ FrostivusInvestments
     "Category" "Units"
     "BuildingID" "108"
   }
+  "npc_frostivus_radiant_siege_creep_tier1"
+  {
+    "Category" "Units"
+    "BuildingID" "109"
+  }
 }

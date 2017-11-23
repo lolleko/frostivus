@@ -27,7 +27,7 @@ function CDOTA_PlayerResource:ProcessSaveRequest(eventSourceIndex, data)
 		self:SendCastError(plyID, "frostivus_hud_error_cant_save")
 		return
 	end
-	if self:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() then
+	if self:GetLastSaveTime(plyID) + 20 <= GameRules:GetGameTime() then
 		self:SetLastSaveTime(plyID, GameRules:GetGameTime())
 		self:StorePlayer(plyID)
 	else
@@ -106,8 +106,8 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
 		hero:AddItemByName(item)
 	end
 	if GM:IsPVPHome() then
-		self:ModifyGold(saveData.hero.gold)
-		self:ModifyLumber(saveData.hero.lumber)
+		hero:ModifyGold(saveData.hero.gold, true, 0)
+		self:ModifyLumber(plyID, saveData.hero.lumber)
 	end
 	-- load quest
 	if GM:IsPVPHome() then
@@ -115,7 +115,7 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
 			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList[questName]())
 		end
 		if saveData.newPlayer then
-			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList["StartKillEnemies"]())
+			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList["frostivus_quest_starter_kill_enemies"]())
 		end
 	end
 end

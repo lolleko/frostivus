@@ -16,6 +16,22 @@ function CDOTA_PlayerResource:HasRequirements(plyID, requirements, buildingName)
       return false
     end
   end
+  if requirements.Buildings then
+    for _, reqBldName in pairs(string.split(requirements.Buildings, ";")) do
+      local tier = string.sub(reqBldName, -1)
+      local reqBldUnit = PlayerResource:FindBuildingByName(plyID, string.sub(reqBldName, 1, -1))
+      if not reqBldUnit then
+        self:SendCastError(plyID, "frostivus_hud_error_requirements_not_met")
+        return false
+      end
+      if reqBldUnit and IsValidEntity(reqBldUnit) then
+        if isnumber(tier) and tier > reqBldUnit:GetLevel() then
+          self:SendCastError(plyID, "frostivus_hud_error_requirements_not_met")
+          return false
+        end
+      end
+    end
+  end
   if requirements.LumberCost and self:GetLumber(plyID) < requirements.LumberCost then
     self:SendCastError(plyID, "frostivus_hud_error_not_enough_lumber")
     return false

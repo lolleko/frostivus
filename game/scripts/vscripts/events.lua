@@ -53,16 +53,19 @@ end
 
 function GameMode:OnGameStart()
   -- init events
-  self:InitQuests()
+  -- events are coop only for now
+  if not self:IsPVP() then
+    self:InitQuests()
+  end
   -- resend quest
   if not self:IsPVP() then
-    self:AddQuest(QuestList.StartKillEnemies)
+    self:AddQuest(QuestList.frostivus_quest_starter_kill_enemies)
   end
 end
 
 function GameMode:OnPlayerThink(plyID)
   -- auto save every 5min
-  if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 600 <= GameRules:GetGameTime() then
+  if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() then
     PlayerResource:SetLastSaveTime(plyID, GameRules:GetGameTime())
     PlayerResource:StorePlayer(plyID)
   end

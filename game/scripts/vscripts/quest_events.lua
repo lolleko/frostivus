@@ -1,6 +1,6 @@
 QuestEventList = {}
 
-local ZombieArmy = class(
+local frostivus_event_zombie_army = class(
   {
     name = "frostivus_event_zombie_army",
     values = {
@@ -24,9 +24,9 @@ local ZombieArmy = class(
   nil,
   QuestBase
 )
-QuestEventList.ZombieArmy = ZombieArmy
+QuestEventList.frostivus_event_zombie_army = frostivus_event_zombie_army
 
-function ZombieArmy:OnStart()
+function frostivus_event_zombie_army:OnStart()
   local tombsToSpawn = 4
   self.valueGoals.frostivus_quest_goal_destroy_tombstones = tombsToSpawn
   self.timeLimit = tombsToSpawn * 40
@@ -55,12 +55,12 @@ function ZombieArmy:OnStart()
   end, nil)
 end
 
-function ZombieArmy:OnDestroy()
+function frostivus_event_zombie_army:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
   self.statics.tombstonesDropped = false
 end
 
-local SkeletonArmy = class(
+local frostivus_event_skeleton_army = class(
   {
     name = "frostivus_event_skeleton_army",
     values = {
@@ -85,9 +85,9 @@ local SkeletonArmy = class(
   nil,
   QuestBase
 )
-QuestEventList.SkeletonArmy = SkeletonArmy
+QuestEventList.frostivus_event_skeleton_army = frostivus_event_skeleton_army
 
-function SkeletonArmy:OnStart()
+function frostivus_event_skeleton_army:OnStart()
   local skeletonsToSpawnPerLine = 4
   self.valueGoals.frostivus_quest_goal_kill_skeletons = skeletonsToSpawnPerLine * 4
 
@@ -125,12 +125,12 @@ function SkeletonArmy:OnStart()
   end, nil)
 end
 
-function SkeletonArmy:OnDestroy()
+function frostivus_event_skeleton_army:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
   self.statics.skeletonsSpawned = false
 end
 
-local ItemDrop = class(
+local frostivus_event_item_drop = class(
   {
     name = "frostivus_event_item_drop",
     values = {
@@ -146,9 +146,9 @@ local ItemDrop = class(
   nil,
   QuestBase
 )
-QuestEventList.ItemDrop = ItemDrop
+QuestEventList.frostivus_event_item_drop = frostivus_event_item_drop
 
-function ItemDrop:OnStart()
+function frostivus_event_item_drop:OnStart()
   if not self.statics.carrierSpawned then
     local routes = {
       {spawn = "item_drop_carrier_spawn1", goal = "item_drop_carrier_spawn3"},
@@ -216,26 +216,26 @@ function ItemDrop:OnStart()
   end, nil)
 end
 
-function ItemDrop:OnDestroy()
+function frostivus_event_item_drop:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
   self.statics.carrierSpawned = false
 end
 
 GameMode.EventList = {
   {
-    class = ZombieArmy,
+    class = frostivus_event_zombie_army,
     stages = {0, 1},
     cooldown = 1200,
     weight = 4,
   },
   {
-    class = SkeletonArmy,
+    class = frostivus_event_skeleton_army,
     stages = {0},
     cooldown = 900,
     weight = 7,
   },
   {
-    class = ItemDrop,
+    class = frostivus_event_item_drop,
     stages = {0, 1, 2},
     cooldown = 1200,
     small = true,

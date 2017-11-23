@@ -100,8 +100,7 @@ function Spawn(entityKV)
       thisEntity.SpawnerUnits = {}
       for _, unitData in pairs(thisEntity.Building.Spawner.Units) do
         local unitDataExt = table.deepcopy(unitData)
-        -- randomize first interval a bit
-        local initalDelay = unitDataExt.InitialDelay or 0
+        local initalDelay = unitDataExt.InitialDelay or unitDataExt.Interval or 0
         unitDataExt.NextSpawnTime = GameRules:GetGameTime() + initalDelay
         unitDataExt.InitialGoal = Entities:FindByName(nil, unitData.InitialGoal)
         local goals = Entities:FindAllByName(unitData.InitialGoal)
@@ -217,7 +216,7 @@ function SpawnerThink()
           if unitData.Spawnpoint then
               spawnPoint = unitData.Spawnpoint:GetOrigin()
           end
-          CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), thisEntity:GetTeam(), function(unit)
+          CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), DOTA_TEAM_GOODGUYS, function(unit)--thisEntity:GetTeam(), function(unit)
             -- TODO the leveling is only used for resource drones
             -- TODO make more SOLID
             unit:CreatureLevelUp(thisEntity:GetLevel() - unit:GetLevel())
@@ -248,7 +247,9 @@ function SpawnerThink()
       end
     elseif GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS or (unitData.Stage and unitData.Stage > GM:GetStage()) then
       -- keep spawnDelay until stage is ready
-      unitData.NextSpawnTime = gameTime + (unitData.InitialDelay or unitData.Interval)
+      local delay = unitData.InitialDelay or unitData.Interval
+      if delay == 0 then delay = unitData.Interval end
+      unitData.NextSpawnTime = gameTime + delay
     end
   end
   return interval

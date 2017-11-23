@@ -6,11 +6,15 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     local model
     local modelScale = 1
     self.stackCount = 5
-    self.stackSize = RandomInt(8 + parent:GetLevel()^4, 14 + parent:GetLevel()^4)
+    self.stackSize = RandomInt(11 + parent:GetLevel()^4, 16 + parent:GetLevel()^4)
+    -- double income in pvp
+    if GM:IsPVP() and not GM:IsPVPHome() then
+      self.stackSize = self.stackSize * 2
+    end
     local offsets
     self.IsLumber = data.IsLumber
     self.IsGold = data.IsGold
-    -- TODO rework prop placement this is shitty...
+    -- TODO rework prop placement
     if data.IsLumber then
       model = "models/props_nature/log001.vmdl"
       modelScale = 0.3

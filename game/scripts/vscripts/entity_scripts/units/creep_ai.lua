@@ -1,6 +1,6 @@
 function Spawn()
-  -- onyl perform this every Interval seconds since we calculate path lengths
-  Interval = 8
+  -- onyl perform this every few seconds since we calculate path lengths
+  Interval = 5
   thisEntity:SetContextThink("OrderThink", OrderThink, 1)
 end
 

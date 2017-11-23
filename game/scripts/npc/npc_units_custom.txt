@@ -1888,7 +1888,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
 						"Interval" "50"
-						"InitialDelay" "100"
+						"InitialDelay" "200"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1899,7 +1899,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
 						"Interval" "50"
-						"InitialDelay" "200"
+						"InitialDelay" "300"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1910,7 +1910,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_melee_creep"
 						"Interval" "50"
-						"InitialDelay" "100"
+						"InitialDelay" "150"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1921,7 +1921,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_ranged_creep"
 						"Interval" "100"
-						"InitialDelay" "200"
+						"InitialDelay" "400"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -1932,7 +1932,7 @@
 					{
 						"UnitName" "npc_frostivus_frost_ranged_creep"
 						"Interval" "100"
-						"InitialDelay" "200"
+						"InitialDelay" "350"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -2193,6 +2193,51 @@
 				"LumberCost" "200"
 				"GoldCost" "150"
 				"MaxAlive" "6"
+			}
+			"SizeX" "0"
+			"SizeY" "0"
+			"IsUnit" "1"
+			"ScaleUnit" "1"
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_radiant_siege_creep_tier1"
+	{
+		"Model" "models/creeps/lane_creeps/creep_good_siege/creep_good_siege.vmdl"
+		"BaseClass" "npc_dota_creature"
+		"Level" "2"
+		"ModelScale" "1"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed" "300"
+		"StatusHealth" "80"
+		"StatusHealthRegen" "4"
+		"StatusMana" "0"
+		"StatusManaRegen" "0"
+		"ArmorPhysical" "0"
+		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin" "60.0"
+		"AttackDamageMax" "80.0"
+		"AttackRate" "2.5"
+		"AttackAnimationPoint" "0.5"
+		"AttackAcquisitionRange" "600"
+		"AttackRange" "600"
+		"ProjectileModel" "particles/base_attacks/ranged_siege_good.vpcf"
+		"ProjectileSpeed" "500"
+		"BountyXP" "30"
+		"BountyGoldMin" "8"
+		"BountyGoldMax" "9"
+
+		"VisionDaytimeRange"		"1100"
+		"VisionNighttimeRange"		"1100"
+
+		"Building"
+		{
+			"Requirements"
+			{
+				"LumberCost" "400"
+				"GoldCost" "200"
+				"MaxAlive" "4"
+				"Buildings" "npc_frostivus_barracks_tier1;npc_frostivus_lumber_camp_tier1"
 			}
 			"SizeX" "0"
 			"SizeY" "0"
