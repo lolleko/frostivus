@@ -2,7 +2,6 @@ require "cgcore.util"
 
 require "building_kv"
 
-
 require "gamemode"
 
 require "player"
@@ -30,26 +29,6 @@ LinkLuaModifier("modifier_provides_fow_position", "modifiers/modifier_provides_f
 
 GameMode.CGName = "frostivus"
 
-if string.match(GetMapName(), "coop") then
-	GameMode.bIsPVP = false
-else
-	GameMode.bIsPVP = true
-end
-
-if string.match(GetMapName(), "home") then
-	GameMode.bIsPVPHome = true
-else
-	GameMode.bIsPVPHome = false
-end
-
-function GameMode:IsPVPHome()
-	return self.bIsPVPHome
-end
-
-function GameMode:IsPVP()
-	return self.bIsPVP
-end
-
 GameMode.CGDefaultData = {
 	buildings = {},
 	hero = {
@@ -60,7 +39,9 @@ GameMode.CGDefaultData = {
 		inventory = {}
 	},
 	newPlayer = true,
-	activeQuests = {}
+	activeQuests = {},
+	competitiveGamesPlayed = 0,
+	competitiveGamesWon = 0,
 }
 
 function Precache( context )

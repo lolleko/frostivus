@@ -83,7 +83,7 @@
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
 		"AbilityCastRange" "800"
 		"AbilityCastPoint" "0.5"
-		"AbilityChannelTime" "12.0"
+		"AbilityChannelTime" "6.0"
 		"AbilityCooldown" "1.0"
 
 		"AbilitySpecial"
@@ -91,7 +91,45 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"health_per_tick" "10"
+				"health_per_second" "10"
+			}
+		}
+	}
+	"frostivus_market_sell_lumber"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_market_sell_lumber.lua"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityTextureName" "alchemist_goblins_greed"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCooldown" "0"
+		"AbilityCastPoint" "0"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"gold_income" "200"
+			}
+		}
+	}
+	"frostivus_market_buy_lumber"
+	{
+		"BaseClass" "ability_lua"
+		"ScriptFile" "abilities/buildings/frostivus_market_buy_lumber.lua"
+		"AbilityBehavior" "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityTextureName" "treant_living_armor"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCooldown" "0"
+		"AbilityCastPoint" "0"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type" "FIELD_INTEGER"
+				"gold_cost" "200"
 			}
 		}
 	}

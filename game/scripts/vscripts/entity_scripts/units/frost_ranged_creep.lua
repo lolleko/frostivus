@@ -16,7 +16,8 @@ function OrderThink()
       FIND_ANY_ORDER,
       false
     )
-    for k, unit in pairs(units) do
+    for k = #units, 1, -1 do
+      local unit = units[k]
       if unit:HasModifier("modifier_ogre_magi_frost_armor") then
         table.remove(units, k)
       end

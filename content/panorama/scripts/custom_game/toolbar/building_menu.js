@@ -13,8 +13,12 @@
     for (var buildingName in buildings) {
       var building = buildings[buildingName]
       if (building.Category === categoryName) {
-        building.BuildingNameJS = buildingName
-        sortedBuildings.push(building)
+        if (!building.HiddenFromShop) {
+          building.BuildingNameJS = buildingName
+          sortedBuildings.push(building)
+        } else {
+          columnLabel.text = categoryName + ' [Unavailable in this Mode]'
+        }
       }
     }
     sortedBuildings.sort(function (a, b) {

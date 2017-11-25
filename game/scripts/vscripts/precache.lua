@@ -10,6 +10,10 @@ GameMode.ParticlePrecache = {
   "particles/units/heroes/hero_witchdoctor/witchdoctor_base_attack.vpcf"
 }
 
+GameMode.ParticleFolderPrecache = {
+  "particles/act_2/"
+}
+
 GameMode.ModelPrecache = {
   -- dynamic props:
   "models/creeps/lane_creeps/creep_radiant_melee/radiant_melee.vmdl",
@@ -24,6 +28,12 @@ GameMode.ModelPrecache = {
   "models/props_gameplay/donkey.vmdl",
   "models/creeps/greevil_shopkeeper/greevil_shopkeeper.vmdl",
   "models/creeps/ice_biome/penguin/penguin.vmdl",
+  "models/props_gameplay/donkey_wings.vmdl",
+  "models/creeps/neutral_creeps/n_creep_forest_trolls/n_creep_forest_troll_high_priest.vmdl",
+  "models/props_structures/tower_good.vmdl",
+  "models/courier/gold_mega_greevil/gold_mega_greevil_flying.vmdl",
+  "models/courier/gold_mega_greevil/gold_mega_greevil.vmdl",
+
   -- buildings
   "models/buildings/walls/wall_tier1.vmdl",
   "models/buildings/walls/wall_tier2.vmdl",

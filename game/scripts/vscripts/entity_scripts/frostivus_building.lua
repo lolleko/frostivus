@@ -205,7 +205,8 @@ function SpawnerThink()
   local gameTime = GameRules:GetGameTime()
   for _, unitData in pairs(thisEntity.SpawnerUnits) do
     if unitData.NextSpawnTime <= gameTime then
-      for k, unit in pairs(unitData.SpawnedUnits) do
+      for k = #unitData.SpawnedUnits, 1, -1 do
+        local unit = unitData.SpawnedUnits[k]
         if not IsValidEntity(unit) or not unit:IsAlive() then
           table.remove(unitData.SpawnedUnits, k)
         end
@@ -216,7 +217,7 @@ function SpawnerThink()
           if unitData.Spawnpoint then
               spawnPoint = unitData.Spawnpoint:GetOrigin()
           end
-          CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), DOTA_TEAM_GOODGUYS, function(unit)--thisEntity:GetTeam(), function(unit)
+          CreateUnitByNameAsync(unitData.UnitName, spawnPoint, true, thisEntity:GetOwner(), thisEntity:GetOwner(), thisEntity:GetTeam(), function(unit)--thisEntity:GetTeam(), function(unit)
             -- TODO the leveling is only used for resource drones
             -- TODO make more SOLID
             unit:CreatureLevelUp(thisEntity:GetLevel() - unit:GetLevel())

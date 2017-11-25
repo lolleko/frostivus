@@ -2,6 +2,13 @@
 local buildingShopData = table.deepcopy(BuildingKV:GetAllBuildings())
 for k,v in pairs(LoadKeyValues("scripts/npc/frostivus_building_shop.txt")) do
   buildingShopData[k].Category = v.Category
+  -- we have to use the class GameMode instead of GM because we dont have an instance yet
+  if (not GameMode:IsPVP() or GameMode:IsPVPHome()) and v.Category == "Units" then
+    buildingShopData[k].HiddenFromShop = 1
+  end
+  if GameMode:IsPVP() and not GameMode:IsPVPHome() and (v.Category == "Resources" or v.Category == "Defense") then
+    buildingShopData[k].HiddenFromShop = 1
+  end
   buildingShopData[k].BuildingID = v.BuildingID
   -- we dont net to network DynamicModels
 end
@@ -10,6 +17,9 @@ for k, _ in pairs(buildingShopData) do
   buildingShopData[k].Spawner = nil
 end
 CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, buildingShopData)
+
+CDOTA_PlayerResource:AddPlayerData("IsPVP", NETWORKVAR_TRANSMIT_STATE_PLAYER, GameMode:IsPVP())
+CDOTA_PlayerResource:AddPlayerData("IsPVPHome", NETWORKVAR_TRANSMIT_STATE_PLAYER, GameMode:IsPVPHome())
 
 CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
 
@@ -76,14 +86,13 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
       startOrigin = origin
     end
 
-
     local lookoutSentry
     if building.IsLookout then
       lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin, scale = 0.8})
     end
 
     CreateUnitByNameAsync(unitName, startOrigin, isUnit, owner, owner, self:GetTeam(plyID), function(unit)
-      unit:SetNeverMoveToClearSpace(true)
+      unit:SetNeverMoveToClearSpace(not isUnit)
       table.insert(self:GetBuildingList(plyID), unit)
       table.insert(Entities:GetBuildingListRaw(), unit)
       if building.IsLookout or isUnit then
@@ -151,7 +160,8 @@ end
 
 function CDOTA_PlayerResource:FindBuildingByName(plyID, unitName)
   local buildingList = self:GetBuildingList(plyID)
-  for k, unit in pairs(buildingList) do
+  for k = #buildingList, 1, -1 do
+    local unit = buildingList[k]
     if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
     elseif string.match(unit:GetUnitName(), unitName) then
@@ -163,7 +173,8 @@ end
 function CDOTA_PlayerResource:FindAllBuildingsWithName(plyID, unitName)
   local units = {}
   local buildingList = self:GetBuildingList(plyID)
-  for k, unit in pairs(buildingList) do
+  for k = #buildingList, 1, -1 do
+    local unit = buildingList[k]
     if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
     elseif string.match(unit:GetUnitName(), unitName) then

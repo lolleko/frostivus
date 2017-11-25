@@ -6,7 +6,9 @@ end
 
 -- all access on the global building list should be over this function to ensure the retunred building(s) are valid
 function CEntities:GetAllBuildings()
-  for k, unit in pairs(self.BuildingList) do
+  local buildingList = self.BuildingList
+  for k = #buildingList, 1, -1 do
+    local unit = buildingList[k]
     if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       -- remove is costly but shouldnt happen to often
       table.remove(self.BuildingList, k)

@@ -366,13 +366,14 @@ local frostivus_quest_kill_storegga = class(
 QuestList.frostivus_quest_kill_storegga = frostivus_quest_kill_storegga
 
 function frostivus_quest_kill_storegga:OnStart()
-  if not self.static.storrega_spawned then
+  if not self.statics.storrega_spawned then
     local spawn = Entities:FindByName(nil, "storegga_spawn"):GetOrigin()
     CreateUnitByNameAsync("npc_frostivus_boss_storegga", spawn, true, nil, nil, DOTA_TEAM_BADGUYS, function(unit)
 
     end)
     PlayerResource:SendMinimapPing(self.plyID, spawn, true)
-    AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn + Vector(0, 0, 30), 800, 5, false)
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn + Vector(0, 0, 30), 800, 10, false)
+    self.statics.storrega_spawned = true
   end
   self.entityKillEventHandle = ListenToGameEvent("entity_killed", function(event)
     local killedUnit = EntIndexToHScript( event.entindex_killed )
@@ -384,4 +385,7 @@ end
 
 function frostivus_quest_kill_storegga:OnDestroy()
   StopListeningToGameEvent(self.entityKillEventHandle)
+  GM:SetStage(2)
+  -- TODO remove (end game later)
+  GameRules:MakeTeamLose(DOTA_TEAM_BADGUYS)
 end

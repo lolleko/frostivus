@@ -2,20 +2,44 @@ require "cgcore.gamemode"
 
 require "events"
 
+-- START MAP CONFIG
+-- This part needs to be run first because it is required by other classes to setup the rule
+if string.match(GetMapName(), "coop") then
+	GameMode.bIsPVP = false
+else
+	GameMode.bIsPVP = true
+end
+
+if string.match(GetMapName(), "home") then
+	GameMode.bIsPVPHome = true
+else
+	GameMode.bIsPVPHome = false
+end
+
+function GameMode:IsPVPHome()
+	return self.bIsPVPHome
+end
+
+function GameMode:IsPVP()
+	return self.bIsPVP
+end
+
 GameMode.TeamMaxPlayersMap = {
-	njords_hearth_coop = {
+	frost_tribes_coop = {
 		[DOTA_TEAM_BADGUYS] = 0,
 		[DOTA_TEAM_GOODGUYS] = 4
 	},
-	njords_hearth_pvp_home = {
+	frost_tribes_pvp_home = {
 		[DOTA_TEAM_BADGUYS] = 0,
 		[DOTA_TEAM_GOODGUYS] = 1
 	},
-	njords_hearth_pvp_1v1 = {
+	frost_tribes_pvp_1v1 = {
 		[DOTA_TEAM_BADGUYS] = 1,
 		[DOTA_TEAM_GOODGUYS] = 1
 	}
 }
+-- END MAP CONFIG
+
 
 function GameMode:Init()
 	for teamID, plyCount in pairs(self.TeamMaxPlayersMap[GetMapName()]) do
@@ -72,8 +96,8 @@ function GameMode:GetDifficultyScalar(teamID)
 		end
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
 			if PlayerResource:HasSelectedHero(plyID) and (not teamID or PlayerResource:GetTeam(plyID) == teamID) then
-				scale = scale + 120
-				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 10
+				scale = scale + 140
+				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 12
 			end
 		end
 		scale = scale + self:GetStage() * 200
@@ -125,7 +149,10 @@ function GameMode:GetBuildingRange(plyID)
 	return 2432
 end
 
-function GameMode:GetStage()
+function GameMode:GetStage(plyID)
+	if plyID then
+		return PlayerResource:GetStage(plyID)
+	end
   return self.stage or 0
 end
 

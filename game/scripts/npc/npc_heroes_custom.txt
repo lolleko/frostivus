@@ -16,7 +16,8 @@
 		"override_hero"				"npc_dota_hero_dragon_knight"
 		"Ability2"					"dragon_knight_dragon_tail_dungeon"
 		//"Ability14"					"special_bonus_armor_10"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -38,7 +39,8 @@
 		"AttackDamageMax"			"28"
 		"Ability1"					"holdout_glacier_arrows"
 		"Ability2"					"holdout_multishot"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -48,7 +50,8 @@
 	{
 		"override_hero"				"npc_dota_hero_jakiro"
 		//"Ability15"					"special_bonus_movement_speed_40"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -59,7 +62,8 @@
 		"override_hero"				"npc_dota_hero_legion_commander"
 		"Ability6"					"holdout_gladiators_unite"
 		//"Ability16"					"special_bonus_strength_25"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -68,7 +72,8 @@
 	"npc_dota_hero_lina_dungeon"
 	{
 		"override_hero"				"npc_dota_hero_lina"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -81,7 +86,8 @@
 		"Ability4"		"generic_hidden"
 		"Ability5"		"generic_hidden"
 		"Ability6"					"holdout_gods_strength"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -92,7 +98,8 @@
 		"override_hero"				"npc_dota_hero_templar_assassin"
 		"Ability1"					"templar_assassin_refraction_holdout"
 		//"Ability17"					"special_bonus_agility_25"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -105,7 +112,8 @@
 		"Ability4"		"generic_hidden"
 		"Ability5"		"generic_hidden"
 		"Ability6"					"dungeon_tidehunter_ravage"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -116,7 +124,8 @@
 		"override_hero"				"npc_dota_hero_tiny"
 		//"Ability3"					"tiny_trample"
 		"ArmorPhysical"				"2"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -125,7 +134,8 @@
 	"npc_dota_hero_troll_warlord_dungeon"
 	{
 		"override_hero"				"npc_dota_hero_troll_warlord"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -137,7 +147,8 @@
 		"Ability1"					"dungeon_nevermore_shadowraze1"
 		"Ability2"					"dungeon_nevermore_shadowraze2"
 		"Ability3"					"dungeon_nevermore_shadowraze3"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -147,7 +158,8 @@
 	{
 		"override_hero"				"npc_dota_hero_windrunner"
 		"Ability1"					"holdout_shackleshot"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -161,7 +173,8 @@
 		"Ability5"		"generic_hidden"
 		"Ability6	"					"holdout_death_ward"
 		//"Ability13"					"special_bonus_all_stats_12"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -170,7 +183,8 @@
 	"npc_dota_hero_gyrocopter_dungeon"
 	{
 		"override_hero"				"npc_dota_hero_gyrocopter"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 		"Ability1"					"gyrocopter_rocket_barrage_dungeon"
 	}
 
@@ -180,7 +194,8 @@
 	"npc_dota_hero_weaver_dungeon"
 	{
 		"override_hero"				"npc_dota_hero_weaver"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 		"Ability1"					"weaver_the_swarm_dungeon"
 	}
 
@@ -191,7 +206,8 @@
 	{
 		"override_hero"				"npc_dota_hero_viper"
 		//"Ability14"					"special_bonus_mp_regen_6"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -201,7 +217,8 @@
 	{
 		"override_hero"				"npc_dota_hero_omniknight"
 		//"Ability10"					"special_bonus_intelligence_6"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -218,7 +235,8 @@
 		"Ability4"		"generic_hidden"
 		"Ability5"		"generic_hidden"
 		"Ability6"					"leshrac_pulse_nova_dungeon"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -227,7 +245,8 @@
 	"npc_dota_hero_luna_dungeon"
 	{
 		"override_hero"				"npc_dota_hero_luna"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 	//=================================================================================================================
@@ -241,7 +260,8 @@
 	//	"Ability5"				"treant_great_protector"
 	//	//"Ability12"				"special_bonus_strength_10"
 	//	//"Ability16"				"special_bonus_movement_speed_40"
-	//	"VisionDaytimeRange"	"1100"
+	//  "VisionDaytimeRange"		"1200"
+	//  "VisionNighttimeRange"  "1000"
 	//}
 
 	//=================================================================================================================
@@ -255,7 +275,8 @@
 		"Ability4"					"generic_hidden"
 		"Ability6"					"zeus_thundergods_wrath_nb2017"
 		//"Ability15"					"special_bonus_spell_amplify_6"
-		"VisionDaytimeRange"		"1100"
+		"VisionDaytimeRange"		"1200"
+		"VisionNighttimeRange"  "1000"
 	}
 
 }

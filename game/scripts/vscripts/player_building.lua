@@ -2,8 +2,18 @@ local unitKV = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 CDOTA_PlayerResource:AddPlayerData("PreviewModel", NETWORKVAR_TRANSMIT_STATE_NONE, nil)
 
 function CDOTA_PlayerResource:HasRequirements(plyID, requirements, buildingName)
-  if requirements.Stage and requirements.Stage > GM:GetStage() then
-    self:SendCastError(plyID, "frostivus_hud_error_stage_not_unlocked")
+  local building = BuildingKV:GetBuilding(buildingName)
+
+  if GM:IsPVP() and not GM:IsPVPHome() and not tobool(building.IsUnit) then
+    self:SendCastError(plyID, "frostivus_hud_error_pvp_cant_build_in_battle")
+    return false
+  end
+  if requirements.Stage and requirements.Stage > self:GetGameStage(plyID) then
+    if GM:IsPVPHome() then
+      self:SendCastError(plyID, "frostivus_hud_error_pvp_stage_not_unlocked")
+    else
+      self:SendCastError(plyID, "frostivus_hud_error_stage_not_unlocked")
+    end
     return false
   end
   if requirements.MaxAlive and buildingName then

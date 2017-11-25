@@ -47,6 +47,8 @@ function SetupTooltip () {
   LoadStat('#frostivus_tooltip_max_amount', building.Requirements.MaxAlive, null)
   LoadStat('#frostivus_tooltip_gold_cost', building.Requirements.GoldCost, null)
   LoadStat('#frostivus_tooltip_lumber_cost', building.Requirements.LumberCost, null)
+  LoadStat('#frostivus_tooltip_lumber_capacity', building.LumberCapacity, prevBuilding.LumberCapacity)
+  LoadStat('#frostivus_tooltip_gold_capacity', building.GoldCapacity, prevBuilding.GoldCapacity)
   LoadStat('#frostivus_tooltip_armor', building.ArmorPhysical, prevBuilding.ArmorPhysical)
   LoadStat('#frostivus_tooltip_health', building.StatusHealth, prevBuilding.StatusHealth)
   LoadStat('#frostivus_tooltip_healt_regen', building.StatusHealthRegen, prevBuilding.StatusHealthRegen)

@@ -23,7 +23,7 @@ CDOTA_PlayerResource:AddPlayerData("LastSaveTime", NETWORKVAR_TRANSMIT_STATE_NON
 
 function CDOTA_PlayerResource:ProcessSaveRequest(eventSourceIndex, data)
 	local plyID = data.PlayerID
-	if not GM:IsPVPHome() then
+	if not GM:IsPVPHome() or GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		self:SendCastError(plyID, "frostivus_hud_error_cant_save")
 		return
 	end
@@ -36,17 +36,48 @@ function CDOTA_PlayerResource:ProcessSaveRequest(eventSourceIndex, data)
 end
 CustomGameEventManager:RegisterListener("playerRequestSave", function(...) PlayerResource:ProcessSaveRequest(...) end)
 
+function CDOTA_PlayerResource:ResetPlayer(plyID)
+  local buildingList = self:GetBuildingList(plyID)
+	-- overwrite or keep existing data
+  local saveData = self:GetCGData(plyID)
+  saveData.buildings = {}
+	local center = GM:GetBuildingCenter(plyID)
+	for k = #buildingList, 1, -1 do
+		local unit = buildingList[k]
+		if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
+      table.remove(buildingList, k)
+    else
+			unit:RemoveSelf()
+    end
+	end
+  saveData.hero = {}
+  local hero = self:GetSelectedHeroEntity(plyID)
+  saveData.hero.xp = 0
+  saveData.hero.level = 1
+  saveData.hero.inventory = {}
+
+	saveData.hero.gold = 0
+	saveData.hero.lumber = 0
+
+	-- player is new again (gets queasts again)
+	saveData.newPlayer = true
+	self:SetCGData(plyID, saveData)
+  self:UpdatePersitenData(plyID)
+end
+
 function CDOTA_PlayerResource:StorePlayer(plyID)
   local buildingList = self:GetBuildingList(plyID)
 	-- overwrite or keep existing data
   local saveData = self:GetCGData(plyID)
   saveData.buildings = {}
 	local center = GM:GetBuildingCenter(plyID)
-  for k, unit in pairs(buildingList) do
-    if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
+	for k = #buildingList, 1, -1 do
+		local unit = buildingList[k]
+		if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
       table.remove(buildingList, k)
     else
-			if not unit:IsSpiritTree() then
+			-- dont save the tree and "units"
+			if not unit:IsSpiritTree() and not tobool(unit.Building.IsUnit) then
 				local bld = {}
 	      bld.unitName = unit:GetUnitName()
 	      local origin = unit:GetOrigin()
@@ -55,7 +86,7 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
 	      table.insert(saveData.buildings, bld)
 			end
     end
-  end
+	end
   saveData.hero = {}
   local hero = self:GetSelectedHeroEntity(plyID)
   saveData.hero.xp = hero:GetCurrentXP()
@@ -71,7 +102,7 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
 	saveData.hero.gold = hero:GetGold()
 	saveData.hero.lumber = self:GetLumber(plyID)
 
-	-- palyer isnt considered new after first save
+	-- player isnt considered new after first save
 	saveData.newPlayer = false
 
 	-- save quests

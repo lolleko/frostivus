@@ -7,7 +7,8 @@
     $.Schedule(0.5, function() {
       $.GetContextPanel().GetParent().GetParent().GetParent().style.marginTop = '0px'
     })
-    $.GetContextPanel().GetParent().GetParent().GetParent().GetParent().AddClass('gameinfo_visible')
+		// TODO reenable once game info is finished
+    //$.GetContextPanel().GetParent().GetParent().GetParent().GetParent().AddClass('gameinfo_visible')
     GameEvents.Subscribe('game_rules_state_change', function () {
       if (Game.GameStateIs(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)) {
         $.GetContextPanel().GetParent().GetParent().GetParent().GetParent().RemoveClass('gameinfo_visible')
@@ -15,13 +16,6 @@
     })
   </script>
 	<Panel class="FrostivusGameInfoRoot">
-		<Label class="Title" text="Defend the Forest!"/>
-		<Label class="Paragraph" text="Njord's Hearth is an unusually warm, forested domain in the north, near the lands of Icewrack. Despite its cold surroundings, the domain experiences eternal spring."/>
-    <Label class="Paragraph" text="An unknown Force has infested the trees allowing the corruption of the forest. The Frost is advancing from the North and the Dire from the South. Large parts of the Forest are already frozen or corrupted."/>
-    <Label class="Paragraph Bold" text="The only chance to restore the forest is the elder tree in the center of the forest. It must be defend it at all cost."/>
-    <Label class="Paragraph" text=""/>
-    <Label class="Paragraph Bold" text="TODO make cool Winter themed cringe free lore"/>
-    <Label class="Paragraph" text=""/>
     <Label class="Title" text="TODO TUTORIAL"/>
   </Panel>
 </root>

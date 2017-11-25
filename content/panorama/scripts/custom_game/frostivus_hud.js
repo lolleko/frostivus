@@ -12,7 +12,7 @@
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_SHOP_SUGGESTEDITEMS, false)
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_QUICK_STATS, false)
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_PANEL, false)
-  GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ENDGAME, false)
+  GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ENDGAME, true)
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_PREGAME_STRATEGYUI, false)
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_KILLCAM, false)
 
@@ -22,6 +22,10 @@
   buildings.LoadCategory('Resources')
   buildings.LoadCategory('Units')
   toolbar.Insert('Buildings', buildings)
+
+  if (!Players.GetIsPVPHome(Players.GetLocalPlayer())) {
+    $('#SaveDataButton').style.visibility = 'collapse'
+  }
 
   $('#SaveDataButton').SetPanelEvent(
     'onactivate',

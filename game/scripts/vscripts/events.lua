@@ -17,22 +17,34 @@ end
 
 function GameMode:OnPlayerPickHero(data)
   local hero = EntIndexToHScript(data.heroindex)
+  local plyID = hero:GetPlayerOwnerID()
 
-  if self:IsPVP() then
-    local playerCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
-    local spawn = self:GetSpiritTreeSpawnTable()[data.player]
-    hero:SetRespawnPosition(spawn:GetOrigin())
-    PlayerResource:SpawnBuilding(hero:GetPlayerOwnerID(), "npc_frostivus_spirit_tree_pvp", {origin = spawn:GetOrigin(), sizeX = 2, sizeY = 2, owner = hero}, function (args)
-      PlayerResource:LoadPlayer(hero:GetPlayerOwnerID(), hero)
-    end)
-  else
-    self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
-    local plyID = hero:GetPlayerOwnerID()
-    PlayerResource:SetLumberCapacity(plyID, PlayerResource:GetLumberCapacity(plyID) + self:GetSpiritTree(plyID).LumberCapacity)
-    PlayerResource:SetGoldCapacity(plyID, PlayerResource:GetGoldCapacity(plyID) + self:GetSpiritTree(plyID).GoldCapacity)
-  end
+  -- delay player init to give player additoinal time to load
+  GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("playerINIT" .. plyID), function()
+    if self:IsPVP() then
+      local cgData = PlayerResource:GetCGData(plyID)
+      if cgData.competitiveGamesPlayed < 1 then
+        PlayerResource:SetGameStage(plyID, 0)
+      elseif cgData.competitiveGamesPlayed < 5 then
+        PlayerResource:SetGameStage(plyID, 1)
+      else
+        PlayerResource:SetGameStage(plyID, 2)
+      end
+      local playerCount = PlayerResource:GetPlayerCountForTeam(DOTA_TEAM_GOODGUYS)
+      local spawn = self:GetSpiritTreeSpawnTable()[data.player]
+      hero:SetRespawnPosition(spawn:GetOrigin())
+      PlayerResource:SpawnBuilding(plyID, "npc_frostivus_spirit_tree_pvp", {origin = spawn:GetOrigin(), sizeX = 2, sizeY = 2, owner = hero}, function (args)
+        PlayerResource:LoadPlayer(plyID, hero)
+      end)
+    else
+      self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
+      local plyID = plyID
+      PlayerResource:SetLumberCapacity(plyID, PlayerResource:GetLumberCapacity(plyID) + self:GetSpiritTree(plyID).LumberCapacity)
+      PlayerResource:SetGoldCapacity(plyID, PlayerResource:GetGoldCapacity(plyID) + self:GetSpiritTree(plyID).GoldCapacity)
+    end
+  end, 1)
 
-  if PlayerResource:HasRandomed(hero:GetPlayerOwnerID()) then
+  if PlayerResource:HasRandomed(plyID) then
     hero:ModifyGold(-200, false, 0)
   end
 end
@@ -42,7 +54,7 @@ function GameMode:OnHeroSelection(data)
   self:SetCoopSpiritTree(Entities:FindByName(nil, "coop_spirit_tree"))
 end
 
-function GameMode:OnPreGame()
+function GameMode:OnStrategyTime()
   for _,plyID in pairs(PlayerResource:GetAll()) do
     if not PlayerResource:HasSelectedHero(plyID) then
       PlayerResource:SetHasRandomed(plyID)
@@ -65,7 +77,7 @@ end
 
 function GameMode:OnPlayerThink(plyID)
   -- auto save every 5min
-  if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() then
+  if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() and GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
     PlayerResource:SetLastSaveTime(plyID, GameRules:GetGameTime())
     PlayerResource:StorePlayer(plyID)
   end
@@ -73,12 +85,28 @@ end
 
 function GameMode:OnEntityKilled(data)
   local killedUnit = EntIndexToHScript(data.entindex_killed)
-  if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetTeamNumber() == DOTA_TEAM_GOODGUYS) then
+  if killedUnit ~= nil and killedUnit:IsCreature() then
     if killedUnit:IsSpiritTree() then
       if self:IsPVP() then
-        -- TODO
+        -- TODO check if other trees are still alive (in 2v2)
+        local looser = killedUnit:GetTeamNumber()
+        GameRules:MakeTeamLose(looser)
+        if not self:IsPVPHome() then
+          for _, plyID in pairs(PlayerResource:GetAllInTeam(looser)) do
+            local cgData = PlayerResource:GetCGData(plyID)
+            cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
+          end
+          local winner = killedUnit:GetOpposingTeamNumber()
+          for _, plyID in pairs(PlayerResource:GetAllInTeam(winner)) do
+            local cgData = PlayerResource:GetCGData(plyID)
+            cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
+            cgData.competitiveGamesWon = cgData.competitiveGamesWon + 1
+          end
+        else
+
+        end
       else
-        GameRules:SetGameWinner(DOTA_TEAM_BADGUYS)
+        GameRules:MakeTeamLose(killedUnit:GetTeamNumber())
       end
     end
     local ownerID = killedUnit:GetPlayerOwnerID()
@@ -115,4 +143,12 @@ function GameMode:GoldFilter(data)
     end
   end
 	return true
+end
+
+function GameMode:ItemAddedToInventoryFilter(data)
+  local item = EntIndexToHScript(data.item_entindex_const)
+  if item:GetAbilityName() == "item_tpscroll" and item:GetPurchaser() == nil then
+    return false
+  end
+  return true
 end

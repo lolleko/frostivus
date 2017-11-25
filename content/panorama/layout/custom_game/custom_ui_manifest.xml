@@ -13,5 +13,12 @@
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_gold_storage_tier1.psd" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_lumber_storage_tier1.psd" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_defense_lookout_tier1.psd" />
+
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_radiant_ranged_creep_tier1.psd" />
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_radiant_melee_creep_tier1.psd" />
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_radiant_siege_creep_tier1.psd" />
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_healer_tier1.psd" />
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_market_tier1.psd" />
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_barracks_tier1.psd" />
 	</Panel>
 </root>

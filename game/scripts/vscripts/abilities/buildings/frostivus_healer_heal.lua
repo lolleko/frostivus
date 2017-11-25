@@ -16,7 +16,8 @@ function frostivus_healer_heal:OnChannelThink(interval)
   local target = self:GetCursorTarget()
   local caster = self:GetCaster()
   if self.second >= 1 then
-    target:Heal(self:GetSpecialValueFor("health_per_tick"), caster)
+    target:Heal(self:GetSpecialValueFor("health_per_second") * caster:GetLevel(), caster)
+    self.second = 0
   end
   self.second = self.second + interval
 end
