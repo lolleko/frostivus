@@ -67,9 +67,23 @@ function frostivus_event_item_drop:OnEntityKilled(event)
     },
     {
       "item_broadsword",
+      "item_javelin",
+      "item_platemail",
+      "item_ogre_axe",
+      "item_blade_of_alacrity",
+      "item_staff_of_wizardry",
     },
     {
-      "item_broadsword",
+      "item_javelin",
+      "item_platemail",
+      "item_talisman_of_evasion",
+      "item_hyperstone",
+      "item_ultimate_orb",
+      "item_demon_edge",
+      "item_mystic_staff",
+      "item_reaver",
+      "item_eagle",
+      "item_relic",
     }
   }
   local killedUnit = EntIndexToHScript(event.entindex_killed)

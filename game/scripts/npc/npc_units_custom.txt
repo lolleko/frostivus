@@ -1856,6 +1856,22 @@
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
 
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "8"
+				}
+			}
+		}
+
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
 	"npc_frostivus_dire_ranged_creep"
@@ -1886,6 +1902,22 @@
 
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "10"
+				}
+			}
+		}
 
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
@@ -1987,6 +2019,22 @@
 
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "16"
+				}
+			}
+		}
 
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
@@ -2193,6 +2241,22 @@
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
 
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "10"
+				}
+			}
+		}
+
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
 	"npc_frostivus_frost_ranged_creep"
@@ -2225,6 +2289,23 @@
 		"VisionNighttimeRange"		"1100"
 
 		"Ability1" "ogre_magi_frost_armor"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "12"
+				}
+			}
+		}
+
 		"vscripts" "entity_scripts/units/frost_ranged_creep.lua"
 	}
 	"npc_frostivus_frost_spawner_coop_stage1"
@@ -2337,6 +2418,22 @@
 
 		"VisionDaytimeRange"		"1100"
 		"VisionNighttimeRange"		"1100"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "16"
+				}
+			}
+		}
 
 		"vscripts" "entity_scripts/units/creep_ai.lua"
 	}
