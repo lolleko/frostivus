@@ -8,7 +8,6 @@ require "player"
 
 require "quest"
 require "quests"
-require "quest_events"
 
 require "building_grid"
 
@@ -50,8 +49,6 @@ function Precache( context )
 
 	GameRules.GameMode:Precache( context )
 end
-
-local json = require "cgcore.json"
 
 -- Create the game mode when we activate
 function Activate()

@@ -8,7 +8,7 @@ function CDOTA_PlayerResource:AddQuest(plyID, quest, force)
   quest.plyID = plyID
   questList[quest.name] = quest
   if quest.OnStart then
-    quest:OnStart()
+    quest:Start()
   end
   if quest.timeLimit then
     GameRules:GetGameModeEntity():SetContextThink("frostivus_quest_" .. name .. "_" .. plyID .. "_".. DoUniqueString(name), function()
@@ -111,6 +111,7 @@ QuestBase = class({
     if self.valueGoals then
       self.valueGoals = table.deepcopy(self.valueGoals)
     end
+    self.statics = {}
   end
 })
 
@@ -130,6 +131,29 @@ function QuestBase:SetValue(valueName, value)
   if self:IsCompleted() then
     self:Complete()
   end
+end
+
+function QuestBase:Start()
+  self:OnCreated()
+  if not self.statics.onStartOnceExecuted then
+    self:OnStartOnce()
+    self.statics.onStartOnceExecuted = true
+  end
+  -- init goals
+  if self.events then
+    self.eventHandles = {}
+    for _, event in pairs(self.events) do
+      if event == "entity_killed" then
+        local handle = ListenToGameEvent("entity_killed", self.OnEntityKilled, self)
+        table.insert(self.eventHandles, handle)
+      end
+      if event == "npc_spawned" then
+        local handle = ListenToGameEvent("npc_spawned", self.OnNPCSpawned, self)
+        table.insert(self.eventHandles, handle)
+      end
+    end
+  end
+  self:OnStart()
 end
 
 function QuestBase:Complete()
@@ -156,6 +180,30 @@ function QuestBase:Destroy()
   local destroyData = {questName = self.name}
   CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), "frostivus_quest_destroyed", destroyData)
   PlayerResource:RemoveQuest(self.plyID, self.name)
+  self.statics.onStartOnceExecuted = false
+  if self.eventHandles then
+    for _, handle in pairs(self.eventHandles) do
+      StopListeningToGameEvent(handle)
+    end
+  end
+  if self.nextQuest then
+    local questClass = QuestList[self.nextQuest.questClass]
+    if self.nextQuest.onlyOnCompleted then
+      if self:IsCompleted() then
+        if self.nextQuest.allPlayers then
+          GM:AddQuest(questClass)
+        else
+          PlayerResource:AddQuest(self.plyID, questClass())
+        end
+      end
+    else
+      if self.nextQuest.allPlayers then
+        GM:AddQuest(questClass)
+      else
+        PlayerResource:AddQuest(self.plyID, questClass())
+      end
+    end
+  end
   self:OnDestroy()
 end
 
@@ -176,6 +224,14 @@ function QuestBase:IsCompleted()
   return completed
 end
 
+function QuestBase:OnCreated()
+
+end
+
+function QuestBase:OnStartOnce()
+
+end
+
 function QuestBase:OnStart()
 
 end
@@ -189,5 +245,14 @@ function QuestBase:OnCompleted()
 end
 
 function QuestBase:OnDestroy()
+
+end
+
+-- event funcs
+function QuestBase:OnEntityKilled()
+
+end
+
+function QuestBase:OnNPCSpawned()
 
 end
