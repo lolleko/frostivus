@@ -2609,6 +2609,15 @@
 					}
 					"Chance" "100"
 				}
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "25"
+				}
 			}
 		}
 		"vscripts" "entity_scripts/units/creep_camp_ai.lua"
@@ -2651,6 +2660,15 @@
 						"1" "item_roshan_food_chicken"
 					}
 					"Chance" "100"
+				}
+				"Consumables"
+				{
+					"Item"
+					{
+						"1" "item_mana_potion"
+						"2" "item_health_potion"
+					}
+					"Chance" "25"
 				}
 			}
 		}
