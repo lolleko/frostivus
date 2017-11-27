@@ -2,7 +2,7 @@ modifier_frostivus_lookout = class({})
 
 function modifier_frostivus_lookout:OnCreated(e)
 	if IsServer() then
-		self.LookoutSentry = EntIndexToHScript(e.lookoutSentry)
+		self:GetParent().LookoutSentry = EntIndexToHScript(e.lookoutSentry)
 	end
 end
 
@@ -13,6 +13,6 @@ end
 function modifier_frostivus_lookout:OnDestroy(data)
   -- Lets build a pyramid
   if IsServer() then
-		SafeRemoveEntityDelayed(self.LookoutSentry, 4)
+		SafeRemoveEntityDelayed(self:GetParent().LookoutSentry, 4)
 	end
 end

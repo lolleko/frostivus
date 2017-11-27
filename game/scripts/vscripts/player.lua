@@ -76,8 +76,8 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
     local animEndTime = GameRules:GetGameTime() + time
     local animDistance = 400
     if building.IsLookout then
-      animDistance = animDistance + 220
-      origin.z = origin.z + 220
+      animDistance = animDistance + building.LookoutOffset
+      origin.z = origin.z + building.LookoutOffset
     end
     local fps = 30
     local step = animDistance / (time * fps)
@@ -88,7 +88,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
 
     local lookoutSentry
     if building.IsLookout then
-      lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = "models/props_structures/wooden_sentry_tower001.vmdl", origin = startOrigin, scale = 0.8})
+      lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.LookoutModel, origin = startOrigin, scale = building.LookoutScale})
     end
 
     CreateUnitByNameAsync(unitName, startOrigin, isUnit, owner, owner, self:GetTeam(plyID), function(unit)
@@ -123,7 +123,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
         unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
         if animEndTime <= GameRules:GetGameTime() then
           if lookoutSentry then
-            lookoutSentry:SetOrigin(origin - Vector(0, 0, 220))
+            lookoutSentry:SetOrigin(origin - Vector(0, 0, building.LookoutOffset))
           end
           if not isUnit then
             unit:SetOrigin(origin)
@@ -139,13 +139,14 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
           startOrigin.z = startOrigin.z + step
           unit:SetOrigin(startOrigin)
           if lookoutSentry then
-            lookoutSentry:SetOrigin(startOrigin - Vector(0, 0, 220))
+            lookoutSentry:SetOrigin(startOrigin - Vector(0, 0, building.LookoutOffset))
           end
         end
         return 1/fps
       end, 0)
       for _, psos in pairs(blockers) do
         if lookoutSentry then
+          -- parent to model because model wont rotate
           psos:SetParent(lookoutSentry, nil)
         else
           psos:SetParent(unit, nil)

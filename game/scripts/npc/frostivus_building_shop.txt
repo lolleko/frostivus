@@ -15,6 +15,11 @@ FrostivusInvestments
     "Category" "Defense"
     "BuildingID" "1"
   }
+  "npc_frostivus_defense_catapult_tier1"
+  {
+    "Category" "Defense"
+    "BuildingID" "2"
+  }
   // RESOURCE
   "npc_frostivus_lumber_camp_tier1"
   {
@@ -51,19 +56,20 @@ FrostivusInvestments
     "Category" "Resources"
     "BuildingID" "106"
   }
+  // UNITS
   "npc_frostivus_radiant_melee_creep_tier1"
   {
     "Category" "Units"
-    "BuildingID" "107"
+    "BuildingID" "200"
   }
   "npc_frostivus_radiant_ranged_creep_tier1"
   {
     "Category" "Units"
-    "BuildingID" "108"
+    "BuildingID" "201"
   }
   "npc_frostivus_radiant_siege_creep_tier1"
   {
     "Category" "Units"
-    "BuildingID" "109"
+    "BuildingID" "202"
   }
 }

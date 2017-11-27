@@ -6,7 +6,7 @@
 		"CDmeInputTexture"
 		{
 			"m_name" "string" "0"
-			"m_fileName" "string" "materials/models/creeps/lane_creeps/creep_radiant_mele/creep_rad_melee_color_psd_9685adb0.tga"
+			"m_fileName" "string" "materials/models/creeps/lane_creeps/creep_radiant_mele/creep_rad_melee_winter_color.psd"
 			"m_colorSpace" "string" "srgb"
 			"m_typeString" "string" "2D"
 		}

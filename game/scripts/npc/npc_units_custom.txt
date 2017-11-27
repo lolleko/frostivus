@@ -155,6 +155,9 @@
 		"Building"
 		{
 			"IsLookout" "1"
+			"LookoutModel" "models/props_structures/wooden_sentry_tower001.vmdl"
+			"LookoutOffset" "220"
+			"LookoutScale" "0.8"
 			"IsDefense" "1"
 			"SizeX" "4"
 			"SizeY" "4"
@@ -200,6 +203,9 @@
 		"Building"
 		{
 			"IsLookout" "1"
+			"LookoutModel" "models/props_structures/wooden_sentry_tower001.vmdl"
+			"LookoutOffset" "220"
+			"LookoutScale" "0.8"
 			"IsDefense" "1"
 			"SizeX" "4"
 			"SizeY" "4"
@@ -246,6 +252,9 @@
 		"Building"
 		{
 			"IsLookout" "1"
+			"LookoutModel" "models/props_structures/wooden_sentry_tower001.vmdl"
+			"LookoutOffset" "220"
+			"LookoutScale" "0.8"
 			"IsDefense" "1"
 			"SizeX" "4"
 			"SizeY" "4"
@@ -254,6 +263,85 @@
 				"GoldCost" "750"
 				"LumberCost" "750"
 				"Stage" "2"
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_defense_catapult_tier1"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/creeps/lane_creeps/creep_good_siege/creep_good_siege.vmdl"
+		"ModelScale" "0.7"
+		"Level" "1"
+		"HealthBarOffset" "120"
+		"ArmorPhysical" "2"
+		"MagicalResistance" "0"
+		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin" "120.0"
+		"AttackDamageMax" "124.0"
+		"AttackRate" "3.5"
+		"AttackAnimationPoint" "0.8"
+		"AttackAcquisitionRange" "1600"
+		"AttackRange" "1600"
+		"ProjectileModel" "particles/base_attacks/ranged_siege_bad.vpcf"
+		"ProjectileSpeed" "800"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"RingRadius" "70"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"StatusHealth" "500"
+		"StatusHealthRegen" "1"
+		"VisionDaytimeRange" "1400"
+		"VisionNighttimeRange" "800"
+
+		"Building"
+		{
+			"IsLookout" "1"
+			"LookoutModel" "models/buildings/catapult/catapult_pedestal.vmdl"
+			"LookoutOffset" "0"
+			"LookoutScale" "1"
+			"IsDefense" "1"
+			"SizeX" "6"
+			"SizeY" "6"
+			"Requirements"
+			{
+				"GoldCost" "750"
+				"LumberCost" "750"
+				"Stage" "1"
+			}
+		}
+		"vscripts" "entity_scripts/frostivus_building.lua"
+	}
+	"npc_frostivus_defense_fire_tower_tier1"
+	{
+		"BaseClass" "npc_dota_creature"
+		"Model" "models/buildings/fire_trap/fire_trap_tier1.vmdl"
+		"ModelScale" "1"
+		"Level" "3"
+		"HealthBarOffset" "120"
+		"ArmorPhysical" "2"
+		"MagicalResistance" "0"
+		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
+		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
+		"RingRadius" "70"
+		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed" "0"
+		"StatusHealth" "500"
+		"StatusHealthRegen" "1"
+		"VisionDaytimeRange" "1400"
+		"VisionNighttimeRange" "800"
+
+		"Building"
+		{
+			"IsDefense" "1"
+			"SizeX" "2"
+			"SizeY" "2"
+			"Requirements"
+			{
+				"GoldCost" "750"
+				"LumberCost" "750"
+				"MaxAlive" "8"
+				//"Stage" "1"
 			}
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
@@ -1675,7 +1763,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "40"
-						"InitialDelay" "10"
+						"InitialDelay" "5"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -1686,7 +1774,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "20"
-						"InitialDelay" "10"
+						"InitialDelay" "5"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -1697,7 +1785,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "20"
-						"InitialDelay" "40"
+						"InitialDelay" "35"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -1708,7 +1796,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "20"
-						"InitialDelay" "10"
+						"InitialDelay" "5"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -1719,7 +1807,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_melee_creep"
 						"Interval" "40"
-						"InitialDelay" "10"
+						"InitialDelay" "5"
 						"MaxAlive" "3"
 						"InitialGoal" "world_center"
 						"MoveToGoalAggressive" "1"
@@ -1727,6 +1815,17 @@
 						"ScaleUnits" "1"
 					}
 					"5"
+					{
+						"UnitName" "npc_frostivus_dire_melee_creep"
+						"Interval" "20"
+						"InitialDelay" "45"
+						"MaxAlive" "3"
+						"InitialGoal" "world_center"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_corner_left"
+						"ScaleUnits" "1"
+					}
+					"6"
 					{
 						"UnitName" "npc_frostivus_dire_ranged_creep"
 						"Interval" "40"
@@ -1737,7 +1836,7 @@
 						"Spawnpoint" "dire_melee_creep1"
 						"ScaleUnits" "1"
 					}
-					"6"
+					"7"
 					{
 						"UnitName" "npc_frostivus_dire_ranged_creep"
 						"Interval" "40"
@@ -2008,9 +2107,9 @@
 		"AttackDamageMin" "60.0"
 		"AttackDamageMax" "80.0"
 		"AttackRate" "2.5"
-		"AttackAnimationPoint" "0.5"
-		"AttackAcquisitionRange" "600"
-		"AttackRange" "600"
+		"AttackAnimationPoint" "0.8"
+		"AttackAcquisitionRange" "1400"
+		"AttackRange" "1400"
 		"ProjectileModel" "particles/base_attacks/ranged_siege_bad.vpcf"
 		"ProjectileSpeed" "500"
 		"BountyXP" "30"

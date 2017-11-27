@@ -97,7 +97,7 @@ function GameMode:GetDifficultyScalar(teamID)
 		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
 			if PlayerResource:HasSelectedHero(plyID) and (not teamID or PlayerResource:GetTeam(plyID) == teamID) then
 				scale = scale + 140
-				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 12
+				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 14
 			end
 		end
 		scale = scale + self:GetStage() * 200
