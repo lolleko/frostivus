@@ -27,6 +27,88 @@
   flow-children: down;
 }
 
+
+#BossHP
+{
+	width: 500px;
+	height: 64px;
+	horizontal-align: center;
+	vertical-align: center;
+	margin-bottom: 914px;
+	visibility: collapse;
+}
+#BossHP.Visible
+{
+	visibility: visible;
+}
+
+#BossLabel
+{
+	horizontal-align: center;
+	text-align: center;
+	text-shadow: 1px 1px 2px 3.0 #000000;
+	font-size: 20px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	color: #FE8907;
+}
+
+#BossProgressBar
+{
+	width: 90%;
+	border-radius: 4px;
+	border: 3px solid #444;
+	background-color: black;
+	height: 24px;
+	vertical-align: middle;
+	horizontal-align: right;
+	box-shadow: fill #000 -3px -3px 6px 6px;
+}
+
+#BossProgressBar_Left
+{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #320000 ), color-stop( 0.3, #ff4A07 ), color-stop( .5, #ff4A07 ), to( #320000 ) );
+	box-shadow: inset #000 1px 1px 3px 3px;
+	border-radius: 2px;
+}
+
+#BossProgressBar_Right
+{
+	background-color: gradient( linear, 0% 0%, 100% 0%, from( #222222FF ), to( black ) );
+
+}
+
+#ProgressBarContainer,
+#BossProgressBarContainer
+{
+	vertical-align: bottom;
+	height: 48px;
+	width: 100%;
+}
+
+#ProgressBarContainer
+{
+	height: 64px;
+}
+
+#BossIcon
+{
+	height: 48px;
+	width: 48px;
+	background-image: url("s2r://panorama/images/interface/minimap_boss_icon_png.vtex");
+	background-size: cover;
+}
+
+#BossIcon.npc_frostivus_boss_roshan
+{
+	background-image: url("s2r://panorama/images/hud/reborn/roshan_timer_roshan_psd.vtex");
+}
+
+#BossIcon.npc_frostivus_boss_storrega
+{
+	background-image: url("s2r://panorama/images/heroes/icons/npc_dota_hero_tiny_png.vtex");
+}
+
 #BuildTutorial {
   vertical-align: bottom;
   horizontal-align: center;

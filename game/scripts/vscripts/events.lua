@@ -73,6 +73,9 @@ function GameMode:OnGameStart()
   if not self:IsPVP() then
     self:AddQuest(QuestList.frostivus_quest_starter_kill_enemies)
   end
+
+  -- test boss hp bar
+  --CreateUnitByName("npc_frostivus_boss_roshan", Entities:FindByName(nil, "boss_test"):GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
 end
 
 function GameMode:OnPlayerThink(plyID)
@@ -83,48 +86,62 @@ function GameMode:OnPlayerThink(plyID)
   end
 end
 
+function GameMode:OnNPCSpawned(data)
+  local spawnedUnit = EntIndexToHScript( data.entindex )
+  if spawnedUnit ~= nil then
+    if spawnedUnit:IsAncient() then
+      CustomGameEventManager:Send_ServerToAllClients("frostivusBossStart", {bossEntIndex = data.entindex})
+    end
+  end
+end
+
 function GameMode:OnEntityKilled(data)
   local killedUnit = EntIndexToHScript(data.entindex_killed)
-  if killedUnit ~= nil and killedUnit:IsCreature() then
-    if killedUnit:IsSpiritTree() then
-      if self:IsPVP() then
-        -- TODO check if other trees are still alive (in 2v2)
-        local looser = killedUnit:GetTeamNumber()
-        GameRules:MakeTeamLose(looser)
-        if not self:IsPVPHome() then
-          for _, plyID in pairs(PlayerResource:GetAllInTeam(looser)) do
-            local cgData = PlayerResource:GetCGData(plyID)
-            cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
-          end
-          local winner = killedUnit:GetOpposingTeamNumber()
-          for _, plyID in pairs(PlayerResource:GetAllInTeam(winner)) do
-            local cgData = PlayerResource:GetCGData(plyID)
-            cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
-            cgData.competitiveGamesWon = cgData.competitiveGamesWon + 1
+  if killedUnit ~= nil then
+    if killedUnit:IsCreature() then
+      if killedUnit:IsSpiritTree() then
+        if self:IsPVP() then
+          -- TODO check if other trees are still alive (in 2v2)
+          local looser = killedUnit:GetTeamNumber()
+          GameRules:MakeTeamLose(looser)
+          if not self:IsPVPHome() then
+            for _, plyID in pairs(PlayerResource:GetAllInTeam(looser)) do
+              local cgData = PlayerResource:GetCGData(plyID)
+              cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
+            end
+            local winner = killedUnit:GetOpposingTeamNumber()
+            for _, plyID in pairs(PlayerResource:GetAllInTeam(winner)) do
+              local cgData = PlayerResource:GetCGData(plyID)
+              cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
+              cgData.competitiveGamesWon = cgData.competitiveGamesWon + 1
+            end
+          else
+
           end
         else
-
+          GameRules:MakeTeamLose(killedUnit:GetTeamNumber())
         end
-      else
-        GameRules:MakeTeamLose(killedUnit:GetTeamNumber())
+      end
+      local ownerID = killedUnit:GetPlayerOwnerID()
+      if ownerID ~= -1 then
+        if killedUnit.LumberCapacity then
+          local cap = PlayerResource:GetLumberCapacity(ownerID)
+          PlayerResource:SetLumberCapacity(ownerID, cap - killedUnit.LumberCapacity)
+          if PlayerResource:GetLumber(ownerID) > cap then
+            PlayerResource:SetLumber(cap)
+          end
+        end
+        if killedUnit.GoldCapacity then
+          local cap = PlayerResource:GetGoldCapacity(ownerID)
+          PlayerResource:SetGoldCapacity(ownerID, cap - killedUnit.GoldCapacity)
+          if PlayerResource:GetGold(ownerID) > cap then
+            PlayerResource:SetGold(ownerID, cap, true)
+          end
+        end
       end
     end
-    local ownerID = killedUnit:GetPlayerOwnerID()
-    if ownerID ~= -1 then
-      if killedUnit.LumberCapacity then
-        local cap = PlayerResource:GetLumberCapacity(ownerID)
-        PlayerResource:SetLumberCapacity(ownerID, cap - killedUnit.LumberCapacity)
-        if PlayerResource:GetLumber(ownerID) > cap then
-          PlayerResource:SetLumber(cap)
-        end
-      end
-      if killedUnit.GoldCapacity then
-        local cap = PlayerResource:GetGoldCapacity(ownerID)
-        PlayerResource:SetGoldCapacity(ownerID, cap - killedUnit.GoldCapacity)
-        if PlayerResource:GetGold(ownerID) > cap then
-          PlayerResource:SetGold(ownerID, cap, true)
-        end
-      end
+    if killedUnit:IsAncient() then
+      CustomGameEventManager:Send_ServerToAllClients("frostivusBossEnd", {})
     end
   end
 end

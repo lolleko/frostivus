@@ -19,6 +19,16 @@
 			<Label id="BuildTutorialLabel" text="MOUSE1: Build | MOUSE2: Cancel | MOUSE3: Rotate | HOLD SHIFT: Build multiple"/>
 		</Panel>
 		<Panel id="QuestNotificationList" hittest="false">
+
+		</Panel>
+		<Panel id="BossHP" hittest="false">
+			<Label id="BossLabel" class="HoldoutLabelSmall" hittest="false" text=""/>
+			<Panel id="BossProgressBarContainer" hittest="false">
+				<Panel id="BossIcon">
+
+				</Panel>
+				<ProgressBar hittest="false" id="BossProgressBar" value="0"/>
+			</Panel>
 		</Panel>
 		<Button id="SaveDataButton" hittest="true">
 			<Label id="SaveDataButtonLabel" text="Save Data" />

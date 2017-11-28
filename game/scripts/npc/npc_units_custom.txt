@@ -3015,6 +3015,75 @@
 		"BountyGoldMax" "32"
 	}
 
+	"npc_frostivus_ogre_seal"
+	{
+		"BaseClass"					"npc_dota_creature"
+		"Model"						"models/creeps/ice_biome/ogreseal/ogreseal.vmdl"
+		"SoundSet"					"n_creep_Melee"
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+		"ConsideredHero"			"1"
+
+		"Ability1"					"ogreseal_flop"
+		//"Ability2"					"ogre_seal_surprise_smash"
+
+		"ArmorPhysical"				"4"
+		"MagicalResistance"			"0"
+
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"220"
+		"AttackDamageMax"			"245"
+		"AttackRate"				"1.7"
+		"AttackAnimationPoint"		"0.5714"
+		"AttackAcquisitionRange"	"850"
+		"AttackRange"				"180"
+		"ProjectileModel"			""
+		"ProjectileSpeed"			"0"
+
+		"RingRadius"				"60"
+		"HealthBarOffset"			"300"
+
+		"BountyXP"					"160"
+		"BountyGoldMin"				"110"
+		"BountyGoldMax"				"130"
+
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"240"
+
+		"StatusHealth"				"1450"
+		"StatusHealthRegen"			"5.0"
+		"StatusMana"				"400"
+		"StatusManaRegen"			"6"
+
+		"VisionDaytimeRange"		"900"
+		"VisionNighttimeRange"		"900"
+
+		"TeamName"					"DOTA_TEAM_BADGUYS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"PathfindingSearchDepthScale"		"0.1"
+
+		"vscripts"					"entity_scripts/units/ogre_seal_ai.lua"
+
+		"Creature"
+		{
+			"ItemDrops"
+			{
+				"Consumables"
+				{
+					"Item"
+					{
+						"1"  			"item_health_potion"
+						"2"				"item_mana_potion"
+					}
+					"Chance"			"10"
+				}
+			}
+		}
+	}
+
 	// boss units
 	"npc_frostivus_boss_roshan"
 	{
@@ -3026,6 +3095,9 @@
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed" "380"
 		"RingRadius" "70"
+		"ConsideredHero"			"1"
+		"IsAncient" "1"
+
 		"AttackDamageMin" "100.0"
 		"AttackDamageMax" "120.0"
 		"AttackRate" "1.6"
@@ -3068,7 +3140,6 @@
 		"ModelScale" 				"3.0"
 		"ConsideredHero"			"1"
 		"IsAncient"					"1"
-		"IsBossMonster"				"1"
 
 		"MinimapIcon"				"minimap_enemyicon"
 		"MinimapIconSize"			"300"

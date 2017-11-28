@@ -133,6 +133,49 @@
 			}
 		}
 	}
+	// Units
+	"ogreseal_flop"
+  {
+      "BaseClass"                     "ability_lua"
+      "AbilityTextureName"            "ogreseal_flop"
+      "ScriptFile"                    "abilities/ogreseal_flop"
+
+      "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_NORMAL_WHEN_STOLEN"
+      "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+      "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+      "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+      "FightRecapLevel"               "1"
+
+      "IsOnCastBar"                   "0"
+
+      "MaxLevel"                      "2"
+
+      "AbilityCastRange"              "1000"
+      "AbilityCastPoint"              "0.3"
+
+      "AbilityCooldown"               "6"
+
+      "AbilityManaCost"               "00"
+
+      "AbilitySpecial"
+      {
+          "01"
+          {
+              "var_type"                  "FIELD_INTEGER"
+              "radius"                    "275 412"
+          }
+          "02"
+          {
+              "var_type"                  "FIELD_INTEGER"
+              "damage"                    "500 1400"
+          }
+          "03"
+          {
+              "var_type"                  "FIELD_FLOAT"
+              "stun_duration"             "1.0 2.0"
+          }
+      }
+  }
 	// BOSS
 	"frostivus_roshan_fire_breath"
 	{

@@ -105,4 +105,31 @@
   }
   GameEvents.Subscribe('dota_player_update_query_unit', activeUnitChanged)
   GameEvents.Subscribe('dota_player_update_selected_unit', activeUnitChanged)
+
+  var currentBossID
+
+  function bossStart (data) {
+    var bossName = Entities.GetUnitName(data.bossEntIndex)
+    $('#BossProgressBar').value = 100
+    $('#BossHP').SetHasClass('Visible', true)
+    $('#BossHP').SetHasClass(bossName, true)
+    $('#BossIcon').SetHasClass(bossName, true)
+    $('#BossLabel').text = $.Localize(bossName)
+    currentBossID = data.bossEntIndex
+    bossUpdate()
+  }
+  GameEvents.Subscribe('frostivusBossStart', bossStart)
+
+  function bossUpdate () {
+    if (currentBossID) {
+      $.Schedule(1 / 10, bossUpdate)
+    }
+    $('#BossProgressBar').value = Entities.GetHealthPercent(currentBossID) / 100
+  }
+
+  function bossEnd (data) {
+    $('#BossHP').SetHasClass('Visible', false)
+    currentBossID = null
+  }
+  GameEvents.Subscribe('frostivusBossEnd', bossEnd)
 }())
