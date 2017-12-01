@@ -71,7 +71,7 @@ function GameMode:OnGameStart()
   end
   -- resend quest
   if not self:IsPVP() then
-    self:AddQuest(QuestList.frostivus_quest_starter_kill_enemies)
+    self:AddQuest(QuestList.frostivus_quest_starter_kill_enemies, true)
   end
 
   -- test boss hp bar
@@ -108,12 +108,14 @@ function GameMode:OnEntityKilled(data)
             for _, plyID in pairs(PlayerResource:GetAllInTeam(looser)) do
               local cgData = PlayerResource:GetCGData(plyID)
               cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
+              PlayerResource:UpdatePersitenData(plyID)
             end
             local winner = killedUnit:GetOpposingTeamNumber()
             for _, plyID in pairs(PlayerResource:GetAllInTeam(winner)) do
               local cgData = PlayerResource:GetCGData(plyID)
               cgData.competitiveGamesPlayed = cgData.competitiveGamesPlayed + 1
               cgData.competitiveGamesWon = cgData.competitiveGamesWon + 1
+              PlayerResource:UpdatePersitenData(plyID)
             end
           else
 

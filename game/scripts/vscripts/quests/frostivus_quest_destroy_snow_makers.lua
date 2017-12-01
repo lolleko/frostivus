@@ -31,7 +31,7 @@ function frostivus_quest_destroy_snow_makers:OnStart()
   self.valueGoals.frostivus_quest_goal_destroy_snow_makers = #snowMakers
   for _, ent in pairs(snowMakers) do
     ent:RemoveModifierByName("modifier_invulnerable")
-    PlayerResource:SendMinimapPing(self.plyID, ent:GetOrigin(), true)
+    GM:SendMinimapPing(ent:GetOrigin())
     AddFOWViewer(DOTA_TEAM_GOODGUYS, ent:GetOrigin() + Vector(0, 0, 30), 250, 12, false)
   end
 end

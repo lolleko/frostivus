@@ -86,25 +86,21 @@ function GameMode:Init()
 end
 
 function GameMode:GetDifficultyScalar(teamID)
-	if not self.NextDifficultyCalculation or self.NextDifficultyCalculation <= GameRules:GetGameTime() then
-		local scale = 1
-		for _, bld in pairs(Entities:GetAllBuildings()) do
-			if IsValidEntity(bld) and (not teamID or bld:GetTeam() == teamID) then
-				local level = bld:GetLevel()
-				scale = scale + level * 5
-			end
+	local scale = 1
+	for _, bld in pairs(Entities:GetAllBuildings()) do
+		if IsValidEntity(bld) and (not teamID or bld:GetTeam() == teamID) then
+			local level = bld:GetLevel()
+			scale = scale + level * 4.5
 		end
-		for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
-			if PlayerResource:HasSelectedHero(plyID) and (not teamID or PlayerResource:GetTeam(plyID) == teamID) then
-				scale = scale + 140
-				scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 14
-			end
-		end
-		scale = scale + self:GetStage() * 200
-		self.DifficultyScale = scale
-		self.NextDifficultyCalculation = GameRules:GetGameTime() + 10
 	end
-	return self.DifficultyScale or 1
+	for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+		if PlayerResource:HasSelectedHero(plyID) and (not teamID or PlayerResource:GetTeam(plyID) == teamID) then
+			scale = scale + 130
+			scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 14
+		end
+	end
+	scale = scale + self:GetStage() * 200
+	return scale
 end
 
 function GameMode:ScaleUnit(unit)
@@ -151,7 +147,7 @@ end
 
 function GameMode:GetStage(plyID)
 	if plyID then
-		return PlayerResource:GetStage(plyID)
+		return PlayerResource:GetGameStage(plyID)
 	end
   return self.stage or 0
 end

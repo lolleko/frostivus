@@ -29,7 +29,7 @@ function frostivus_event_skeleton_army:OnCreated()
   self.valueGoals.frostivus_quest_goal_kill_skeletons = self.skeletonsToSpawnPerLine * 4
 end
 
-function frostivus_event_skeleton_army:OnStartOnce()
+function frostivus_event_skeleton_army:OnStart()
   local functionSpawnLine = function(corner1, corner2)
     corner1 = Entities:FindByName(nil, corner1):GetOrigin()
     corner2 = Entities:FindByName(nil, corner2):GetOrigin()
@@ -42,7 +42,7 @@ function frostivus_event_skeleton_army:OnStartOnce()
       CreateUnitByNameAsync("npc_frostivus_skeleton_army_skeleton", spawn, true, nil, nil, DOTA_TEAM_BADGUYS, function(unit)
         GM:ScaleUnit(unit)
         AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn + Vector(0, 0, 30), 100, 2, false)
-        PlayerResource:SendMinimapPing(self.plyID, spawn, true)
+        GM:SendMinimapPing(spawn)
       end)
     end
   end

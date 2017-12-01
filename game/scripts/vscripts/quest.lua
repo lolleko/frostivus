@@ -1,28 +1,15 @@
 CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_PLAYER, {})
 
-function CDOTA_PlayerResource:AddQuest(plyID, quest, force)
+function CDOTA_PlayerResource:AddQuest(plyID, quest, allPlayers, force)
+  -- all players share an instance if allplayer sis not set we need to instanciate
+  if not allPlayers then
+    quest = quest(plyID)
+  end
   local questList = self:GetQuestList(plyID)
+  local name = quest:GetName()
   -- prevent adding the same quest multiple times by default
-  if not force and questList[quest.name] then return end
-  local name = quest.name
-  quest.plyID = plyID
-  questList[quest.name] = quest
-  if quest.OnStart then
-    quest:Start()
-  end
-  if quest.timeLimit then
-    GameRules:GetGameModeEntity():SetContextThink("frostivus_quest_" .. name .. "_" .. plyID .. "_".. DoUniqueString(name), function()
-      -- if the quest still exists fail it
-      if questList[name] and questList[name] == quest then
-        if questList[name].dontFailOnTime then
-          quest:Complete()
-        else
-          quest:Fail(name)
-        end
-      end
-    end, quest.timeLimit)
-  end
-  CustomGameEventManager:Send_ServerToPlayer(self:GetPlayer(plyID), "frostivus_quest_added", quest)
+  if not force and questList[name] then return end
+  questList[name] = quest
 end
 
 function CDOTA_PlayerResource:GetQuest(plyID, name)
@@ -84,9 +71,16 @@ function GameMode:ScheduleNextEvent()
   end
 end
 
-function GameMode:AddQuest(questClass)
-  for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
-    PlayerResource:AddQuest(plyID, questClass())
+function GameMode:AddQuest(questClass, dontShare)
+  if dontShare then
+    for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+      PlayerResource:AddQuest(plyID, questClass)
+    end
+  else
+    local instance = questClass()
+    for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+      PlayerResource:AddQuest(plyID, instance, true)
+    end
   end
 end
 
@@ -100,8 +94,9 @@ function GameMode:ModifyQuestValue(questName, valueName, change)
 end
 
 QuestBase = class({
-  constructor = function(self)
-    -- we need to copy tables
+  constructor = function(self, plyID)
+    -- we need to copy tables in case we want to run quests more tahn once
+    self.plyID = plyID
     if self.rewards then
       self.rewards = table.deepcopy(self.rewards)
     end
@@ -112,8 +107,34 @@ QuestBase = class({
       self.valueGoals = table.deepcopy(self.valueGoals)
     end
     self.statics = {}
+
+    self:OnCreated()
+    self:Start()
   end
 })
+
+function QuestBase:SendQuestEvent(name, data)
+  if self.plyID then
+    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), name, data)
+  else
+    CustomGameEventManager:Send_ServerToAllClients(name, data)
+  end
+end
+
+function QuestBase:ExecFuncForPlayer(func)
+  if self.plyID then
+    func(self.plyID)
+  else
+    for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
+      func(plyID)
+    end
+  end
+end
+
+function QuestBase:GetName()
+  return self.name
+end
+
 
 function QuestBase:ModifyValue(valueName, change)
   self:SetValue(valueName, self:GetValue(valueName) + change)
@@ -126,19 +147,25 @@ end
 function QuestBase:SetValue(valueName, value)
   self.values[valueName] = value
   local updateData = {questName = self.name, valueName = valueName, value = value}
-  CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), "frostivus_quest_update", updateData)
-
+  self:SendQuestEvent("frostivus_quest_update", updateData)
   if self:IsCompleted() then
     self:Complete()
   end
 end
 
 function QuestBase:Start()
-  self:OnCreated()
-  if not self.statics.onStartOnceExecuted then
-    self:OnStartOnce()
-    self.statics.onStartOnceExecuted = true
+  if self.timeLimit then
+    local plyID = self.plyID or "ALLPLAYERS"
+    local name = self.name
+    GameRules:GetGameModeEntity():SetContextThink("frostivus_quest_" .. name .. "_" .. plyID .. "_".. DoUniqueString(name), function()
+        if self.dontFailOnTime then
+          self:Complete()
+        else
+          self:Fail()
+        end
+    end, self.timeLimit)
   end
+  self:SendQuestEvent("frostivus_quest_added", self)
   -- init goals
   if self.events then
     self.eventHandles = {}
@@ -158,18 +185,20 @@ end
 
 function QuestBase:Complete()
   local completeData = {questName = self.name, rewards = self.rewards}
-  CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), "frostivus_quest_completed", completeData)
+  self:SendQuestEvent("frostivus_quest_completed", completeData)
   if self.rewards then
     if self.rewards.resource then
-      for resourceName, amount in pairs(self.rewards.resource) do
-        if resourceName == "xp" then
-          PlayerResource:GetSelectedHeroEntity(self.plyID):AddExperience(amount, 0, false, false)
-        elseif resourceName == "gold" then
-          PlayerResource:ModifyGold(self.plyID, amount)
-        elseif resourceName == "lumber" then
-          PlayerResource:ModifyLumber(self.plyID, amount)
+      self:ExecFuncForPlayer(function(plyID)
+        for resourceName, amount in pairs(self.rewards.resource) do
+          if resourceName == "xp" then
+            PlayerResource:GetSelectedHeroEntity(plyID):AddExperience(amount, 0, false, false)
+          elseif resourceName == "gold" then
+            PlayerResource:ModifyGold(plyID, amount)
+          elseif resourceName == "lumber" then
+            PlayerResource:ModifyLumber(plyID, amount)
+          end
         end
-      end
+      end)
     end
   end
   self:OnCompleted()
@@ -178,9 +207,10 @@ end
 
 function QuestBase:Destroy()
   local destroyData = {questName = self.name}
-  CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), "frostivus_quest_destroyed", destroyData)
-  PlayerResource:RemoveQuest(self.plyID, self.name)
-  self.statics.onStartOnceExecuted = false
+  self:SendQuestEvent("frostivus_quest_destroyed", destroyData)
+  self:ExecFuncForPlayer(function (plyID)
+    PlayerResource:RemoveQuest(plyID, self.name)
+  end)
   if self.eventHandles then
     for _, handle in pairs(self.eventHandles) do
       StopListeningToGameEvent(handle)
@@ -193,14 +223,14 @@ function QuestBase:Destroy()
         if self.nextQuest.allPlayers then
           GM:AddQuest(questClass)
         else
-          PlayerResource:AddQuest(self.plyID, questClass())
+          PlayerResource:AddQuest(self.plyID, questClass)
         end
       end
     else
       if self.nextQuest.allPlayers then
         GM:AddQuest(questClass)
       else
-        PlayerResource:AddQuest(self.plyID, questClass())
+        PlayerResource:AddQuest(self.plyID, questClass)
       end
     end
   end
@@ -209,7 +239,7 @@ end
 
 function QuestBase:Fail()
   local completeData = {questName = self.name}
-  CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(self.plyID), "frostivus_quest_failed", completeData)
+  self:SendQuestEvent("frostivus_quest_failed", completeData)
   self:OnFailed()
   self:Destroy()
 end

@@ -15,7 +15,7 @@ local frostivus_event_item_drop = class(
   QuestBase
 )
 
-function frostivus_event_item_drop:OnStartOnce()
+function frostivus_event_item_drop:OnStart()
   local routes = {
     {spawn = "item_drop_carrier_spawn1", goal = "item_drop_carrier_spawn3"},
     {spawn = "item_drop_carrier_spawn3", goal = "item_drop_carrier_spawn4"},
@@ -30,7 +30,7 @@ function frostivus_event_item_drop:OnStartOnce()
     unit:AddNewModifier(unit, nil, "modifier_provides_fow_position", {team = DOTA_TEAM_GOODGUYS})
     AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn:GetOrigin() + Vector(0, 0, 30), 1000, 2, false)
     AddFOWViewer(DOTA_TEAM_GOODGUYS, goal:GetOrigin() + Vector(0, 0, 30), 1000, 2, false)
-    PlayerResource:SendMinimapPing(self.plyID, spawn:GetOrigin(), true)
+    GM:SendMinimapPing(spawn:GetOrigin())
     unit:SetContextThink("disseaperWhenClose", function()
       unit:MoveToPosition(goal:GetOrigin())
       if (goal:GetOrigin() - unit:GetOrigin()):Length2D() <= 500 then

@@ -23,6 +23,11 @@ function Spawn(entityKV)
     PlayerResource:SetGoldCapacity(ownerID, PlayerResource:GetGoldCapacity(ownerID) + thisEntity.GoldCapacity)
   end
 
+  -- to lazy to add this to all kv entries
+  if not tobool(thisEntity.Building.IsUnit) then
+    thisEntity:SetBaseMagicalResistanceValue(60)
+  end
+
   if not string.match(thisEntity:GetUnitName(), "npc_frostivus_spirit_tree") then
     if thisEntity.Building.Upgrade then
       thisEntity:AddAbility("frostivus_building_upgrade")

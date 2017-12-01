@@ -22,12 +22,12 @@ local frostivus_quest_kill_storegga = class(
   QuestBase
 )
 
-function frostivus_quest_kill_storegga:OnStartOnce()
+function frostivus_quest_kill_storegga:OnStart()
   local spawn = Entities:FindByName(nil, "storegga_spawn"):GetOrigin()
   CreateUnitByNameAsync("npc_frostivus_boss_storegga", spawn, true, nil, nil, DOTA_TEAM_BADGUYS, function(unit)
 
   end)
-  PlayerResource:SendMinimapPing(self.plyID, spawn, true)
+  GM:SendMinimapPing(spawn)
   AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn + Vector(0, 0, 30), 800, 10, false)
 end
 

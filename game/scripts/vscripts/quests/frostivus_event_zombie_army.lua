@@ -29,7 +29,7 @@ function frostivus_event_zombie_army:OnCreated()
   self.timeLimit = self.tombsToSpawn * 40
 end
 
-function frostivus_event_zombie_army:OnStartOnce()
+function frostivus_event_zombie_army:OnStart()
   local spawnPoints = Entities:FindAllByName("zombie_army_toombstone_spawn")
   table.shuffle(spawnPoints)
   local tombsToSpawn = self.tombsToSpawn
@@ -38,7 +38,7 @@ function frostivus_event_zombie_army:OnStartOnce()
       CreateUnitByNameAsync("npc_frostivus_zombie_army_tombstone", spawnPoint:GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS, function(unit)
         AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 100, self.timeLimit, false)
         GM:ScaleUnit(unit)
-        PlayerResource:SendMinimapPing(self.plyID, spawnPoint:GetOrigin(), true)
+        GM:SendMinimapPing(spawnPoint:GetOrigin())
         unit:AddNewModifier(unit, nil, "modifier_kill", {duration = self.timeLimit})
       end)
       tombsToSpawn = tombsToSpawn - 1

@@ -9,13 +9,7 @@ local frostivus_quest_starter_build_walls = class(
     },
     rewards = {
       resource = {
-        xp = 50
-      }
-    },
-    rewards = {
-      resource = {
-        xp = 25,
-        lumber = 180,
+        xp = 100
       }
     },
     events = {

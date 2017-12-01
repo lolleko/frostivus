@@ -143,10 +143,10 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
 	-- load quest
 	if GM:IsPVPHome() then
 		for _, questName  in pairs(saveData.activeQuests) do
-			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList[questName]())
+			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList[questName])
 		end
 		if saveData.newPlayer then
-			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList["frostivus_quest_starter_kill_enemies"]())
+			PlayerResource:AddQuest(hero:GetPlayerOwnerID(), QuestList["frostivus_quest_starter_kill_enemies"])
 		end
 	end
 end
