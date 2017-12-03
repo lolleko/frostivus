@@ -123,8 +123,10 @@
   function bossUpdate () {
     if (currentBossID) {
       $.Schedule(1 / 10, bossUpdate)
+      if (Entities.GetHealthPercent(currentBossID)) {
+        $('#BossProgressBar').value = Entities.GetHealthPercent(currentBossID) / 100
+      }
     }
-    $('#BossProgressBar').value = Entities.GetHealthPercent(currentBossID) / 100
   }
 
   function bossEnd (data) {

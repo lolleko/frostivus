@@ -20,5 +20,7 @@
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_healer_tier1.psd" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_market_tier1.psd" />
 		<Image src="file://{images}/custom_game/buildings/npc_frostivus_barracks_tier1.psd" />
+		<Image src="file://{images}/custom_game/buildings/npc_frostivus_defense_catapult_tier1.psd" />
+
 	</Panel>
 </root>

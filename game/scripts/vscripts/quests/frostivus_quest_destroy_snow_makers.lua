@@ -26,13 +26,17 @@ local frostivus_quest_destroy_snow_makers = class(
   QuestBase
 )
 
-function frostivus_quest_destroy_snow_makers:OnStart()
+function frostivus_quest_destroy_snow_makers:OnCreated()
   local snowMakers = Entities:FindAllByName("npc_frostivus_snow_maker")
   self.valueGoals.frostivus_quest_goal_destroy_snow_makers = #snowMakers
+end
+
+function frostivus_quest_destroy_snow_makers:OnStart()
+  local snowMakers = Entities:FindAllByName("npc_frostivus_snow_maker")
   for _, ent in pairs(snowMakers) do
     ent:RemoveModifierByName("modifier_invulnerable")
     GM:SendMinimapPing(ent:GetOrigin())
-    AddFOWViewer(DOTA_TEAM_GOODGUYS, ent:GetOrigin() + Vector(0, 0, 30), 250, 12, false)
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, ent:GetOrigin() + Vector(0, 0, 30), 250, 300, false)
   end
 end
 

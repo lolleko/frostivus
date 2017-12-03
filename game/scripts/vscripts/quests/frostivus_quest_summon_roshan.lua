@@ -42,7 +42,7 @@ function frostivus_quest_summon_roshan:OnStart()
       dragonCount = dragonCount - 1
       if revealDragon then
         -- reveal one unit
-        AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 400, 30, false)
+        AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 400, 60, false)
         GM:SendMinimapPing(spawnPoint:GetOrigin())
         revealDragon = false
       end
@@ -52,7 +52,7 @@ function frostivus_quest_summon_roshan:OnStart()
       lizardCount = lizardCount - 1
       if revealLizard then
         -- reveal one unit
-        AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 400, 30, false)
+        AddFOWViewer(DOTA_TEAM_GOODGUYS, spawnPoint:GetOrigin() + Vector(0, 0, 30), 400, 60, false)
         GM:SendMinimapPing(spawnPoint:GetOrigin())
         revealLizard = false
       end
@@ -61,7 +61,7 @@ function frostivus_quest_summon_roshan:OnStart()
   -- Ping pit and reveal fog
   local pitOrigin = Entities:FindByName(nil, "roshan_bones_skull"):GetOrigin()
   GM:SendMinimapPing(pitOrigin)
-  AddFOWViewer(DOTA_TEAM_GOODGUYS, pitOrigin + Vector(0, 0, 80), 800, 20, false)
+  AddFOWViewer(DOTA_TEAM_GOODGUYS, pitOrigin + Vector(0, 0, 80), 800, 120, false)
 end
 
 return frostivus_quest_summon_roshan

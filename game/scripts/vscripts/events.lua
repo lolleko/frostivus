@@ -78,6 +78,23 @@ function GameMode:OnGameStart()
   --CreateUnitByName("npc_frostivus_boss_roshan", Entities:FindByName(nil, "boss_test"):GetOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
 end
 
+function GameMode:OnThink()
+  if not self.nextItemCleanUp or self.nextItemCleanUp < GameRules:GetGameTime() then
+    for _, itemContainer in pairs(Entities:FindAllByClassname("dota_item_drop")) do
+      local item = itemContainer:GetContainedItem()
+      if item ~= nil then
+      	if item:IsCastOnPickup() and (item:GetAbilityName() == "item_mana_potion" or item:GetAbilityName() == "item_health_potion") then
+          if GameRules:GetGameTime() - itemContainer:GetCreationTime() >= 20 then
+            itemContainer:RemoveSelf()
+          end
+        end
+      end
+    end
+    self.nextItemCleanUp = GameRules:GetGameTime() + 10 
+  end
+
+end
+
 function GameMode:OnPlayerThink(plyID)
   -- auto save every 5min
   if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() and GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
@@ -151,17 +168,12 @@ end
 -- Make sure we dont go over the limit through kill bounties
 function GameMode:GoldFilter(data)
   local plyIDKiller = data.player_id_const
-  local hero = PlayerResource:GetSelectedHeroEntity(plyIDKiller)
-  if hero:GetGold() + data.gold > PlayerResource:GetGoldCapacity(plyIDKiller) then
-    data.gold = PlayerResource:GetGoldCapacity(plyIDKiller) - hero:GetGold()
-  end
   -- share gold bounties
   for _, plyID in pairs(PlayerResource:GetAllInTeam(PlayerResource:GetTeam(plyIDKiller))) do
-    if plyID ~= plyIDKiller then
-      PlayerResource:ModifyGold(plyID, data.gold)
-    end
+    PlayerResource:ModifyGold(plyID, data.gold)
   end
-	return true
+  data.gold = 0
+	return false
 end
 
 function GameMode:ItemAddedToInventoryFilter(data)

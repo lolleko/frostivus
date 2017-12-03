@@ -88,7 +88,8 @@ function frostivus_event_item_drop:OnEntityKilled(event)
   }
   local killedUnit = EntIndexToHScript(event.entindex_killed)
 	if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetUnitName() == "npc_frostivus_item_drop_carrier" and not killedUnit.preventDrop) then
-    local item = items[GM:GetStage() - 1][math.random(#items)]
+    local stageItems = items[GM:GetStage() + 1]
+    local item = stageItems[math.random(#stageItems)]
     killedUnit:DropItemAtPosition(killedUnit:GetOrigin(), item)
 		self:ModifyValue("frostivus_quest_goal_intercept_carrier", 1)
 	end

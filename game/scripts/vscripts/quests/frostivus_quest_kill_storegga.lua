@@ -44,4 +44,4 @@ function frostivus_quest_kill_storegga:OnDestroy()
   GameRules:MakeTeamLose(DOTA_TEAM_BADGUYS)
 end
 
-return
+return frostivus_quest_kill_storegga
