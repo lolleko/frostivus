@@ -8,7 +8,8 @@ function CDOTA_PlayerResource:HasRequirements(plyID, requirements, buildingName)
     self:SendCastError(plyID, "frostivus_hud_error_pvp_cant_build_in_battle")
     return false
   end
-  if requirements.Stage and requirements.Stage > self:GetGameStage(plyID) then
+  if not GM:IsPVPHome() and requirements.Stage and requirements.Stage > self:GetGameStage(plyID) then
+    -- TODO maybe reenable?
     if GM:IsPVPHome() then
       self:SendCastError(plyID, "frostivus_hud_error_pvp_stage_not_unlocked")
     else

@@ -1,4 +1,12 @@
 function Spawn(entityKV)
+  if not IsServer() then
+    return
+  end
+
+  if thisEntity == nil then
+    return
+  end
+  
   thisEntity:SetContextThink( "OrderThink", OrderThink, 0)
   GM:ScaleUnit(thisEntity)
   SlamAbility = thisEntity:FindAbilityByName("frostivus_roshan_slam")

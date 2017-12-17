@@ -18,7 +18,7 @@
       $('#GoldCost').text = ''
     }
     var btn = $('#ButtonWrap')
-    if (buildingData.Requirements.Stage > Players.GetGameStage()) {
+    if (!Players.GetIsPVPHome(Players.GetLocalPlayer()) && buildingData.Requirements.Stage > Players.GetGameStage()) {
       btn.AddClass('Locked')
     }
     btn.SetPanelEvent(

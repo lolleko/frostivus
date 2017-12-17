@@ -36,12 +36,11 @@ function CDOTA_PlayerResource:ProcessSaveRequest(eventSourceIndex, data)
 end
 CustomGameEventManager:RegisterListener("playerRequestSave", function(...) PlayerResource:ProcessSaveRequest(...) end)
 
-function CDOTA_PlayerResource:ResetPlayer(plyID)
+function CDOTA_PlayerResource:ResetPlayer(plyID, softReset)
   local buildingList = self:GetBuildingList(plyID)
 	-- overwrite or keep existing data
   local saveData = self:GetCGData(plyID)
   saveData.buildings = {}
-	local center = GM:GetBuildingCenter(plyID)
 	for k = #buildingList, 1, -1 do
 		local unit = buildingList[k]
 		if not IsValidEntity(unit) or unit:IsNull() or not unit:IsAlive() then
@@ -50,16 +49,22 @@ function CDOTA_PlayerResource:ResetPlayer(plyID)
 			unit:RemoveSelf()
     end
 	end
-  saveData.hero = {}
-  local hero = self:GetSelectedHeroEntity(plyID)
-  saveData.hero.xp = 0
-  saveData.hero.level = 1
-  saveData.hero.inventory = {}
+	if not softReset then
+  	saveData.hero = {}
+	  saveData.hero.xp = 0
+	  saveData.hero.level = 1
+	  saveData.hero.inventory = {}
+		saveData.hero.gold = 0
+		saveData.hero.lumber = 0
+	else
+		saveData.hero.xp = 0
+		saveData.hero.level = math.ceil(saveData.hero.level / 4)
+		saveData.hero.gold = math.ceil(saveData.hero.gold / 2)
+		saveData.hero.lumber = math.ceil(saveData.hero.lumber / 2)
+	end
 
-	saveData.hero.gold = 0
-	saveData.hero.lumber = 0
-
-	-- player is new again (gets queasts again)
+	-- player is new again (gets quests again)
+	saveData.activeQuests = {}
 	saveData.newPlayer = true
 	self:SetCGData(plyID, saveData)
   self:UpdatePersitenData(plyID)
@@ -107,7 +112,7 @@ function CDOTA_PlayerResource:StorePlayer(plyID)
 
 	-- save quests
 	-- we could store the whole quest list
-	-- but we will jsut store the names for now (progress wil be reset)
+	-- but we will jsut store the names for now (progress will be reset)
 	saveData.activeQuests = {}
 	for questName, _ in pairs(self:GetQuestList(plyID)) do
 		table.insert(saveData.activeQuests, questName)
@@ -119,6 +124,7 @@ end
 
 function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
 	-- hero arg is required because GetSelectedHeroEntity isnt set when OnPlayerPickHero is called
+	-- Maybe init player in OnHeroInGame
 	hero = hero or PlayerResource:GetSelectedHeroEntity(plyID)
   local saveData = self:GetCGData(plyID)
 	local center = GM:GetBuildingCenter(plyID)

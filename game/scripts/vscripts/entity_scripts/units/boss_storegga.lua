@@ -7,6 +7,8 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	GM:ScaleUnit(thisEntity)
+
 	--thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
 	SlamAbility = thisEntity:FindAbilityByName( "storegga_arm_slam" )
@@ -45,7 +47,17 @@ function StoreggaThink()
 	end
 
 	local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 2500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false )
-	local rocks = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 2500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_CREEP, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false )
+
+	local buildings = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 2500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false )
+
+	for i=#buildings, 1, -1 do
+		local building = buildings[i]
+		if building ~= nil then
+			if not building:IsBuilding() then
+				table.remove( buildings, i )
+			end
+		end
+	end
 
 	local nEnemiesAlive = 0
 	for i=1,#enemies do
@@ -54,38 +66,36 @@ function StoreggaThink()
 			if enemy:IsRealHero() and enemy:IsAlive() then
 				nEnemiesAlive = nEnemiesAlive + 1
 				if enemy:FindModifierByName( "modifier_storegga_grabbed_debuff" ) ~= nil then
+					-- We dont have to care about deleting while iterating because this will onyl ever delete one from teh table
+					-- TODO iterate backwards
 					table.remove( enemies, i )
 				end
 			end
 		end
 	end
 
-	if AvalancheAbility ~= nil and AvalancheAbility:IsFullyCastable() and thisEntity:GetHealthPercent() < 50 then
+	if AvalancheAbility ~= nil and AvalancheAbility:IsFullyCastable() and thisEntity:GetHealthPercent() < 70 then
 		return CastAvalanche()
 	end
 
 	local hGrabbedEnemyBuff = thisEntity:FindModifierByName( "modifier_storegga_grabbed_buff" )
 	local hGrabbedTarget = nil
 	if hGrabbedEnemyBuff == nil then
-		if GrabAbility ~= nil and GrabAbility:IsFullyCastable() and enemies[1] ~= nil and rocks[1] ~= nil then
+		if GrabAbility ~= nil and GrabAbility:IsFullyCastable() and enemies[1] ~= nil then
 			if nEnemiesAlive > 1 and RandomInt( 0, 1 ) == 0 then
 				return CastGrab( enemies[1] )
-			else
-				return CastGrab( rocks[ RandomInt( 1, #rocks ) ] )
 			end
 		end
 	else
 		local hGrabbedTarget = hGrabbedEnemyBuff.hThrowObject
 		if GameRules:GetGameTime() > thisEntity.flThrowTimer and hGrabbedTarget ~= nil then
 			if ThrowAbility ~= nil and ThrowAbility:IsFullyCastable() then
-				if #enemies > 0 then
-					if enemies[#enemies] ~= nil then
-						return CastThrow( enemies[#enemies]:GetOrigin() )
-					end
+				if enemies[1] ~= nil then
+					return CastThrow( enemies[1]:GetOrigin() )
 				else
-					if rocks[#rocks] ~= nil then
-						return CastThrow( rocks[#rocks]:GetOrigin() )
-					end
+					local rand = RandomVector(400)
+					rand.z = 0
+					return CastThrow( thisEntity:GetOrigin() + RandomVector(400) )
 				end
 			end
 		end
@@ -93,27 +103,31 @@ function StoreggaThink()
 
 	if SlamAbility ~= nil and SlamAbility:IsFullyCastable() then
 		if RandomInt( 0, 1 ) == 1 then
-			return CastSlam( enemies[1] )
+			if enemies[1] then
+				return CastSlam( enemies[1] )
+			elseif buildings[1] then
+				return CastSlam( buildings[1] )
+			end
 		else
-			return CastSlam( enemies[#enemies] )
+			if enemies[1] then
+				return CastSlam( enemies[#enemies] )
+			elseif buildings[1] then
+				return CastSlam( buildings[#buildings] )
+			end
 		end
 	end
 
-  -- second phase
-  -- if we have no abilities to cast move towards tree
-  if thisEntity:GetHealth() < thisEntity:GetMaxHealth() * 0.5 then
-    local tree = GM:GetSpiritTree()
-    -- if we are far away move closer
-    if (thisEntity:GetOrigin() - tree:GetOrigin()):Length2D() >= GM:GetBuildingRange() / 2 * math.sqrt(2) then
-      thisEntity:MoveToPosition(tree:GetOrigin())
-      -- move for at least 7 seconds
-      return 4
-    else
-      -- TODO add chance here to randomly bash down a building
-      thisEntity:MoveToPositionAggressive(tree:GetOrigin())
-      return 4
-    end
-  end
+	-- second phase
+	-- if we have no abilities to cast move towards tree
+	if thisEntity:GetHealthPercent() < 70 then
+		local tree = GM:GetSpiritTree()
+		-- if we are far away move closer
+		if (thisEntity:GetOrigin() - tree:GetOrigin()):Length2D() >= GM:GetBuildingRange() / 2 * math.sqrt(2) then
+			thisEntity:MoveToPosition(tree:GetOrigin())
+			-- move for at least 7 seconds
+			return 6
+		end
+	end
 
 	return 0.5
 end

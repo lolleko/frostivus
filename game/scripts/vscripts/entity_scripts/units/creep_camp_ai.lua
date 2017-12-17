@@ -2,7 +2,7 @@ function Spawn()
   Interval = 3
 
   thisEntity.CampLocation = thisEntity:GetOrigin()
-  thisEntity:SetContextThink("SetOriging", function() thisEntity.CampLocation = thisEntity:GetOrigin() end, 0)
+  thisEntity:SetContextThink("SetOriginDelayed", function() thisEntity.CampLocation = thisEntity:GetOrigin() end, 0)
   thisEntity:SetContextThink("OrderThink", OrderThink, 1)
 end
 

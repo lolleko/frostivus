@@ -90,16 +90,57 @@ function GameMode:OnThink()
         end
       end
     end
-    self.nextItemCleanUp = GameRules:GetGameTime() + 10 
+    self.nextItemCleanUp = GameRules:GetGameTime() + 10
   end
 
 end
 
 function GameMode:OnPlayerThink(plyID)
-  -- auto save every 5min
-  if GM:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() and GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+  -- auto save every 160sec
+  if self:IsPVPHome() and PlayerResource:GetLastSaveTime(plyID) + 60 <= GameRules:GetGameTime() and GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
     PlayerResource:SetLastSaveTime(plyID, GameRules:GetGameTime())
     PlayerResource:StorePlayer(plyID)
+  end
+  if self:IsPVPHome() and PlayerResource:GetAutoHeroAIEnabled(plyID) and PlayerResource:GetLastAutoHeroAIThink(plyID) + 1 <= GameRules:GetGameTime() then
+    PlayerResource:SetLastAutoHeroAIThink(plyID, GameRules:GetGameTime())
+    local hero = PlayerResource:GetSelectedHeroEntity(plyID)
+    local phaseBoots = hero:FindItemInInventory("item_phase_boots")
+    if phaseBoots then
+      hero:CastAbilityNoTarget(phaseBoots, plyID)
+    end
+    if not hero:GetAggroTarget() then
+      local rangedUnits = FindUnitsInRadius(
+          hero:GetTeam(),
+          hero:GetOrigin(),
+          nil,
+          self:GetBuildingRange() * 2,
+          DOTA_UNIT_TARGET_TEAM_ENEMY,
+          DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_FLAG_RANGED_ONLY + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
+          DOTA_UNIT_TARGET_FLAG_NONE,
+          FIND_CLOSEST,
+          false
+      )
+      if #rangedUnits > 0 then
+        hero:MoveToPositionAggressive(rangedUnits[1]:GetOrigin())
+        hero.AutoAItarget = rangedUnits[1]:GetOrigin()
+      else
+        local meleeUnits = FindUnitsInRadius(
+            hero:GetTeam(),
+            hero:GetOrigin(),
+            nil,
+            self:GetBuildingRange() * 2,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_FLAG_MELEE_ONLY + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE ,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false
+        )
+        if #meleeUnits > 0 then
+          hero:MoveToPositionAggressive(meleeUnits[1]:GetOrigin())
+          hero.AutoAItarget = meleeUnits[1]:GetOrigin()
+        end
+      end
+    end
   end
 end
 
@@ -134,8 +175,9 @@ function GameMode:OnEntityKilled(data)
               cgData.competitiveGamesWon = cgData.competitiveGamesWon + 1
               PlayerResource:UpdatePersitenData(plyID)
             end
-          else
-
+          elseif self:IsPVPHome() then
+            -- soft reset player (keep hero)
+            PlayerResource:ResetPlayer(killedUnit:GetPlayerOwnerID(), true)
           end
         else
           GameRules:MakeTeamLose(killedUnit:GetTeamNumber())
@@ -163,6 +205,14 @@ function GameMode:OnEntityKilled(data)
       CustomGameEventManager:Send_ServerToAllClients("frostivusBossEnd", {})
     end
   end
+end
+
+function GameMode:OrderFilter(data)
+  local plyID = data.issuer_player_id_const
+  if plyID ~= -1 then
+    PlayerResource:SetAutoHeroAIEnabled(plyID, false)
+  end
+	return true
 end
 
 -- Make sure we dont go over the limit through kill bounties

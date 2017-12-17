@@ -30,9 +30,14 @@
 				<ProgressBar hittest="false" id="BossProgressBar" value="0"/>
 			</Panel>
 		</Panel>
-		<Button id="SaveDataButton" hittest="true">
-			<Label id="SaveDataButtonLabel" text="Save Data" />
-		</Button>
+		<Panel id="HomeControls">
+			<Button class="HomeControlButton" id="SaveDataButton" hittest="true">
+				<Label id="SaveDataButtonLabel" text="Save Data" />
+			</Button>
+			<Button class="HomeControlButton" id="AutoHeroAIButton" hittest="true">
+				<Label id="AutoHeroAIButtonLabel" text="Auto Hero AI" />
+			</Button>
+		</Panel>
 		<Panel id="DungeonHUD" hittest="false">
 			<Panel id="lower_hud" hittest="false" disallowedstyleflags="hover,descendantfocus">
 				<Panel id="StatBranchDrawer" hittest="false">

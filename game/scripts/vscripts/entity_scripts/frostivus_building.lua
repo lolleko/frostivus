@@ -209,7 +209,12 @@ function SpawnerThink()
   local interval = 1
   local gameTime = GameRules:GetGameTime()
   for _, unitData in pairs(thisEntity.SpawnerUnits) do
-    if unitData.NextSpawnTime <= gameTime then
+    if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS or (unitData.Stage and unitData.Stage > GM:GetStage()) or (unitData.RequiredDifficulty and unitData.RequiredDifficulty > GM:GetDifficultyScalar()) then
+      -- keep spawnDelay until stage is ready
+      local delay = unitData.InitialDelay or unitData.Interval
+      if delay == 0 then delay = unitData.Interval end
+      unitData.NextSpawnTime = gameTime + delay
+    elseif unitData.NextSpawnTime <= gameTime then
       for k = #unitData.SpawnedUnits, 1, -1 do
         local unit = unitData.SpawnedUnits[k]
         if not IsValidEntity(unit) or not unit:IsAlive() then
@@ -251,11 +256,6 @@ function SpawnerThink()
           end)
           unitData.NextSpawnTime = gameTime + unitData.Interval
       end
-    elseif GameRules:State_Get() ~= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS or (unitData.Stage and unitData.Stage > GM:GetStage()) then
-      -- keep spawnDelay until stage is ready
-      local delay = unitData.InitialDelay or unitData.Interval
-      if delay == 0 then delay = unitData.Interval end
-      unitData.NextSpawnTime = gameTime + delay
     end
   end
   return interval

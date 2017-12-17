@@ -24,13 +24,19 @@
   toolbar.Insert('Buildings', buildings)
 
   if (!Players.GetIsPVPHome(Players.GetLocalPlayer())) {
-    $('#SaveDataButton').style.visibility = 'collapse'
+    $('#HomeControls').style.visibility = 'collapse'
   }
 
   $('#SaveDataButton').SetPanelEvent(
     'onactivate',
     function () {
       GameEvents.SendCustomGameEventToServer('playerRequestSave', {})
+    })
+
+  $('#AutoHeroAIButton').SetPanelEvent(
+    'onactivate',
+    function () {
+      GameEvents.SendCustomGameEventToServer('playerEnableAutoHeroAI', {})
     })
 
   var shopBtn = $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse('ShopButton')

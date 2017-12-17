@@ -24,6 +24,7 @@ function GameMode:InitQuests()
   -- world event schduling
   -- start first event after 5-10 minutes
   --
+  -- TODO respect pauses
   GameRules:GetGameModeEntity():SetContextThink("NextEventSchedule", function() return self:ScheduleNextEvent() end, RandomInt(450, 600))
 end
 

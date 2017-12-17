@@ -47,18 +47,6 @@
 					<Label text="You can train units" />
 					<Label text="and use your hero to destroy you opponents."/>
 					<Label text="" />
-					<Label class="Bold" text="Playing versus will unlock new buildings" />
-					<Label class="Bold" text="in the homestead." />
-					<Panel class="FlowRight">
-						<Panel class="FlowDown Block">
-							<Label text="Buildigns are" />
-							<Label text="unlocked after:" />
-						</Panel>
-						<Panel class="Block FlowDown">
-							<Label text="1 completed versus matches."/>
-							<Label text="5 completed versus matches."/>
-						</Panel>
-					</Panel>
 				</Panel>
 			</Panel>
 			<Panel class="ThreeColumns">
@@ -76,9 +64,9 @@
 					<Label text="with up to 3 friends."/>
 					<Label text="" />
 					<Label class="Bold" text="The campaign is still WIP"/>
-					<Label text="Stage 1: 90% completed"/>
-					<Label text="Stage 2: 60% completed (BOSS is VERY WIP)"/>
-					<Label text="Stage 3: 20%"/>
+					<Label text="Stage 1: 100% completed"/>
+					<Label text="Stage 2: 80% completed (BOSS is will be improved)"/>
+					<Label text="Stage 3: 20% Will be added soon"/>
 					<Label text="" />
 					<Label text="Right now the campaign will end after"/>
 					<Label text="Stage 2 (the second boss)." />

@@ -28,7 +28,7 @@ function frostivus_quest_kill_storegga:OnStart()
 
   end)
   GM:SendMinimapPing(spawn)
-  AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn + Vector(0, 0, 30), 800, 10, false)
+  AddFOWViewer(DOTA_TEAM_GOODGUYS, spawn + Vector(0, 0, 30), 800, 120, false)
 end
 
 function frostivus_quest_kill_storegga:OnEntityKilled(event)
