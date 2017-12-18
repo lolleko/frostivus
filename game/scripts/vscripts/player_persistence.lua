@@ -58,7 +58,7 @@ function CDOTA_PlayerResource:ResetPlayer(plyID, softReset)
 		saveData.hero.lumber = 0
 	else
 		saveData.hero.xp = 0
-		saveData.hero.level = math.ceil(saveData.hero.level / 4)
+		saveData.hero.level = 1
 		saveData.hero.gold = math.ceil(saveData.hero.gold / 2)
 		saveData.hero.lumber = math.ceil(saveData.hero.lumber / 2)
 	end
@@ -143,7 +143,7 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
 		hero:AddItemByName(item)
 	end
 	if GM:IsPVPHome() then
-		hero:ModifyGold(saveData.hero.gold, true, 0)
+		hero:ModifyGold(saveData.hero.gold, true, DOTA_ModifyGold_Unspecified)
 		self:ModifyLumber(plyID, saveData.hero.lumber)
 	end
 	-- load quest

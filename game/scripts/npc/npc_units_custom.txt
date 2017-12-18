@@ -1982,7 +1982,7 @@
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
-						"Spawnpoint" "dire_creep_spawn2"
+						"Spawnpoint" "dire_creep_spawn3"
 						"ScaleUnits" "1"
 						"RequiredDifficulty" "250"
 					}
@@ -1990,7 +1990,7 @@
 					{
 						"UnitName" "npc_frostivus_dire_ranged_creep"
 						"Interval" "40"
-						"InitialDelay" "0"
+						"InitialDelay" "40"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
@@ -2002,13 +2002,25 @@
 					{
 						"UnitName" "npc_frostivus_dire_ranged_creep"
 						"Interval" "40"
-						"InitialDelay" "0"
+						"InitialDelay" "60"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
 						"Spawnpoint" "dire_creep_spawn2"
 						"ScaleUnits" "1"
 						"RequiredDifficulty" "100"
+					}
+					"7"
+					{
+						"UnitName" "npc_frostivus_dire_ranged_creep"
+						"Interval" "40"
+						"InitialDelay" "60"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "dire_creep_spawn0"
+						"ScaleUnits" "1"
+						"RequiredDifficulty" "600"
 					}
 				}
 			}
@@ -2436,27 +2448,51 @@
 					}
 					"3"
 					{
-						"UnitName" "npc_frostivus_frost_ranged_creep"
-						"Interval" "100"
-						"InitialDelay" "10"
+						"UnitName" "npc_frostivus_frost_melee_creep"
+						"Interval" "50"
+						"InitialDelay" "40"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
-						"Spawnpoint" "frost_creep_spawn0"
+						"Spawnpoint" "frost_creep_spawn1"
 						"ScaleUnits" "1"
-						"RequiredDifficulty" "100"
+						"RequiredDifficulty" "700"
 					}
 					"4"
 					{
-						"UnitName" "npc_frostivus_frost_ranged_creep"
-						"Interval" "100"
-						"InitialDelay" "20"
+						"UnitName" "npc_frostivus_frost_melee_creep"
+						"Interval" "50"
+						"InitialDelay" "40"
 						"MaxAlive" "3"
 						"InitialGoal" "!Base"
 						"MoveToGoalAggressive" "1"
 						"Spawnpoint" "frost_creep_spawn2"
 						"ScaleUnits" "1"
-						"RequiredDifficulty" "150"
+						"RequiredDifficulty" "800"
+					}
+					"5"
+					{
+						"UnitName" "npc_frostivus_frost_ranged_creep"
+						"Interval" "100"
+						"InitialDelay" "50"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn0"
+						"ScaleUnits" "1"
+						"RequiredDifficulty" "200"
+					}
+					"6"
+					{
+						"UnitName" "npc_frostivus_frost_ranged_creep"
+						"Interval" "100"
+						"InitialDelay" "100"
+						"MaxAlive" "3"
+						"InitialGoal" "!Base"
+						"MoveToGoalAggressive" "1"
+						"Spawnpoint" "frost_creep_spawn2"
+						"ScaleUnits" "1"
+						"RequiredDifficulty" "250"
 					}
 				}
 			}

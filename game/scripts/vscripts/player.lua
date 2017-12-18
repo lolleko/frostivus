@@ -27,8 +27,14 @@ function CDOTA_PlayerResource:ModifyLumber(plyID, lumberChange)
   self:SetLumber(plyID, math.floor(math.clamp(self:GetLumber(plyID) + lumberChange, 0 ,self:GetLumberCapacity(plyID))))
 end
 
-function CDOTA_PlayerResource:ModifyGold(plyID, goldChange, bReliable)
+function CDOTA_PlayerResource:ModifyGold(plyID, goldChange)
   local hero = self:GetSelectedHeroEntity(plyID)
+  local unreliableGold = self:GetUnreliableGold(plyID)
+  -- remove all unreliable gold
+  if unreliableGold > 0 then
+    self:GetSelectedHeroEntity(plyID):ModifyGold(-unreliableGold, false, DOTA_ModifyGold_Unspecified)
+    self:GetSelectedHeroEntity(plyID):ModifyGold(unreliableGold, true, DOTA_ModifyGold_Unspecified)
+  end
   if hero:GetGold() + goldChange > self:GetGoldCapacity(plyID) then
     goldChange = self:GetGoldCapacity(plyID) - hero:GetGold()
   end

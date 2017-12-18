@@ -115,8 +115,8 @@ function GameMode:OnPlayerThink(plyID)
           nil,
           self:GetBuildingRange() * 2,
           DOTA_UNIT_TARGET_TEAM_ENEMY,
-          DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_FLAG_RANGED_ONLY + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
-          DOTA_UNIT_TARGET_FLAG_NONE,
+          DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+          DOTA_UNIT_TARGET_FLAG_RANGED_ONLY + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
           FIND_CLOSEST,
           false
       )
@@ -130,8 +130,8 @@ function GameMode:OnPlayerThink(plyID)
             nil,
             self:GetBuildingRange() * 2,
             DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_FLAG_MELEE_ONLY + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE ,
-            DOTA_UNIT_TARGET_FLAG_NONE,
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+            DOTA_UNIT_TARGET_FLAG_MELEE_ONLY + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE,
             FIND_CLOSEST,
             false
         )

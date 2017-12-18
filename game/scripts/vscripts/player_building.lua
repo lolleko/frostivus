@@ -59,7 +59,7 @@ function CDOTA_PlayerResource:SpendResources(plyID, requirements)
     PlayerResource:ModifyLumber(plyID, -requirements.LumberCost)
   end
   if requirements.GoldCost  then
-    PlayerResource:ModifyGold(plyID, -requirements.GoldCost, false)
+    PlayerResource:ModifyGold(plyID, -requirements.GoldCost)
   end
 end
 
