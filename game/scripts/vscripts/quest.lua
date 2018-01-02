@@ -1,7 +1,7 @@
 CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_PLAYER, {})
 
 function CDOTA_PlayerResource:AddQuest(plyID, quest, allPlayers, force)
-  -- all players share an instance if allplayer sis not set we need to instanciate
+  -- all players share an instance if allplayer is not set we need to instanciate
   if not allPlayers then
     quest = quest(plyID)
   end

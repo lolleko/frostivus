@@ -5,7 +5,7 @@
   background-image: url("s2r://panorama/images/hud/reborn/bg_item_build_psd.vtex");
   background-size: cover;
   background-repeat: no-repeat;
-  transform: translatex( 520px );
+  transform: translatex( 540px );
   transition-property: transform;
   transition-duration: 0.1s;
   margin-bottom: 200px;
@@ -15,19 +15,21 @@
 }
 
 .CategoryLabel {
-  font-size: 20px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  font-size: 30px;
+  text-overflow: shrink;
+  height: 100%;
   text-transform: uppercase;
-  letter-spacing: 2px;
   font-weight: bold;
   text-shadow: 1px 1px 0px 3 #00000066;
-  color: #FEFEFE;
+  color: #D0D6F7;
+  width: 20px;
+  border-right: 2px solid #D0D6F7;
 }
 
 .Category {
   width: 100%;
-  flow-children: down;
+  flow-children: right;
+  margin-top: 16px;
 }
 
 .CategoryRow {

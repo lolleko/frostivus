@@ -6,12 +6,15 @@ function modifier_frostivus_lookout:OnCreated(e)
 	end
 end
 
+function modifier_frostivus_lookout:IsPurgable()
+	return false
+end
+
 function modifier_frostivus_lookout:IsHidden()
 	return true
 end
 
 function modifier_frostivus_lookout:OnDestroy(data)
-  -- Lets build a pyramid
   if IsServer() then
 		SafeRemoveEntityDelayed(self:GetParent().LookoutSentry, 4)
 	end

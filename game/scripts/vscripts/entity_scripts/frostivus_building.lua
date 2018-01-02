@@ -137,6 +137,10 @@ function Spawn(entityKV)
     thisEntity:AddNewModifier(thisEntity, nil, "modifier_invulnerable", {})
   end
 
+  if thisEntity.Building.IgnoreCastAngle then
+    thisEntity:AddNewModifier(thisEntity, nil, "modifier_ignore_cast_angle", {})
+  end
+
   if thisEntity.Building.vscripts then
     local spawnFunc = LoadFunctionFromFile(thisEntity.Building.vscripts, "Spawn", getfenv(Spawn))
     spawnFunc(entityKV)

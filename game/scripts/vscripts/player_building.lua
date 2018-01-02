@@ -69,7 +69,8 @@ function CDOTA_PlayerResource:ProcessBuildingPreviewRequest(eventSourceIndex, da
   if not self:HasRequirements(plyID, building.Requirements, data.unitName) then
     return
   end
-  local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.Model, scale = building.ModelScale})
+  local model = building.PreviewModel or building.Model
+  local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = model, scale = building.ModelScale})
   prop:AddEffects(EF_NODRAW)
   self:SetPreviewModel(plyID, prop)
   local range = GM:GetBuildingRange()

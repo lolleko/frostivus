@@ -54,6 +54,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
   local owner = spawnTable.owner or self:GetSelectedHeroEntity(plyID)
   local rotation = spawnTable.rotation or 0
   local isUnit = tobool(building.IsUnit)
+  local skipAnimation = spawnTable.skipAnimation
   local randomAngles = spawnTable.randomAngles or building.RandomAngles
   local sizeX, sizeY = BuildingKV:GetSize(unitName)
   if (rotation / 90) % 2 == 1 then
@@ -88,13 +89,17 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
     local fps = 30
     local step = animDistance / (time * fps)
     local startOrigin = Vector(origin.x, origin.y, origin.z - animDistance)
-    if isUnit then
+    if isUnit or skipAnimation then
       startOrigin = origin
     end
 
     local lookoutSentry
     if building.IsLookout then
-      lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.LookoutModel, origin = startOrigin, scale = building.LookoutScale})
+      local sentryOrigin = Vector(startOrigin.x, startOrigin.y, startOrigin.z)
+      if skipAnimation then
+        sentryOrigin.z = sentryOrigin.z - building.LookoutOffset
+      end
+      lookoutSentry = SpawnEntityFromTableSynchronous("prop_dynamic", {model = building.LookoutModel, origin = sentryOrigin, scale = building.LookoutScale})
     end
 
     CreateUnitByNameAsync(unitName, startOrigin, isUnit, owner, owner, self:GetTeam(plyID), function(unit)
@@ -105,8 +110,13 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
         ApplyStun(unit, time)
       end
 
+      unit:AddNewModifier(unit, nil, "modifier_frostivus_building", {})
+
       if building.IsLookout then
         unit:AddNewModifier(unit, nil, "modifier_frostivus_lookout", {lookoutSentry = lookoutSentry:GetEntityIndex()})
+        if skipAnimation then
+          unit:SetOrigin(startOrigin)
+        end
       end
 
       if randomAngles then
@@ -118,38 +128,42 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
         unit:SetControllableByPlayer(plyID, true)
       end, 0)
 
-      local constructionParticle
-      unit:SetHealth(1)
-      if not isUnit then
-        unit:SetOrigin(startOrigin)
-        constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
-        ParticleManager:SetParticleControl(constructionParticle, 0, unit:GetOrigin())
-      end
-      unit:SetContextThink("contructionThink", function()
-        unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
-        if animEndTime <= GameRules:GetGameTime() then
-          if lookoutSentry then
-            lookoutSentry:SetOrigin(origin - Vector(0, 0, building.LookoutOffset))
+      if not skipAnimation then
+
+        local constructionParticle
+        unit:SetHealth(1)
+        if not isUnit then
+          unit:SetOrigin(startOrigin)
+          constructionParticle = ParticleManager:CreateParticle("particles/misc/building_animation_debris.vpcf", PATTACH_ABSORIGIN_FOLLOW, unit)
+          ParticleManager:SetParticleControl(constructionParticle, 0, unit:GetOrigin())
+        end
+        unit:SetContextThink("contructionThink", function()
+          unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
+          if animEndTime <= GameRules:GetGameTime() then
+            if lookoutSentry then
+              lookoutSentry:SetOrigin(origin - Vector(0, 0, building.LookoutOffset))
+            end
+            if not isUnit then
+              unit:SetOrigin(origin)
+              ParticleManager:DestroyParticle(constructionParticle, false)
+              ParticleManager:ReleaseParticleIndex(constructionParticle)
+            end
+            unit:OnConstructionCompleted()
+            -- heal a additional time jsut in case
+            unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
+            return
           end
           if not isUnit then
-            unit:SetOrigin(origin)
-            ParticleManager:DestroyParticle(constructionParticle, false)
-            ParticleManager:ReleaseParticleIndex(constructionParticle)
+            startOrigin.z = startOrigin.z + step
+            unit:SetOrigin(startOrigin)
+            if lookoutSentry then
+              lookoutSentry:SetOrigin(startOrigin - Vector(0, 0, building.LookoutOffset))
+            end
           end
-          unit:OnConstructionCompleted()
-          -- heal a additional time jsut in case
-          unit:Heal(math.ceil(unit:GetMaxHealth() / (time * fps)), unit)
-          return
-        end
-        if not isUnit then
-          startOrigin.z = startOrigin.z + step
-          unit:SetOrigin(startOrigin)
-          if lookoutSentry then
-            lookoutSentry:SetOrigin(startOrigin - Vector(0, 0, building.LookoutOffset))
-          end
-        end
-        return 1/fps
-      end, 0)
+          return 1/fps
+        end, 0)
+
+      end
       for _, psos in pairs(blockers) do
         if lookoutSentry then
           -- parent to model because model wont rotate

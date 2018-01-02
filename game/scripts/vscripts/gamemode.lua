@@ -96,7 +96,7 @@ function GameMode:GetDifficultyScalar(teamID)
 	for _, plyID in pairs(PlayerResource:GetAllPlaying()) do
 		if PlayerResource:HasSelectedHero(plyID) and (not teamID or PlayerResource:GetTeam(plyID) == teamID) then
 			if not self:IsPVP() then
-				scale = scale + 130
+				scale = scale + 100
 			end
 			scale = scale + PlayerResource:GetSelectedHeroEntity(plyID):GetLevel() * 20
 		end

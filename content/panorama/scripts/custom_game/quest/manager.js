@@ -1,10 +1,12 @@
 (function () {
   // on reconnect load quests from player.questlist
   var questPanels = {}
-  var questList = Players.GetQuestList(Players.GetLocalPlayer())
-  for (var questName in questList) {
-    AddQuest(questList[questName])
-  }
+  Players.RegisterNetworkInitListener(function () {
+    var questList = Players.GetQuestList(Players.GetLocalPlayer())
+    for (var questName in questList) {
+      AddQuest(questList[questName])
+    }
+  })
   function AddQuest (e) {
     var questPanel = CreateLayout($('#QuestListRoot'), e.name, 'file://{resources}/layout/custom_game/quest/quest.xml')
     questPanel.LoadQuest(e)

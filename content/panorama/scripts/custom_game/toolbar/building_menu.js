@@ -4,8 +4,10 @@
     category.AddClass('Category')
     var columnLabel = $.CreatePanel('Label', category, categoryName + '_label')
     columnLabel.AddClass('CategoryLabel')
-    columnLabel.text = categoryName
-    var categoryRow = $.CreatePanel('Panel', $.GetContextPanel(), categoryName + '_row')
+    columnLabel.html = true
+    columnLabel.text = categoryName.split('').join('<br>')
+
+    var categoryRow = $.CreatePanel('Panel', category, categoryName + '_row')
     categoryRow.AddClass('CategoryRow')
 
     var buildings = Players.GetBuildingShopKV(Players.GetLocalPlayer())
@@ -17,7 +19,7 @@
           building.BuildingNameJS = buildingName
           sortedBuildings.push(building)
         } else {
-          columnLabel.text = categoryName + ' [Unavailable in this Mode]'
+          columnLabel.style.visibility = 'collapse'
         }
       }
     }

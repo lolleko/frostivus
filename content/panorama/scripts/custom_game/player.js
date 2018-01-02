@@ -1,12 +1,11 @@
 Players.PlayerData = {}
 Players.NetworkVarCallbacks = {}
+Players.NetworkInitCallbacks = []
+Players.NetworkInitialized = false
 
 function OnPlayerNetworkVarUpdate (e) {
   var playerID = e.PlayerID
   var name = e.varname
-  if (!Players.PlayerData[playerID]) {
-    Players.PlayerData[playerID] = {}
-  }
 
   Players.PlayerData[playerID][name] = e.value
 
@@ -15,27 +14,54 @@ function OnPlayerNetworkVarUpdate (e) {
       callback(e.value)
     })
   }
+}
+GameEvents.Subscribe('player_networkvar_update', OnPlayerNetworkVarUpdate)
 
-  if (!Players['Get' + name]) {
-    Players['Get' + name] = function (plyID) {
+function OnPlayerNetworkVarInit (e) {
+  // get table for lcoal player and create accessors
+  Players.PlayerData = e
+  var localPlayerData = e[Players.GetLocalPlayer()]
+
+  function createGetter (varName) {
+    return function (plyID) {
       plyID = (typeof plyID !== 'undefined') ? plyID : Players.GetLocalPlayer()
-      if (typeof plyID === 'undefined') {
-        if (!Players.PlayerData[plyID]) {
-          return
-        }
-      }
-      return Players.PlayerData[plyID][name]
+      return Players.PlayerData[plyID][varName]
     }
   }
-}
 
-GameEvents.Subscribe('player_networkvar_update', OnPlayerNetworkVarUpdate)
+  for (var name in localPlayerData) {
+    Players['Get' + name] = createGetter(name)
+  }
+  Players.NetworkInitialized = true
+  Players.NetworkInitCallbacks.forEach(function (callback) {
+    callback()
+  })
+}
+GameEvents.Subscribe('player_networkvar_init', OnPlayerNetworkVarInit)
+
+function OnPlayerNetworkVarNewPlayer (e) {
+  // ignore if this is our own data
+  if (e.PlayerID !== Players.GetLocalPlayer()) {
+    Players.PlayerData[e.PlayerID] = e.data
+  }
+}
+GameEvents.Subscribe('player_networkvar_new_player', OnPlayerNetworkVarNewPlayer)
 
 Players.RegisterNetworkVarListener = function (name, callback) {
   if (!Players.NetworkVarCallbacks[name]) {
     Players.NetworkVarCallbacks[name] = []
   }
   Players.NetworkVarCallbacks[name].push(callback)
+}
+
+Players.RegisterNetworkInitListener = function (callback) {
+  // if we are readdy immediatly invoke function
+  // if not register callback
+  if (Players.NetworkInitialized) {
+    callback()
+  } else {
+    Players.NetworkInitCallbacks.push(callback)
+  }
 }
 
 Players.SendCastError = function (message, reason) {

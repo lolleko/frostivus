@@ -132,6 +132,7 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
   for _, building in pairs(saveData.buildings) do
     building.origin = Vector(center.x - building.origin[1], center.y - building.origin[2], center.z - building.origin[3])
 		building.owner = hero
+		building.skipAnimation = true
     self:SpawnBuilding(plyID, building.unitName, building)
   end
 	-- load hero

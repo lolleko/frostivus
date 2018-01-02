@@ -71,6 +71,48 @@
 		}
 	}
 	// Buildings
+	"frostivus_fire_trap_breathe_fire"
+	{
+		"BaseClass"           			"ability_lua"
+		"ScriptFile"					"abilities/buildings/frostivus_fire_trap_breathe_fire.lua"
+		"AbilityTextureName" "dragon_knight_breathe_fire"
+		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AUTOCAST"
+		"AbilityUnitTargetType"  "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
+		"AbilityCastRange"				"800"
+		"AbilityCooldown"				"1.5"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"start_radius"			"150"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"end_radius"			"250"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"range"					"650"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"1050"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"fire_damage"			"400"
+			}
+		}
+	}
 	"frostivus_healer_heal"
 	{
 		"BaseClass" "ability_lua"

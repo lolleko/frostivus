@@ -31,8 +31,9 @@ function frostivus_quest_starter_gold_camp:OnNPCSpawned(event)
 end
 
 function frostivus_quest_starter_gold_camp:OnDestroy()
-  if not GM:IsPVP() then
+  if not GM:IsPVP() and not GM.RoshQuestStarted then
     GM:AddQuest(QuestList.frostivus_quest_summon_roshan)
+    GM.RoshQuestStarted = true
   end
 end
 

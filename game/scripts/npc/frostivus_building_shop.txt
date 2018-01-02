@@ -20,6 +20,11 @@ FrostivusInvestments
     "Category" "Defense"
     "BuildingID" "2"
   }
+  //"npc_frostivus_defense_fire_tower_tier1"
+  //{
+  //  "Category" "Defense"
+  //  "BuildingID" "3"
+  //}
   // RESOURCE
   "npc_frostivus_lumber_camp_tier1"
   {

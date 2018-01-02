@@ -16,6 +16,8 @@
     })
   </script>
 	<Panel class="FrostivusGameInfoRoot">
-    <Label class="Title" text="TODO TUTORIAL"/>
+    <Label class="Title" text="Defend your Elder Tree"/>
+		<Label class="Title" text="Complete Quests" />
+		<Label class="Title" text="Fortify your Base" />
   </Panel>
 </root>
