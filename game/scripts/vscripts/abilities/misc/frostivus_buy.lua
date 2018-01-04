@@ -9,11 +9,15 @@ build_defense_catapult = frostivus_buy
 build_defense_flame_thrower = frostivus_buy
 
 function frostivus_buy:OnSpellStart()
-  local instanceKV = abilityKV[self:GetAbilityName()]
-  if instanceKV["Building"] then
-    local modelName = unitKV[instanceKV["UnitName"]].model
-    local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = modelName, origin = caster:GetOrigin()})
-    prop:AddEffects(EF_NODRAW)
-    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(plyID), "buildingStartPreview", {previewModel = model:GetEntityIndex()})
-  end
+    local instanceKV = abilityKV[self:GetAbilityName()]
+    if instanceKV["Building"] then
+        local modelName = unitKV[instanceKV["UnitName"]].model
+        local prop = SpawnEntityFromTableSynchronous("prop_dynamic", {model = modelName, origin = caster:GetOrigin()})
+        prop:AddEffects(EF_NODRAW)
+        CustomGameEventManager:Send_ServerToPlayer(
+            PlayerResource:GetPlayer(plyID),
+            "buildingStartPreview",
+            {previewModel = model:GetEntityIndex()}
+        )
+    end
 end

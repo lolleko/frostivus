@@ -1,190 +1,221 @@
-function Spawn( entityKeyValues )
-	if not IsServer() then
-		return
-	end
+function Spawn(entityKeyValues)
+    if not IsServer() then
+        return
+    end
 
-	if thisEntity == nil then
-		return
-	end
+    if thisEntity == nil then
+        return
+    end
 
-	GM:ScaleUnit(thisEntity)
+    GM:ScaleUnit(thisEntity)
 
-	--thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+    --thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
-	SlamAbility = thisEntity:FindAbilityByName( "storegga_arm_slam" )
-	GrabAbility = thisEntity:FindAbilityByName( "storegga_grab" )
-	ThrowAbility = thisEntity:FindAbilityByName( "storegga_grab_throw" )
-	AvalancheAbility = thisEntity:FindAbilityByName( "storegga_avalanche" )
+    SlamAbility = thisEntity:FindAbilityByName("storegga_arm_slam")
+    GrabAbility = thisEntity:FindAbilityByName("storegga_grab")
+    ThrowAbility = thisEntity:FindAbilityByName("storegga_grab_throw")
+    AvalancheAbility = thisEntity:FindAbilityByName("storegga_avalanche")
 
-	thisEntity.flThrowTimer = 0.0
+    thisEntity.flThrowTimer = 0.0
 
-	thisEntity:SetContextThink( "StoreggaThink", StoreggaThink, 1 )
+    thisEntity:SetContextThink("StoreggaThink", StoreggaThink, 1)
 end
 
 function StoreggaThink()
-	if ( not thisEntity:IsAlive() ) then
-		return -1
-	end
+    if (not thisEntity:IsAlive()) then
+        return -1
+    end
 
-	if GameRules:IsGamePaused() == true then
-		return 1
-	end
+    if GameRules:IsGamePaused() == true then
+        return 1
+    end
 
-	-- if thisEntity.bStarted == false then
-	-- 	return 0.1
-	-- elseif ( not thisEntity.bInitialInvulnRemoved ) then
-	-- 	thisEntity:RemoveModifierByName( "modifier_invulnerable" )
-	-- 	--print( "removed invuln modifier from Storegga boss" )
-	-- 	thisEntity.bInitialInvulnRemoved = true
-	-- end
+    -- if thisEntity.bStarted == false then
+    -- 	return 0.1
+    -- elseif ( not thisEntity.bInitialInvulnRemoved ) then
+    -- 	thisEntity:RemoveModifierByName( "modifier_invulnerable" )
+    -- 	--print( "removed invuln modifier from Storegga boss" )
+    -- 	thisEntity.bInitialInvulnRemoved = true
+    -- end
 
-	if thisEntity:IsChanneling() then
-		return 1
-	end
+    if thisEntity:IsChanneling() then
+        return 1
+    end
 
-	if thisEntity:FindModifierByName( "modifier_boss_intro" ) ~= nil then
-		return 1
-	end
+    if thisEntity:FindModifierByName("modifier_boss_intro") ~= nil then
+        return 1
+    end
 
-	local enemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 2500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false )
+    local enemies =
+        FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),
+        thisEntity:GetOrigin(),
+        nil,
+        2500,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO,
+        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE +
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+        FIND_CLOSEST,
+        false
+    )
 
-	local buildings = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 2500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false )
+    local buildings =
+        FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),
+        thisEntity:GetOrigin(),
+        nil,
+        2500,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE +
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+        FIND_CLOSEST,
+        false
+    )
 
-	for i=#buildings, 1, -1 do
-		local building = buildings[i]
-		if building ~= nil then
-			if not building:IsBuilding() then
-				table.remove( buildings, i )
-			end
-		end
-	end
+    for i = #buildings, 1, -1 do
+        local building = buildings[i]
+        if building ~= nil then
+            if not building:IsBuilding() then
+                table.remove(buildings, i)
+            end
+        end
+    end
 
-	local nEnemiesAlive = 0
-	for i=1,#enemies do
-		local enemy = enemies[i]
-		if enemy ~= nil then
-			if enemy:IsRealHero() and enemy:IsAlive() then
-				nEnemiesAlive = nEnemiesAlive + 1
-				if enemy:FindModifierByName( "modifier_storegga_grabbed_debuff" ) ~= nil then
-					-- We dont have to care about deleting while iterating because this will onyl ever delete one from teh table
-					-- TODO iterate backwards
-					table.remove( enemies, i )
-				end
-			end
-		end
-	end
+    local nEnemiesAlive = 0
+    for i = 1, #enemies do
+        local enemy = enemies[i]
+        if enemy ~= nil then
+            if enemy:IsRealHero() and enemy:IsAlive() then
+                nEnemiesAlive = nEnemiesAlive + 1
+                if enemy:FindModifierByName("modifier_storegga_grabbed_debuff") ~= nil then
+                    -- We dont have to care about deleting while iterating because this will onyl ever delete one from teh table
+                    -- TODO iterate backwards
+                    table.remove(enemies, i)
+                end
+            end
+        end
+    end
 
-	if AvalancheAbility ~= nil and AvalancheAbility:IsFullyCastable() and thisEntity:GetHealthPercent() < 70 then
-		return CastAvalanche()
-	end
+    if AvalancheAbility ~= nil and AvalancheAbility:IsFullyCastable() and thisEntity:GetHealthPercent() < 70 then
+        return CastAvalanche()
+    end
 
-	local hGrabbedEnemyBuff = thisEntity:FindModifierByName( "modifier_storegga_grabbed_buff" )
-	local hGrabbedTarget = nil
-	if hGrabbedEnemyBuff == nil then
-		if GrabAbility ~= nil and GrabAbility:IsFullyCastable() and enemies[1] ~= nil then
-			if nEnemiesAlive > 1 and RandomInt( 0, 1 ) == 0 then
-				return CastGrab( enemies[1] )
-			end
-		end
-	else
-		local hGrabbedTarget = hGrabbedEnemyBuff.hThrowObject
-		if GameRules:GetGameTime() > thisEntity.flThrowTimer and hGrabbedTarget ~= nil then
-			if ThrowAbility ~= nil and ThrowAbility:IsFullyCastable() then
-				if enemies[1] ~= nil then
-					return CastThrow( enemies[1]:GetOrigin() )
-				else
-					local rand = RandomVector(400)
-					rand.z = 0
-					return CastThrow( thisEntity:GetOrigin() + RandomVector(400) )
-				end
-			end
-		end
-	end
+    local hGrabbedEnemyBuff = thisEntity:FindModifierByName("modifier_storegga_grabbed_buff")
+    local hGrabbedTarget = nil
+    if hGrabbedEnemyBuff == nil then
+        if GrabAbility ~= nil and GrabAbility:IsFullyCastable() and enemies[1] ~= nil then
+            if nEnemiesAlive > 1 and RandomInt(0, 1) == 0 then
+                return CastGrab(enemies[1])
+            end
+        end
+    else
+        local hGrabbedTarget = hGrabbedEnemyBuff.hThrowObject
+        if GameRules:GetGameTime() > thisEntity.flThrowTimer and hGrabbedTarget ~= nil then
+            if ThrowAbility ~= nil and ThrowAbility:IsFullyCastable() then
+                if enemies[1] ~= nil then
+                    return CastThrow(enemies[1]:GetOrigin())
+                else
+                    local rand = RandomVector(400)
+                    rand.z = 0
+                    return CastThrow(thisEntity:GetOrigin() + RandomVector(400))
+                end
+            end
+        end
+    end
 
-	if SlamAbility ~= nil and SlamAbility:IsFullyCastable() then
-		if RandomInt( 0, 1 ) == 1 then
-			if enemies[1] then
-				return CastSlam( enemies[1] )
-			elseif buildings[1] then
-				return CastSlam( buildings[1] )
-			end
-		else
-			if enemies[1] then
-				return CastSlam( enemies[#enemies] )
-			elseif buildings[1] then
-				return CastSlam( buildings[#buildings] )
-			end
-		end
-	end
+    if SlamAbility ~= nil and SlamAbility:IsFullyCastable() then
+        if RandomInt(0, 1) == 1 then
+            if enemies[1] then
+                return CastSlam(enemies[1])
+            elseif buildings[1] then
+                return CastSlam(buildings[1])
+            end
+        else
+            if enemies[1] then
+                return CastSlam(enemies[#enemies])
+            elseif buildings[1] then
+                return CastSlam(buildings[#buildings])
+            end
+        end
+    end
 
-	-- second phase
-	-- if we have no abilities to cast move towards tree
-	if thisEntity:GetHealthPercent() < 70 then
-		local tree = GM:GetSpiritTree()
-		-- if we are far away move closer
-		if (thisEntity:GetOrigin() - tree:GetOrigin()):Length2D() >= GM:GetBuildingRange() / 2 * math.sqrt(2) then
-			thisEntity:MoveToPosition(tree:GetOrigin())
-			-- move for at least 7 seconds
-			return 6
-		end
-	end
+    -- second phase
+    -- if we have no abilities to cast move towards tree
+    if thisEntity:GetHealthPercent() < 70 then
+        local tree = GM:GetSpiritTree()
+        -- if we are far away move closer
+        if (thisEntity:GetOrigin() - tree:GetOrigin()):Length2D() >= GM:GetBuildingRange() / 2 * math.sqrt(2) then
+            thisEntity:MoveToPosition(tree:GetOrigin())
+            -- move for at least 7 seconds
+            return 6
+        end
+    end
 
-	return 0.5
+    return 0.5
 end
 
+function CastSlam(enemy)
+    if enemy == nil then
+        return 0.1
+    end
 
-function CastSlam( enemy )
-	if enemy == nil then
-		return 0.1
-	end
-
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-		TargetIndex = enemy:entindex(),
-		AbilityIndex = SlamAbility:entindex(),
-	})
-	return 1.2
+    ExecuteOrderFromTable(
+        {
+            UnitIndex = thisEntity:entindex(),
+            OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+            TargetIndex = enemy:entindex(),
+            AbilityIndex = SlamAbility:entindex()
+        }
+    )
+    return 1.2
 end
 
-function CastGrab( enemy )
-	if enemy == nil then
-		return 0.1
-	end
+function CastGrab(enemy)
+    if enemy == nil then
+        return 0.1
+    end
 
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-		TargetIndex = enemy:entindex(),
-		AbilityIndex = GrabAbility:entindex(),
-	})
-	return 1.5
+    ExecuteOrderFromTable(
+        {
+            UnitIndex = thisEntity:entindex(),
+            OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+            TargetIndex = enemy:entindex(),
+            AbilityIndex = GrabAbility:entindex()
+        }
+    )
+    return 1.5
 end
 
-function CastThrow( vPos )
-	local vDir = vPos - thisEntity:GetOrigin()
-	local flDist = vDir:Length2D()
-	vDir.z = 0.0
-	vDir = vDir:Normalized()
+function CastThrow(vPos)
+    local vDir = vPos - thisEntity:GetOrigin()
+    local flDist = vDir:Length2D()
+    vDir.z = 0.0
+    vDir = vDir:Normalized()
 
-	flDist = math.max( 200, flDist - 200 )
+    flDist = math.max(200, flDist - 200)
 
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
-		Position = thisEntity:GetOrigin() + vDir * flDist,
-		AbilityIndex = ThrowAbility:entindex(),
-		Queue = false,
-	})
-	return 1.5
+    ExecuteOrderFromTable(
+        {
+            UnitIndex = thisEntity:entindex(),
+            OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+            Position = thisEntity:GetOrigin() + vDir * flDist,
+            AbilityIndex = ThrowAbility:entindex(),
+            Queue = false
+        }
+    )
+    return 1.5
 end
 
 function CastAvalanche()
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = AvalancheAbility:entindex(),
-		Queue = false,
-	})
-	return 11
+    ExecuteOrderFromTable(
+        {
+            UnitIndex = thisEntity:entindex(),
+            OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+            AbilityIndex = AvalancheAbility:entindex(),
+            Queue = false
+        }
+    )
+    return 11
 end
