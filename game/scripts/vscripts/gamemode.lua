@@ -88,7 +88,7 @@ function GameMode:GetDifficultyScalar(teamID)
     for _, bld in pairs(Entities:GetAllBuildings()) do
         if IsValidEntity(bld) and (not teamID or bld:GetTeam() == teamID) then
             local level = bld:GetLevel()
-            scale = scale + level * 4.5
+            scale = scale + level * 5.5
         end
     end
     for _, plyID in pairs(PlayerResource:GetAllPlaying()) do

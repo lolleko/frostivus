@@ -86,6 +86,7 @@ function CDOTA_PlayerResource:ProcessBuildingPreviewRequest(eventSourceIndex, da
             scale = building.ModelScale,
             center = center,
             range = range,
+            drawArrow = building.PreviewArrow,
             blockedSquares = GridNav:GetBlockedInSquare(center, range, true)
         }
     )

@@ -2,6 +2,7 @@
   var previewParticle
   var previewActive = false
   var rangeParticle
+  var arrowParticle
   var range = 0
   var sizeX
   var sizeY
@@ -25,6 +26,13 @@
     Particles.SetParticleControlEnt(previewParticle, 1, entindex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, 'follow_origin', Entities.GetAbsOrigin(entindex), true)
     Particles.SetParticleControl(previewParticle, 2, [150, 255, 150])
     Particles.SetParticleControl(previewParticle, 3, [data.scale, 0, 0])
+
+    if (data.drawArrow) {
+      arrowParticle = Particles.CreateParticle('particles/misc/building_arrow.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
+      Particles.SetParticleControlEnt(arrowParticle, 1, entindex, ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, 'follow_origin', Entities.GetAbsOrigin(entindex), true)
+      Particles.SetParticleControl(arrowParticle, 2, [150, 255, 150])
+      Particles.SetParticleControl(arrowParticle, 3, [5, 0, 0])
+    }
 
     rangeParticle = Particles.CreateParticle('particles/misc/building_range_square.vpcf', ParticleAttachment_t.PATTACH_CUSTOMORIGIN, 0)
     Particles.SetParticleControl(rangeParticle, 0, data.center)
@@ -115,6 +123,12 @@
     Particles.ReleaseParticleIndex(previewParticle)
     previewParticle = null
 
+    if (arrowParticle) {
+      Particles.DestroyParticleEffect(arrowParticle, true)
+      Particles.ReleaseParticleIndex(arrowParticle)
+      arrowParticle = null
+    }
+
     Particles.DestroyParticleEffect(rangeParticle, true)
     Particles.ReleaseParticleIndex(rangeParticle)
     rangeParticle = null
@@ -175,6 +189,10 @@
       GameEvents.SendCustomGameEventToServer('buildingCheckArea', {'origin': worldPos, 'sizeX': sizeX, 'sizeY': sizeY, 'rotation': rotation, 'range': range})
         // GameEvents.SendCustomGameEventToServer('structure_preview_update', { 'pos': worldPos })
       Particles.SetParticleControl(previewParticle, 0, worldPos)
+      if (arrowParticle) {
+        worldPos[2] += 350 + Math.sin(Game.GetGameTime() * 2) * 10
+        Particles.SetParticleControl(arrowParticle, 0, worldPos)
+      }
     }
   }
 
@@ -196,12 +214,20 @@
         Particles.SetParticleControl(square, 1, [255, 150, 150])
       })
       Particles.SetParticleControl(previewParticle, 2, [255, 150, 150])
+      if (arrowParticle) {
+        Particles.SetParticleControl(arrowParticle, 2, [255, 150, 150])
+      }
+
       blocked = true
     } else {
       squareParticles.forEach(function (square) {
         Particles.SetParticleControl(square, 1, [150, 255, 150])
       })
       Particles.SetParticleControl(previewParticle, 2, [150, 255, 150])
+      if (arrowParticle) {
+        Particles.SetParticleControl(arrowParticle, 2, [150, 255, 150])
+      }
+
       blocked = false
     }
   }

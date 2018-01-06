@@ -277,9 +277,9 @@
 		"ArmorPhysical" "2"
 		"MagicalResistance" "0"
 		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin" "220.0"
-		"AttackDamageMax" "224.0"
-		"AttackRate" "4.5"
+		"AttackDamageMin" "180.0"
+		"AttackDamageMax" "184.0"
+		"AttackRate" "5.5"
 		"AttackAnimationPoint" "0.8"
 		"AttackAcquisitionRange" "1600"
 		"AttackRange" "1600"
@@ -326,9 +326,9 @@
 		"ArmorPhysical" "2"
 		"MagicalResistance" "0"
 		"AttackCapabilities" "DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin" "280.0"
-		"AttackDamageMax" "284.0"
-		"AttackRate" "3"
+		"AttackDamageMin" "220.0"
+		"AttackDamageMax" "224.0"
+		"AttackRate" "4.5"
 		"AttackAnimationPoint" "0.8"
 		"AttackAcquisitionRange" "1600"
 		"AttackRange" "1600"
@@ -389,6 +389,8 @@
 			"SizeX" "2"
 			"SizeY" "2"
 			"IgnoreCastAngle" "1"
+			"PreviewArrow" "1"
+			"IsStunnedWhileConstructed" "1"
 			"Requirements"
 			{
 				"GoldCost" "0"
@@ -396,6 +398,7 @@
 				"MaxAlive" "8"
 				//"Stage" "1"
 			}
+			"vscripts" "entity_scripts/units/building_fire_trap.lua"
 		}
 		"vscripts" "entity_scripts/frostivus_building.lua"
 	}

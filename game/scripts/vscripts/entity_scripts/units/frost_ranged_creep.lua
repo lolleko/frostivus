@@ -1,16 +1,16 @@
 function Spawn(entityKV)
     thisEntity:SetContextThink("OrderThink", OrderThink, 0)
+    FrostArmor = thisEntity:FindAbilityByName("ogre_magi_frost_armor")
 end
 
 function OrderThink()
-    local frostArmor = thisEntity:FindAbilityByName("ogre_magi_frost_armor")
-    if frostArmor:IsFullyCastable() then
+    if FrostArmor:IsFullyCastable() then
         local units =
             FindUnitsInRadius(
             thisEntity:GetTeam(),
             thisEntity:GetOrigin(),
             nil,
-            frostArmor:GetCastRange(nil, nil),
+            FrostArmor:GetCastRange(nil, nil),
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,
             DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             DOTA_UNIT_TARGET_FLAG_NONE,
@@ -24,7 +24,7 @@ function OrderThink()
             end
         end
         if #units > 0 and IsValidEntity(units[1]) then
-            thisEntity:CastAbilityOnTarget(units[1], frostArmor, -1)
+            thisEntity:CastAbilityOnTarget(units[1], FrostArmor, -1)
             ExecuteOrderFromTable(
                 {
                     UnitIndex = thisEntity:entindex(),

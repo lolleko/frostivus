@@ -123,7 +123,7 @@ function CDOTA_PlayerResource:SpawnBuilding(plyID, unitName, spawnTable, callbac
                 unit:SetNeverMoveToClearSpace(not isUnit)
                 table.insert(self:GetBuildingList(plyID), unit)
                 table.insert(Entities:GetBuildingListRaw(), unit)
-                if building.IsLookout or isUnit then
+                if building.IsLookout or isUnit or building.IsStunnedWhileConstructed then
                     ApplyStun(unit, time)
                 end
 

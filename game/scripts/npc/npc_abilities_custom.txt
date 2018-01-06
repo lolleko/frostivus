@@ -133,7 +133,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"health_per_second" "10"
+				"health_per_second" "20"
 			}
 		}
 	}
