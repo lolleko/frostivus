@@ -1,13 +1,13 @@
 "AddonInfo"
 {
-	"maps"			"frost_tribes_coop frost_tribes_pvp_home frost_tribes_pvp_1v1"
+	"maps"			"frost_tribes_coop frost_tribes_singleplayer frost_tribes_pvp_1v1"
 	"IsPlayable"	"1"
 
 	"frost_tribes_coop"
 	{
 		"MaxPlayers"                    "4"
 	}
-	"frost_tribes_pvp_home"
+	"frost_tribes_singleplayer"
 	{
 		"MaxPlayers"                    "1"
 	}

@@ -3,9 +3,9 @@ frostivus_fire_trap_breathe_fire = class({})
 function frostivus_fire_trap_breathe_fire:OnSpellStart()
     self.start_radius = self:GetSpecialValueFor("start_radius")
     self.end_radius = self:GetSpecialValueFor("end_radius")
-    self.range = self:GetSpecialValueFor("range")
-    self.speed = self:GetSpecialValueFor("speed")
-    self.fire_damage = self:GetSpecialValueFor("fire_damage")
+    self.speed = self:GetCaster():GetProjectileSpeed()
+    self.fire_damage = self:GetCaster():GetAttackDamage()
+    self.range = self:GetCaster():GetAttackRange()
 
     local vPos = nil
     if self:GetCursorTarget() then

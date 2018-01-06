@@ -135,7 +135,7 @@ function GameMode:OnPlayerThink(plyID)
             local rangedUnits =
                 FindUnitsInRadius(
                 hero:GetTeam(),
-                hero:GetOrigin(),
+                GM:GetBuildingCenter(plyID),
                 nil,
                 self:GetBuildingRange() * 2,
                 DOTA_UNIT_TARGET_TEAM_ENEMY,
@@ -232,9 +232,23 @@ function GameMode:OnEntityKilled(data)
     end
 end
 
+function CDOTA_PlayerResource:ProcessEnableAutoHeroAI(eventSourceIndex, data)
+    local plyID = data.PlayerID
+    self:SetAutoHeroAIEnabled(plyID, true)
+    Say(self:GetPlayer(plyID), "[FT] Auto HeroAI enabled!", true)
+end
+CustomGameEventManager:RegisterListener(
+    "playerEnableAutoHeroAI",
+    function(...)
+        PlayerResource:ProcessEnableAutoHeroAI(...)
+    end
+)
+
 function GameMode:OrderFilter(data)
     local plyID = data.issuer_player_id_const
-    if plyID ~= -1 then
+    local hero = EntIndexToHScript(data.units["0"])
+    if plyID ~= -1 and hero == PlayerResource:GetSelectedHeroEntity(plyID) and PlayerResource:GetAutoHeroAIEnabled(plyID) then
+        Say(PlayerResource:GetPlayer(plyID), "[FT] Auto HeroAI disabled!", true)
         PlayerResource:SetAutoHeroAIEnabled(plyID, false)
     end
     return true

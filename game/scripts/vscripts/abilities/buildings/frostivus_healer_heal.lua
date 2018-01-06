@@ -37,12 +37,13 @@ function frostivus_healer_heal:OnChannelThink(interval)
     local caster = self:GetCaster()
     if self.second >= 1 then
         target:Heal(self:GetSpecialValueFor("health_per_second") * caster:GetLevel(), caster)
-        self.second = 0
+        self.second = self.second - 1
     end
     self.second = self.second + interval
 end
 
 function frostivus_healer_heal:OnChannelFinish()
+    self.second = 0
     ParticleManager:DestroyParticle(self.particle, false)
     ParticleManager:ReleaseParticleIndex(self.particle)
 end

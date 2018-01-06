@@ -61,6 +61,10 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     end
 end
 
+function modifier_frostivus_resource_carry:GetStackCount()
+    return self.stackCount * self.stackSize
+end
+
 function modifier_frostivus_resource_carry:OnIntervalThink()
     if IsServer() then
         local parent = self:GetParent()

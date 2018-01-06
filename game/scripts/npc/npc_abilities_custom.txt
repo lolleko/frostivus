@@ -81,8 +81,8 @@
 		"AbilityUnitTargetType"  "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityCastRange"				"800"
-		"AbilityCooldown"				"1.5"
+		"AbilityCastRange"				"600"
+		"AbilityCooldown"				"2.5"
 
 		"AbilitySpecial"
 		{
@@ -95,21 +95,6 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"end_radius"			"250"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"range"					"650"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"speed"					"1050"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"fire_damage"			"400"
 			}
 		}
 	}

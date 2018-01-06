@@ -10,7 +10,7 @@ else
     GameMode.bIsPVP = true
 end
 
-if string.match(GetMapName(), "home") then
+if string.match(GetMapName(), "singleplayer") then
     GameMode.bIsPVPHome = true
 else
     GameMode.bIsPVPHome = false
@@ -29,7 +29,7 @@ GameMode.TeamMaxPlayersMap = {
         [DOTA_TEAM_BADGUYS] = 0,
         [DOTA_TEAM_GOODGUYS] = 4
     },
-    frost_tribes_pvp_home = {
+    frost_tribes_singleplayer = {
         [DOTA_TEAM_BADGUYS] = 0,
         [DOTA_TEAM_GOODGUYS] = 1
     },
@@ -88,7 +88,13 @@ function GameMode:GetDifficultyScalar(teamID)
     for _, bld in pairs(Entities:GetAllBuildings()) do
         if IsValidEntity(bld) and (not teamID or bld:GetTeam() == teamID) then
             local level = bld:GetLevel()
-            scale = scale + level * 5.5
+            if level == 1 then
+                scale = scale + level * 5.5
+            elseif level == 2 then
+                scale = scale + level * 7.5
+            elseif level == 3 then
+                scale = scale + level * 8.5
+            end
         end
     end
     for _, plyID in pairs(PlayerResource:GetAllPlaying()) do

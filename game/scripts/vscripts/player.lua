@@ -242,16 +242,6 @@ end
 CDOTA_PlayerResource:AddPlayerData("AutoHeroAIEnabled", NETWORKVAR_TRANSMIT_STATE_PLAYER, false)
 CDOTA_PlayerResource:AddPlayerData("LastAutoHeroAIThink", NETWORKVAR_TRANSMIT_STATE_NONE, 0)
 
-function CDOTA_PlayerResource:ProcessEnableAutoHeroAI(eventSourceIndex, data)
-    local plyID = data.PlayerID
-    self:SetAutoHeroAIEnabled(plyID, true)
-end
-CustomGameEventManager:RegisterListener(
-    "playerEnableAutoHeroAI",
-    function(...)
-        PlayerResource:ProcessEnableAutoHeroAI(...)
-    end
-)
 
 function CDOTA_PlayerResource:GetPlayerColor(plyID)
     if plyID == 0 then

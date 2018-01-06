@@ -45,6 +45,7 @@ function CDOTA_PlayerResource:ProcessSaveRequest(eventSourceIndex, data)
     if self:GetLastSaveTime(plyID) + 20 <= GameRules:GetGameTime() then
         self:SetLastSaveTime(plyID, GameRules:GetGameTime())
         self:StorePlayer(plyID)
+        Say(self:GetPlayer(plyID), "[FT] Successfully saved data!", true)
     else
         self:SendCastError(plyID, "frostivus_hud_error_save_cooldown")
     end
