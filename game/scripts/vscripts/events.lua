@@ -247,7 +247,10 @@ CustomGameEventManager:RegisterListener(
 function GameMode:OrderFilter(data)
     local plyID = data.issuer_player_id_const
     local hero = EntIndexToHScript(data.units["0"])
-    if plyID ~= -1 and hero == PlayerResource:GetSelectedHeroEntity(plyID) and PlayerResource:GetAutoHeroAIEnabled(plyID) then
+    if
+        plyID ~= -1 and hero == PlayerResource:GetSelectedHeroEntity(plyID) and
+            PlayerResource:GetAutoHeroAIEnabled(plyID)
+     then
         Say(PlayerResource:GetPlayer(plyID), "[FT] Auto HeroAI disabled!", true)
         PlayerResource:SetAutoHeroAIEnabled(plyID, false)
     end

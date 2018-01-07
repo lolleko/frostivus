@@ -7,7 +7,8 @@ end
 function OrderThink()
     if BreatheFire:IsFullyCastable() and BreatheFire:GetAutoCastState() then
         local castRange = thisEntity:GetAttackRange()
-        local units = FindUnitsInRadius(
+        local units =
+            FindUnitsInRadius(
             thisEntity:GetTeam(),
             thisEntity:GetOrigin(),
             nil,
@@ -19,7 +20,7 @@ function OrderThink()
             false
         )
 
-        for k = #units, 1, - 1 do
+        for k = #units, 1, -1 do
             local unit = units[k]
             -- check if in front
             if (unit:GetOrigin() - thisEntity:GetOrigin()):Normalized():Dot(thisEntity:GetForwardVector()) < 0.2 then
@@ -28,7 +29,7 @@ function OrderThink()
         end
 
         if #units > 0 and IsValidEntity(units[1]) then
-            thisEntity:CastAbilityOnPosition(units[1]:GetOrigin(), BreatheFire, - 1)
+            thisEntity:CastAbilityOnPosition(units[1]:GetOrigin(), BreatheFire, -1)
         end
     end
 

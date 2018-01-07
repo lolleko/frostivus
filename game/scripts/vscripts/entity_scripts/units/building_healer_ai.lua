@@ -32,7 +32,12 @@ function OrderThink()
             end
         end
 
-        table.sort(units, function(a,b) return a:GetHealthPercent() < b:GetHealthPercent() end)
+        table.sort(
+            units,
+            function(a, b)
+                return a:GetHealthPercent() < b:GetHealthPercent()
+            end
+        )
 
         if #units > 0 and IsValidEntity(units[1]) then
             thisEntity:CastAbilityOnTarget(units[1], HealAbility, -1)
