@@ -167,7 +167,7 @@ function CDOTA_PlayerResource:LoadPlayer(plyID, hero)
     end
     if GM:IsPVPHome() then
         hero:ModifyGold(saveData.hero.gold, true, DOTA_ModifyGold_Unspecified)
-        self:ModifyLumber(plyID, saveData.hero.lumber)
+        self:ModifyLumber(plyID, saveData.hero.lumber, true)
     end
     -- load quest
     if GM:IsPVPHome() then

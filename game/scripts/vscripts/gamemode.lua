@@ -117,8 +117,8 @@ function GameMode:ScaleUnit(unit)
     unit:SetBaseMagicalResistanceValue(
         unit:GetBaseMagicalResistanceValue() + (unit:GetBaseMagicalResistanceValue() * scalar / 1000)
     )
-    unit:SetBaseDamageMin(unit:GetBaseDamageMin() + math.floor(scalar / 80))
-    unit:SetBaseDamageMax(unit:GetBaseDamageMax() + math.floor(scalar / 80))
+    unit:SetBaseDamageMin(unit:GetBaseDamageMin() + math.floor(scalar / 60))
+    unit:SetBaseDamageMax(unit:GetBaseDamageMax() + math.floor(scalar / 60))
 end
 
 function GameMode:SetCoopSpiritTree(tree)

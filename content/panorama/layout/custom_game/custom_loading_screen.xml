@@ -13,7 +13,7 @@
 				<Panel class="Block FlowRight">
 					<Label text="Maps:" />
 					<Panel class="FlowDown MapsContainer">
-						<Label text="frost_tribes_pvp_home" />
+						<Label text="frost_tribes_singleplayer" />
 					</Panel>
 				</Panel>
 				<Panel class="Block FlowDown">

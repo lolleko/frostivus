@@ -11,6 +11,7 @@ function modifier_frostivus_resource_carry:OnCreated(data)
         if GM:IsPVP() and not GM:IsPVPHome() then
             self.stackSize = self.stackSize * 2
         end
+        self:SetStackCount(self.stackCount * self.stackSize)
         local offsets
         self.IsLumber = data.IsLumber
         self.IsGold = data.IsGold
@@ -61,8 +62,12 @@ function modifier_frostivus_resource_carry:OnCreated(data)
     end
 end
 
-function modifier_frostivus_resource_carry:GetStackCount()
-    return self.stackCount * self.stackSize
+function modifier_frostivus_resource_carry:GetTexture()
+    if self.IsLumber then
+        return "item_branches"
+    elseif self.IsGold then
+        return "item_hand_of_midas"
+    end
 end
 
 function modifier_frostivus_resource_carry:OnIntervalThink()

@@ -22,7 +22,7 @@ function OrderThink()
         for k = #units, 1, - 1 do
             local unit = units[k]
             -- check if in front
-            if (unit:GetOrigin() - thisEntity:GetOrigin()):Normalized():Dot(thisEntity:GetForwardVector()) < 0.3 then
+            if (unit:GetOrigin() - thisEntity:GetOrigin()):Normalized():Dot(thisEntity:GetForwardVector()) < 0.2 then
                 table.remove(units, k)
             end
         end

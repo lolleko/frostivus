@@ -23,11 +23,15 @@ CDOTA_PlayerResource:AddPlayerData("IsPVPHome", NETWORKVAR_TRANSMIT_STATE_PLAYER
 
 CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
 
-function CDOTA_PlayerResource:ModifyLumber(plyID, lumberChange)
-    self:SetLumber(
-        plyID,
-        math.floor(math.clamp(self:GetLumber(plyID) + lumberChange, 0, self:GetLumberCapacity(plyID)))
-    )
+function CDOTA_PlayerResource:ModifyLumber(plyID, lumberChange, force)
+    if not force then
+        self:SetLumber(
+            plyID,
+            math.floor(math.clamp(self:GetLumber(plyID) + lumberChange, 0, self:GetLumberCapacity(plyID)))
+        )
+    else
+        self:SetLumber(plyID, self:GetLumber(plyID) + lumberChange)
+    end
 end
 
 function CDOTA_PlayerResource:ModifyGold(plyID, goldChange)

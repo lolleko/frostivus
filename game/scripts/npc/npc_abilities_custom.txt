@@ -46,6 +46,7 @@
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType" "DOTA_UNIT_TARGET_HERO"
 		"AbilityType" "DOTA_ABILITY_TYPE_BASIC"
+        "AbilityCastRange" "700"
 		"AbilitySpecial"
 		{
 			"01"
@@ -108,7 +109,7 @@
 		"AbilityUnitTargetTeam" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"  "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType" "DAMAGE_TYPE_MAGICAL"
-		"AbilityCastRange" "800"
+		"AbilityCastRange" "1000"
 		"AbilityCastPoint" "0.5"
 		"AbilityChannelTime" "6.0"
 		"AbilityCooldown" "1.0"
@@ -118,7 +119,7 @@
 			"01"
 			{
 				"var_type" "FIELD_INTEGER"
-				"health_per_second" "20"
+				"health_per_second" "40"
 			}
 		}
 	}

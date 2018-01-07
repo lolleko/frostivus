@@ -36,7 +36,9 @@ function frostivus_healer_heal:OnChannelThink(interval)
     local target = self:GetCursorTarget()
     local caster = self:GetCaster()
     if self.second >= 1 then
-        target:Heal(self:GetSpecialValueFor("health_per_second") * caster:GetLevel(), caster)
+        if IsValidEntity(target) then
+            target:Heal(self:GetSpecialValueFor("health_per_second") * caster:GetLevel(), caster)
+        end
         self.second = self.second - 1
     end
     self.second = self.second + interval
@@ -57,6 +59,10 @@ function modifier_frostivus_healer_heal_caster:DeclareFunctions()
     }
 
     return funcs
+end
+
+function modifier_frostivus_healer_heal_caster:IsHidden()
+    return true
 end
 
 function modifier_frostivus_healer_heal_caster:GetModifierIgnoreCastAngle()
