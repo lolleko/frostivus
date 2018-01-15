@@ -24,7 +24,7 @@ function Spawn(entityKV)
 
     -- to lazy to add this to all kv entries
     if not tobool(thisEntity.Building.IsUnit) then
-        thisEntity:SetBaseMagicalResistanceValue(60)
+        thisEntity:SetBaseMagicalResistanceValue(70)
     end
 
     if not string.match(thisEntity:GetUnitName(), "npc_frostivus_spirit_tree") then
@@ -96,10 +96,9 @@ function Spawn(entityKV)
                 {origin = thisEntity:GetAbsOrigin(), shoptype = 0, model = shopEnt:GetModelName(), parent = thisEntity}
             )
         end
-    end
-
-    if thisEntity.bScaleUnit then
-        GM:ScaleUnit(thisEntity)
+        if self.bScaleUnit then
+            GM:ScaleUnit(thisEntity)
+        end
     end
 
     if thisEntity.bIsWall then

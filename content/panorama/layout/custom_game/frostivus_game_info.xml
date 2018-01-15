@@ -11,13 +11,26 @@
     //$.GetContextPanel().GetParent().GetParent().GetParent().GetParent().AddClass('gameinfo_visible')
     GameEvents.Subscribe('game_rules_state_change', function () {
       if (Game.GameStateIs(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)) {
-        $.GetContextPanel().GetParent().GetParent().GetParent().GetParent().RemoveClass('gameinfo_visible')
+        //$.GetContextPanel().GetParent().GetParent().GetParent().GetParent().RemoveClass('gameinfo_visible')
       }
     })
   </script>
-	<Panel class="FrostivusGameInfoRoot">
+  <Panel class="FrostivusGameInfoRoot">
     <Label class="Title" text="Defend your Elder Tree"/>
-		<Label class="Title" text="Complete Quests" />
-		<Label class="Title" text="Fortify your Base" />
+    <Label class="Paragraph" text="The main objective in every mode is to protect your elder tree. This tree is located in the center of the map and will be the main target of NPCs and Players." />
+	<Label class="Title" text="Complete Quests" />
+    <Label class="Paragraph" text="Complete quests to earn rewards. Active Quests are listed in the top left.\n\nCOOP: Quests are required to unlock new buildings and complete the campaign." />
+    <Image class="Paragraph" src="file://{images}/custom_game/tutorial/quest.png" />
+	<Label class="Title" text="Fortify your Base" />
+    <Panel class="FlowRight">
+        <Image src="s2r://panorama/images/control_icons/camera_topdown_psd.vtex" />
+        <Label class="Paragraph" text="This button is located in the bottom right and will open the build menu." />
+    </Panel>
+    <Image src="file://{images}/custom_game/tutorial/build_menu.png" />
+    <Panel class="Paragraph"/>
+    <Panel class="FlowDown">
+        <Image src="file://{images}/custom_game/tutorial/building_abilities.png" />
+        <Label class="Paragraph" text="You can upgrade or destroy existing buildings by using the corresponding abilities. You can view information about an building upgrade by hovering the white arrow located left of the buildings abilities." />
+    </Panel>
   </Panel>
 </root>

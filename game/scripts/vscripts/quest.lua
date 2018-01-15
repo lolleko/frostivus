@@ -98,6 +98,8 @@ function GameMode:ModifyQuestValue(questName, valueName, change)
         local quest = PlayerResource:GetQuest(plyID, questName)
         if quest then
             quest:ModifyValue(valueName, change)
+            -- if the quest is shared bail after one change
+            if not quest.plyID then return end
         end
     end
 end
