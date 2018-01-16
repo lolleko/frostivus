@@ -28,14 +28,12 @@ util.linkLabelToPlayerVariable = function (label, varName, prettyNumber) {
     }
     UpdateGold()
   } else {
-    GameEvents.Subscribe('player_networkvar_update', function (data) {
-      if (data.PlayerID === Players.GetLocalPlayer() && varName === data.varname) {
-        var text = data.value
-        if (prettyNumber) {
-          text = util.nFormatter(text)
-        }
-        label.text = text
+    Players.RegisterNetworkVarListener(varName, function callback (value) {
+      var text = value
+      if (prettyNumber) {
+        text = util.nFormatter(text)
       }
+      label.text = text
     })
   }
 }

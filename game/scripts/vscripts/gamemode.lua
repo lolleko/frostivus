@@ -160,7 +160,7 @@ function GameMode:GetStage(plyID)
     return self.stage or 0
 end
 
-CDOTA_PlayerResource:AddPlayerData("GameStage", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
+CDOTA_PlayerResource:AddPlayerData("GameStage", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, 0)
 
 function GameMode:SetStage(stage)
     self.stage = stage

@@ -16,70 +16,67 @@
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_PREGAME_STRATEGYUI, false)
   GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_KILLCAM, false)
 
-  function InitHUD () {
-    var toolbar = CreateLayout($.GetContextPanel(), 'ToolbarRight', 'file://{resources}/layout/custom_game/toolbar/toolbar_side.xml')
-    var buildings = CreateLayout($.GetContextPanel(), 'BuildingMenu', 'file://{resources}/layout/custom_game/toolbar/building_menu.xml')
-    buildings.LoadCategory('Defense')
-    buildings.LoadCategory('Resources')
-    buildings.LoadCategory('Units')
-    toolbar.Insert('Buildings', buildings)
+  var toolbar = CreateLayout($.GetContextPanel(), 'ToolbarRight', 'file://{resources}/layout/custom_game/toolbar/toolbar_side.xml')
+  var buildings = CreateLayout($.GetContextPanel(), 'BuildingMenu', 'file://{resources}/layout/custom_game/toolbar/building_menu.xml')
+  buildings.LoadCategory('Defense')
+  buildings.LoadCategory('Resources')
+  buildings.LoadCategory('Units')
+  toolbar.Insert('Buildings', buildings)
 
-    if (!Players.GetIsPVPHome(Players.GetLocalPlayer())) {
-      $('#HomeControls').style.visibility = 'collapse'
-    }
+  if (!Players.GetIsPVPHome(Players.GetLocalPlayer())) {
+    $('#HomeControls').style.visibility = 'collapse'
+  }
 
-    $('#SaveDataButton').SetPanelEvent(
+  $('#SaveDataButton').SetPanelEvent(
       'onactivate',
       function () {
         GameEvents.SendCustomGameEventToServer('playerRequestSave', {})
       })
 
-    $('#AutoHeroAIButton').SetPanelEvent(
+  $('#AutoHeroAIButton').SetPanelEvent(
       'onactivate',
       function () {
         GameEvents.SendCustomGameEventToServer('playerEnableAutoHeroAI', {})
       })
 
-    var shopBtn = $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse('ShopButton')
-    shopBtn.style.width = '240px'
-    shopBtn.style.flowChildren = 'right'
-    shopBtn.RemoveAndDeleteChildren()
+  var shopBtn = $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse('ShopButton')
+  shopBtn.style.width = '240px'
+  shopBtn.style.flowChildren = 'right'
+  shopBtn.RemoveAndDeleteChildren()
 
-    function resourcePanel (parent, name, iconPath, alignRight) {
-      var container = $.CreatePanel('Panel', parent, name + '_' + 'container')
-      container.style.flowChildren = 'right'
-      container.style.verticalAlign = 'center'
-      if (alignRight) {
-        container.style.horizontalAlign = 'right'
-        container.style.marginRight = '2px'
-      } else {
-        container.style.marginLeft = '2px'
-      }
-
-      var icon = $.CreatePanel('Panel', container, name + '_' + 'icon')
-      icon.style.backgroundImage = iconPath
-      icon.style.backgroundSize = '100% 100%'
-      icon.style.verticalAlign = 'center'
-      icon.style.width = '26px'
-      icon.style.height = '26px'
-      icon.style.marginRight = '4px'
-      var lblCurrent = $.CreatePanel('Label', container, name + '_' + 'current')
-      lblCurrent.style.fontSize = '22px'
-      var lblSlash = $.CreatePanel('Label', container, name + '_' + 'slash')
-      lblSlash.text = '/'
-      lblSlash.style.fontSize = '22px'
-      var lblCap = $.CreatePanel('Label', container, name + '_' + 'cap')
-      lblCap.style.fontSize = '22px'
-
-      util.linkLabelToPlayerVariable(lblCurrent, name, true)
-      util.linkLabelToPlayerVariable(lblCap, name + 'Capacity', true)
-      return container
+  function resourcePanel (parent, name, iconPath, alignRight) {
+    var container = $.CreatePanel('Panel', parent, name + '_' + 'container')
+    container.style.flowChildren = 'right'
+    container.style.verticalAlign = 'center'
+    if (alignRight) {
+      container.style.horizontalAlign = 'right'
+      container.style.marginRight = '2px'
+    } else {
+      container.style.marginLeft = '2px'
     }
 
-    resourcePanel(shopBtn, 'Lumber', 'url("file://{images}/custom_game/icons/lumber_icon.psd")')
-    resourcePanel(shopBtn, 'Gold', 'url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex")', true)
+    var icon = $.CreatePanel('Panel', container, name + '_' + 'icon')
+    icon.style.backgroundImage = iconPath
+    icon.style.backgroundSize = '100% 100%'
+    icon.style.verticalAlign = 'center'
+    icon.style.width = '26px'
+    icon.style.height = '26px'
+    icon.style.marginRight = '4px'
+    var lblCurrent = $.CreatePanel('Label', container, name + '_' + 'current')
+    lblCurrent.style.fontSize = '21px'
+    var lblSlash = $.CreatePanel('Label', container, name + '_' + 'slash')
+    lblSlash.text = '/'
+    lblSlash.style.fontSize = '21px'
+    var lblCap = $.CreatePanel('Label', container, name + '_' + 'cap')
+    lblCap.style.fontSize = '21px'
+
+    util.linkLabelToPlayerVariable(lblCurrent, name, true)
+    util.linkLabelToPlayerVariable(lblCap, name + 'Capacity', true)
+    return container
   }
-  Players.RegisterNetworkInitListener(InitHUD)
+
+  resourcePanel(shopBtn, 'Lumber', 'url("file://{images}/custom_game/icons/lumber_icon.psd")')
+  resourcePanel(shopBtn, 'Gold', 'url("s2r://panorama/images/hud/reborn/gold_small_psd.vtex")', true)
 
   function activeUnitChanged () {
     var portraitUnit = Players.GetLocalPlayerPortraitUnit(Players.GetLocalPlayer())

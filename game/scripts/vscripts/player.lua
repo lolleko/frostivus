@@ -1,4 +1,4 @@
---CDOTA_PlayerResource:AddPlayerData("UnitKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, LoadKeyValues("scripts/npc/npc_units_custom.txt"))
+--CDOTA_PlayerResource:AddPlayerData("UnitKV", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, LoadKeyValues("scripts/npc/npc_units_custom.txt"))
 local buildingShopData = table.deepcopy(BuildingKV:GetAllBuildings())
 for k, v in pairs(LoadKeyValues("scripts/npc/frostivus_building_shop.txt")) do
     buildingShopData[k].Category = v.Category
@@ -16,12 +16,12 @@ for k, _ in pairs(buildingShopData) do
     buildingShopData[k].DynamicModels = nil
     buildingShopData[k].Spawner = nil
 end
-CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_PLAYER, buildingShopData)
+CDOTA_PlayerResource:AddPlayerData("BuildingShopKV", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, buildingShopData)
 
-CDOTA_PlayerResource:AddPlayerData("IsPVP", NETWORKVAR_TRANSMIT_STATE_PLAYER, GameMode:IsPVP())
-CDOTA_PlayerResource:AddPlayerData("IsPVPHome", NETWORKVAR_TRANSMIT_STATE_PLAYER, GameMode:IsPVPHome())
+CDOTA_PlayerResource:AddPlayerData("IsPVP", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, GameMode:IsPVP())
+CDOTA_PlayerResource:AddPlayerData("IsPVPHome", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, GameMode:IsPVPHome())
 
-CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
+CDOTA_PlayerResource:AddPlayerData("Lumber", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, 0)
 
 function CDOTA_PlayerResource:ModifyLumber(plyID, lumberChange, force)
     if not force then
@@ -48,8 +48,8 @@ function CDOTA_PlayerResource:ModifyGold(plyID, goldChange)
     self:GetSelectedHeroEntity(plyID):ModifyGold(goldChange, true, DOTA_ModifyGold_Unspecified)
 end
 
-CDOTA_PlayerResource:AddPlayerData("LumberCapacity", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
-CDOTA_PlayerResource:AddPlayerData("GoldCapacity", NETWORKVAR_TRANSMIT_STATE_PLAYER, 0)
+CDOTA_PlayerResource:AddPlayerData("LumberCapacity", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, 0)
+CDOTA_PlayerResource:AddPlayerData("GoldCapacity", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, 0)
 
 CDOTA_PlayerResource:AddPlayerData("BuildingList", NETWORKVAR_TRANSMIT_STATE_NONE, {})
 
@@ -243,7 +243,7 @@ function CDOTA_PlayerResource:FindAllBuildingsWithName(plyID, unitName)
     return units
 end
 
-CDOTA_PlayerResource:AddPlayerData("AutoHeroAIEnabled", NETWORKVAR_TRANSMIT_STATE_PLAYER, false)
+CDOTA_PlayerResource:AddPlayerData("AutoHeroAIEnabled", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, false)
 CDOTA_PlayerResource:AddPlayerData("LastAutoHeroAIThink", NETWORKVAR_TRANSMIT_STATE_NONE, 0)
 
 function CDOTA_PlayerResource:GetPlayerColor(plyID)

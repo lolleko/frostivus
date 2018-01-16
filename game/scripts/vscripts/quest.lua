@@ -1,4 +1,4 @@
-CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_PLAYER, {})
+CDOTA_PlayerResource:AddPlayerData("QuestList", NETWORKVAR_TRANSMIT_STATE_ALL_PLAYERS, {})
 
 function CDOTA_PlayerResource:AddQuest(plyID, quest, allPlayers, force)
     -- all players share an instance if allplayer is not set we need to instanciate
@@ -99,7 +99,9 @@ function GameMode:ModifyQuestValue(questName, valueName, change)
         if quest then
             quest:ModifyValue(valueName, change)
             -- if the quest is shared bail after one change
-            if not quest.plyID then return end
+            if not quest.plyID then
+                return
+            end
         end
     end
 end
