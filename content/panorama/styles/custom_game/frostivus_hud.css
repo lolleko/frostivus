@@ -193,6 +193,8 @@
 	//height: 100%;
 	horizontal-align: left;
 	vertical-align: bottom;
+    transition-property: opacity;
+    transition-duration: 1s;
 }
 
 .HIDE_ACTION_PANEL #center_with_stats, .HIDE_ACTION_PANEL #buffs, .HIDE_ACTION_PANEL #debuffs, .HIDE_ACTION_PANEL #StatBranchDrawer, .HIDE_ACTION_PANEL #StatDrawerTopRight {

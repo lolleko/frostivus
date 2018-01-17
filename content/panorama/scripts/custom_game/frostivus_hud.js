@@ -144,11 +144,11 @@
   function displayNotification (data) {
     $('#NotificationContainer').style.visibility = 'visible'
     if (data.cinematic) {
-      $('#DungeonHUD').style.visibility = 'collapse'
       $('#QuestListRoot').style.visibility = 'collapse'
       $('#ToolbarRight').style.visibility = 'collapse'
       $('#NotificationContainer').SetHasClass('NotificationCinematic', true)
       $('#NotificationLabel').SetHasClass('NotificationCinematicLabel', true)
+      $('#DungeonHUD').style.opacity = 0
     } else {
       $('#NotificationContainer').SetHasClass('NotificationNormal', true)
       $('#NotificationLabel').SetHasClass('NotificationNormalLabel', true)
@@ -165,7 +165,7 @@
   GameEvents.Subscribe('cg_notification', displayNotification)
 
   function removeNotification () {
-    $('#DungeonHUD').style.visibility = 'visible'
+    $('#DungeonHUD').style.opacity = 1
     $('#QuestListRoot').style.visibility = 'visible'
     $('#ToolbarRight').style.visibility = 'visible'
     $('#NotificationContainer').style.visibility = 'collapse'

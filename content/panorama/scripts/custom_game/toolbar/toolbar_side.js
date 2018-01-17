@@ -17,7 +17,20 @@
         } else {
           content.AddClass('visible')
         }
+        $.DispatchEvent('DOTAShopHideShop')
       })
+
+    var shopButton = $.GetContextPanel()
+    .GetParent()
+    .GetParent() // HUD root
+    .GetParent() // Custom UI root
+    .GetParent() // Game HUD
+    .FindChildTraverse('ShopButton')
+    $.Msg(shopButton)
+
+    $.RegisterEventHandler('DOTAHUDToggleShop', shopButton, function () {
+      content.RemoveClass('visible')
+    })
     content.SetParent($('#ToolbarContent'))
     content.AddClass('ToolbarContentEntry')
     return content
