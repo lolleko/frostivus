@@ -17,6 +17,8 @@ local frostivus_event_item_drop =
 )
 
 function frostivus_event_item_drop:OnStart()
+    BroadcastMessage("#frostivus_event_item_drop", 5, false)
+
     local routes = {
         {spawn = "item_drop_carrier_spawn1", goal = "item_drop_carrier_spawn3"},
         {spawn = "item_drop_carrier_spawn3", goal = "item_drop_carrier_spawn4"},

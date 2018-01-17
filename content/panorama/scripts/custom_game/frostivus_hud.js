@@ -140,4 +140,36 @@
     currentBossID = null
   }
   GameEvents.Subscribe('frostivusBossEnd', bossEnd)
+
+  function displayNotification (data) {
+    $('#NotificationContainer').style.visibility = 'visible'
+    if (data.cinematic) {
+      $('#DungeonHUD').style.visibility = 'collapse'
+      $('#QuestListRoot').style.visibility = 'collapse'
+      $('#ToolbarRight').style.visibility = 'collapse'
+      $('#NotificationContainer').SetHasClass('NotificationCinematic', true)
+      $('#NotificationLabel').SetHasClass('NotificationCinematicLabel', true)
+    } else {
+      $('#NotificationContainer').SetHasClass('NotificationNormal', true)
+      $('#NotificationLabel').SetHasClass('NotificationNormalLabel', true)
+    }
+    $('#NotificationLabel').text = data.message
+    $('#NotificationLabel').style.opacity = 1
+    $.Schedule(data.duration - 1.5, function () {
+      $('#NotificationLabel').style.opacity = 0
+      $('#NotificationContainer').SetHasClass('NotificationCinematic', false)
+      $('#NotificationContainer').SetHasClass('NotificationNormal', false)
+    })
+    $.Schedule(data.duration, removeNotification)
+  }
+  GameEvents.Subscribe('cg_notification', displayNotification)
+
+  function removeNotification () {
+    $('#DungeonHUD').style.visibility = 'visible'
+    $('#QuestListRoot').style.visibility = 'visible'
+    $('#ToolbarRight').style.visibility = 'visible'
+    $('#NotificationContainer').style.visibility = 'collapse'
+    $('#NotificationLabel').SetHasClass('NotificationNormalLabel', false)
+    $('#NotificationLabel').SetHasClass('NotificationCinematicLabel', false)
+  }
 }())

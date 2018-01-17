@@ -31,6 +31,8 @@ function frostivus_event_zombie_army:OnCreated()
 end
 
 function frostivus_event_zombie_army:OnStart()
+    BroadcastMessage("#frostivus_event_zombie_army", 5, false)
+
     local spawnPoints = Entities:FindAllByName("zombie_army_toombstone_spawn")
     table.shuffle(spawnPoints)
     local tombsToSpawn = self.tombsToSpawn

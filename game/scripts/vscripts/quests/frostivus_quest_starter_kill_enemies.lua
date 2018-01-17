@@ -26,6 +26,12 @@ local frostivus_quest_starter_kill_enemies =
     QuestBase
 )
 
+function frostivus_quest_starter_kill_enemies:OnStart()
+    if GM:IsCoop() then
+        BroadcastMessage("#frostivus_notification_act1", 9, true)
+    end
+end
+
 function frostivus_quest_starter_kill_enemies:OnEntityKilled(event)
     local killedUnit = EntIndexToHScript(event.entindex_killed)
     if killedUnit ~= nil and killedUnit:IsCreature() and (killedUnit:GetTeamNumber() ~= DOTA_TEAM_GOODGUYS) then

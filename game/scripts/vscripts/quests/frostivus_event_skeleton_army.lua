@@ -31,6 +31,8 @@ function frostivus_event_skeleton_army:OnCreated()
 end
 
 function frostivus_event_skeleton_army:OnStart()
+    BroadcastMessage("#frostivus_event_skeleton_army", 5, false)
+
     local functionSpawnLine =
         function(corner1, corner2)
         corner1 = Entities:FindByName(nil, corner1):GetOrigin()

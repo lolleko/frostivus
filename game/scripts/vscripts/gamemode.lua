@@ -24,6 +24,10 @@ function GameMode:IsPVP()
     return self.bIsPVP
 end
 
+function GameMode:IsCoop()
+    return not self.bIsPVP
+end
+
 GameMode.TeamMaxPlayersMap = {
     frost_tribes_coop = {
         [DOTA_TEAM_BADGUYS] = 0,

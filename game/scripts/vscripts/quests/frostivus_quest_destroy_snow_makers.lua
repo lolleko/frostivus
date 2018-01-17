@@ -33,6 +33,8 @@ function frostivus_quest_destroy_snow_makers:OnCreated()
 end
 
 function frostivus_quest_destroy_snow_makers:OnStart()
+    BroadcastMessage("#frostivus_notification_act2", 9, true)
+
     local snowMakers = Entities:FindAllByName("npc_frostivus_snow_maker")
     for _, ent in pairs(snowMakers) do
         ent:RemoveModifierByName("modifier_invulnerable")

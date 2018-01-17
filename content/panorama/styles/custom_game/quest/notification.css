@@ -3,8 +3,6 @@
   width: 400px;
   height: 160px;
   horizontal-align: center;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
   transform: translatey( -400px );
   transition-property: transform;
   transition-duration: 0.8s;
