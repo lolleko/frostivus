@@ -1199,9 +1199,9 @@
 		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
 		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed" "300"
+		"MovementSpeed" "350"
 		"RingRadius" "70"
-        "StatusHealth" "250"
+        "StatusHealth" "400"
 		"StatusHealthRegen" "1"
 
 		"Ability1" "frostivus_unit_destroy"
@@ -1217,7 +1217,7 @@
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_FLY"
 		"MovementSpeed" "380"
 		"RingRadius" "70"
-        "StatusHealth" "250"
+        "StatusHealth" "400"
         "StatusHealthRegen" "1"
 
 		"Ability1" "frostivus_unit_destroy"
@@ -1525,8 +1525,9 @@
 		"AttackCapabilities" "DOTA_UNIT_CAP_NO_ATTACK"
 		"BoundsHullName" "DOTA_HULL_SIZE_HERO"
 		"MovementCapabilities" "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed" "350"
 		"RingRadius" "70"
-        "StatusHealth" "250"
+        "StatusHealth" "400"
         "StatusHealthRegen" "1"
 
 		"Ability1" "frostivus_unit_destroy"

@@ -26,7 +26,6 @@
     .GetParent() // Custom UI root
     .GetParent() // Game HUD
     .FindChildTraverse('ShopButton')
-    $.Msg(shopButton)
 
     $.RegisterEventHandler('DOTAHUDToggleShop', shopButton, function () {
       content.RemoveClass('visible')

@@ -153,7 +153,7 @@
       $('#NotificationContainer').SetHasClass('NotificationNormal', true)
       $('#NotificationLabel').SetHasClass('NotificationNormalLabel', true)
     }
-    $('#NotificationLabel').text = data.message
+    $('#NotificationLabel').text = $.Localize(data.message)
     $('#NotificationLabel').style.opacity = 1
     $.Schedule(data.duration - 1.5, function () {
       $('#NotificationLabel').style.opacity = 0
